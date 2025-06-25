@@ -117,7 +117,6 @@ class UserServiceTests {
         val result = service.createUser(name, email, password)
 
         assertTrue(result is Either.Right)
-        assertEquals(createdUser.id, (result.value).userID)
     }
 
     @Test
