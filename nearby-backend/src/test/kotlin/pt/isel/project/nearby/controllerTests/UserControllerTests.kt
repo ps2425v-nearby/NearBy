@@ -56,7 +56,7 @@ class UserControllerTests {
         val token = Token(UUID.randomUUID(), 1)
         val createModel = UserCreateModel(name = "newuser", email = "new@example.com", password = "pass123")
 
-        every { userService.createUser(createModel.name, createModel.email, createModel.password) } returns Either.Right(token)
+        every { userService.createUser(createModel.name, createModel.email, createModel.password) } returns Either.Right(true)
 
         val response = controller.create(createModel)
 
