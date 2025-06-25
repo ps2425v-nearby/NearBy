@@ -18,11 +18,19 @@ class TokenAuthInterceptor(
         response: HttpServletResponse,
         handler: Any
     ): Boolean {
-        logger.info("Interceptando requisição para validação de token: ${request.requestURI}")
+        logger.info("Interceptando requisição para validação de token: ${request.method} ${request.requestURI}")
+
+        if (request.method.equals("OPTIONS", ignoreCase = true)) {
+            // Allow CORS preflight requests through without token
+            return true
+        }
+
+        
         val authHeader = request.getHeader("Authorization")
         if (authHeader.isNullOrBlank() || !authHeader.startsWith("Bearer ")) {
             return reject(response, "Token ausente ou mal formatado")
         }
+
         val token = authHeader.removePrefix("Bearer ").trim()
         return when (val result = userService.isTokenValid(token)) {
             is Either.Right -> {
@@ -34,6 +42,7 @@ class TokenAuthInterceptor(
             }
         }
     }
+
 
     private fun reject(response: HttpServletResponse, message: String): Boolean {
         response.status = HttpServletResponse.SC_UNAUTHORIZED

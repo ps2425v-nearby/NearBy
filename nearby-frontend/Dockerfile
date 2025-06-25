@@ -1,22 +1,16 @@
 # Stage 1: Build React app
+# Stage 1: Build the React app
 FROM node:20-alpine AS build
-
 WORKDIR /app
+COPY package*.json ./
+RUN npm install
 COPY . .
-
-RUN npm install && npm run build
+RUN npm run build
 
 # Stage 2: Serve with Nginx
-FROM nginx:stable-alpine
+FROM nginx:1.25-alpine
 
-# Remove default nginx static files
-RUN rm -rf /usr/share/nginx/html/*
-
-# Copy build output to Nginx's static folder
 COPY --from=build /app/dist /usr/share/nginx/html
-
-# Copy custom nginx config (optional)
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
-
+# nginx.conf is mounted by docker-compose, so no need to copy here
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

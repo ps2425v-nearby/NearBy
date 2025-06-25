@@ -19,8 +19,8 @@ interface CreateUserPayload {
 export async function fetchCreateUser(payload: CreateUserPayload) {
     const response = await fetch("/api/users", {
         method: "POST",
+        credentials: "include", // <-- important for cookies/auth
         headers: { "Content-Type": "application/json" },
-        credentials: "include", // include cookies for authentication/session
         body: JSON.stringify(payload),
     });
 

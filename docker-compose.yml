@@ -18,9 +18,10 @@ services:
     container_name: nearby-frontend
     ports:
       - "8081:80"
+    volumes:
+      - ./nearby-frontend/nginx.conf:/etc/nginx/conf.d/default.conf:ro  # Mount custom Nginx config
     depends_on:
       - backend
-
 
   db:
     image: postgres:16
