@@ -12,8 +12,25 @@ interface FilterActionsProps {
     concelho: string;
     freguesia: string;
     radius: number;
-    darkMode: boolean; // <-- adiciona esta prop
+    darkMode: boolean;
 }
+
+/**
+ * FilterActions Component
+ * A React component that renders action buttons for managing filters in a map-based
+ * application. Provides buttons to reset filters and navigate to a larger map view
+ * with selected parameters (map center, amenities, concelho, freguesia, and radius).
+ * Utilizes Framer Motion for button animations and React Router for navigation.
+ *
+ * @param mapCenter - The current map center coordinates (latitude and longitude) or null
+ * @param amenities - Array of selected amenities to filter places
+ * @param resetFilters - Function to clear all applied filters
+ * @param data - Object containing additional data, including a freguesiasMap for parish lookup
+ * @param concelho - The selected municipality name
+ * @param freguesia - The selected parish identifier
+ * @param radius - The search radius for filtering places
+ * @param darkMode - Boolean indicating whether dark mode is enabled for styling
+ */
 
 const FilterActions: React.FC<FilterActionsProps> = ({
                                                          mapCenter,

@@ -3,8 +3,20 @@ import { Navbarin } from "../../NavBar";
 import { DarkmodeContext } from "@/context/DarkMode/DarkmodeContext";
 import { useCommentsPreview } from "./useCommentsPreview";
 
+
+/**
+ * Component for displaying a preview of the user's comments.
+ * Allows editing and deleting comments, with support for dark mode styling.
+ */
+
 export const CommentsPreview: React.FC = () => {
+    /**
+     * Accesses the current dark mode state from context to style the UI accordingly.
+     */
     const { darkMode } = useContext(DarkmodeContext)!;
+    /**
+     * Custom hook that manages comment fetching and editing logic.
+     */
     const {
         comments,
         loading,
@@ -16,7 +28,10 @@ export const CommentsPreview: React.FC = () => {
         handleCancelEdit,
         handleSaveComment,
     } = useCommentsPreview();
-
+    /**
+     * Renders the comments preview UI with conditional logic for loading, empty state,
+     * and edit/delete capabilities for each comment.
+     */
     return (
         <div className={`${darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"} min-h-screen`}>
             <Navbarin />

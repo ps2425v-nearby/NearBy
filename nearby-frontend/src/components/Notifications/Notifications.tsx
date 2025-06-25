@@ -1,5 +1,17 @@
 import React from 'react';
 import {useNotification} from '@/context/Notifications/NotificationsContext';
+/**
+ * Notification component that displays transient messages to the user.
+ *
+ * Key points:
+ * - Uses `useNotification` context to access the current notification state and hide function.
+ * - Returns null (renders nothing) if no notification should be shown (`notification.show` is false).
+ * - Supports four notification types: success, error, warning, and info, each with distinct pastel background and text colors.
+ * - Positions the notification fixed at the vertical center-top area of the viewport, centered horizontally.
+ * - Includes a close button ("×") that calls `hideNotification` to dismiss the alert.
+ * - Applies subtle shadow and border styling for better visual separation.
+ * - Dynamically adjusts border color based on the notification type.
+ */
 
 const Notification = () => {
     const {notification, hideNotification} = useNotification();

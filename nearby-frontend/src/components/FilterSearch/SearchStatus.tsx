@@ -12,6 +12,23 @@ interface SearchStatusProps {
   darkMode: boolean;
 }
 
+/**
+ * SearchStatus Component
+ *
+ * This component displays the current status of a search for points of interest (amenities).
+ * It handles and visually represents three states:
+ *
+ * 1. Loading State: Shows a spinner with a loading message while the search is in progress.
+ * 2. Error State: Displays an error message if the search fails.
+ * 3. Results State: If points of interest are found, shows a collapsible panel with a count and a preview list.
+ *
+ * Key Features:
+ * - Uses framer-motion's AnimatePresence and motion components for smooth fade-in and fade-out animations on state changes.
+ * - Implements an accessible Disclosure component from Headless UI to toggle the visibility of the list of found points.
+ * - Adapts styles dynamically based on dark mode for better UX in different themes.
+ * - Limits the preview list to the first 5 points and indicates if there are more.
+ * - Displays icons and animations to enhance user feedback and interface clarity.
+ */
 const SearchStatus: React.FC<SearchStatusProps> = ({ loading, error, amenities, darkMode }) => (
     <AnimatePresence>
       {loading && (

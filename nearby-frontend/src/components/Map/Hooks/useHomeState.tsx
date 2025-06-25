@@ -1,6 +1,31 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Amenity } from "@/types/FilterTypes"; // ← ajuste o path conforme seu projeto
+/**
+ * Custom hook to manage the state and logic for the home page location marker and related settings.
+ *
+ * Responsibilities:
+ * - Tracks the current marker (latitude and longitude) on the map.
+ * - Manages search radius associated with each marker, persisting per location.
+ * - Handles loading state for asynchronous operations.
+ * - Stores and restores additional context such as amenities and parish name.
+ * - Persists marker and radius data in localStorage for session persistence.
+ * - Supports resetting state and syncing changes with localStorage.
+ * - Reads initial state from React Router location state.
+ *
+ * Returns:
+ * - marker: current map marker coordinates or null.
+ * - radius: current search radius.
+ * - isLoading: loading indicator.
+ * - previousStreet: last searched street name.
+ * - refreshKey: incremented to trigger data refresh.
+ * - amenities: selected amenities filter.
+ * - freguesiaName: selected parish name.
+ * - setMarker, setPreviousStreet, setIsLoading: setters for respective states.
+ * - setMarkerAndRadius: sets marker and radius together, triggering refresh.
+ * - updateRadius: updates radius for the current marker, with persistence.
+ * - resetState: clears all stored state and localStorage entries.
+ */
 
 type Marker = { lat: number; lon: number } | null;
 type LocationState = {

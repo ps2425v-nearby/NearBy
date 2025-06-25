@@ -1,14 +1,26 @@
+/**
+ * Payload structure for creating a new user.
+ */
 interface CreateUserPayload {
     email: string;
     name: string;
     password: string;
 }
 
+/**
+ * Sends a request to create a new user.
+ *
+ * @param payload - Object containing user email, name, and password.
+ * @returns An object containing:
+ *  - ok: boolean indicating if the response was successful
+ *  - status: HTTP status code
+ *  - data: parsed JSON response data
+ */
 export async function fetchCreateUser(payload: CreateUserPayload) {
     const response = await fetch("/api/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "include",
+        credentials: "include", // include cookies for authentication/session
         body: JSON.stringify(payload),
     });
 

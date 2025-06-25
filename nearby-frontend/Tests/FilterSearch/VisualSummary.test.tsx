@@ -27,7 +27,7 @@ describe('VisualSummary', () => {
     };
 
     test('does not render when all selections are empty', () => {
-        render(<VisualSummary distritoSelecionado="" concelhoSelecionado="" freguesiaSelecionada="" pontosSelecionados={[]} />);
+        render(<VisualSummary districtSelected="" councilSelected="" parishSelected="" pointsSelected={[]} />);
         expect(screen.queryByText(/Distrito:/i)).not.toBeInTheDocument();
         expect(screen.queryByText(/Concelho:/i)).not.toBeInTheDocument();
         expect(screen.queryByText(/Freguesia:/i)).not.toBeInTheDocument();
@@ -36,10 +36,10 @@ describe('VisualSummary', () => {
     test('renders with all selections in dark mode', () => {
         render(
             <VisualSummary
-                distritoSelecionado="Lisboa"
-                concelhoSelecionado="Lisboa"
-                freguesiaSelecionada="Parish1"
-                pontosSelecionados={['Supermarket', 'School']}
+                districtSelected="Lisboa"
+                councilSelected="Lisboa"
+                parishSelected="Parish1"
+                pointsSelected={['Supermarket', 'School']}
                 darkMode={true}
             />
         );
@@ -51,17 +51,17 @@ describe('VisualSummary', () => {
 
    test('applies animation states', async () => {
         const { rerender } = render(
-            <VisualSummary distritoSelecionado="" concelhoSelecionado="" freguesiaSelecionada="" pontosSelecionados={[]} />
+            <VisualSummary districtSelected="" councilSelected="" parishSelected="" pointsSelected={[]} />
         );
         expect(screen.queryByTestId('visual-summary')).not.toBeInTheDocument();
 
         rerender(
-            <VisualSummary distritoSelecionado="Lisboa" concelhoSelecionado="" freguesiaSelecionada="" pontosSelecionados={[]} />
+            <VisualSummary districtSelected="Lisboa" councilSelected="" parishSelected="" pointsSelected={[]} />
         );
         await waitFor(() => expect(screen.getByTestId('visual-summary')).toBeInTheDocument(), { timeout: 100 });
 
         rerender(
-            <VisualSummary distritoSelecionado="" concelhoSelecionado="" freguesiaSelecionada="" pontosSelecionados={[]} />
+            <VisualSummary districtSelected="" councilSelected="" parishSelected="" pointsSelected={[]} />
         );
         await waitFor(() => expect(screen.queryByTestId('visual-summary')).not.toBeInTheDocument(), { timeout: 100 });
     });

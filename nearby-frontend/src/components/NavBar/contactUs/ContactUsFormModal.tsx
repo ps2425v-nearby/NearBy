@@ -10,6 +10,32 @@ interface ContactFormModalProps {
     setIsOpen: (value: boolean) => void;
 }
 
+/**
+ * ContactUsFormModal component renders a modal dialog containing a contact form.
+ *
+ * It uses Headless UI's Dialog and Transition components for accessible modal behavior and smooth animations.
+ * The modal's visibility is controlled via the `isOpen` prop and can be closed by calling `setIsOpen(false)`.
+ *
+ * The component consumes the DarkmodeContext to adapt its styles to light or dark themes dynamically.
+ *
+ * Features include:
+ * - Background overlay with blur and opacity effects that respond to dark mode.
+ * - Smooth fade and scale transitions when opening and closing.
+ * - A close button in the top-right corner styled based on the current theme.
+ * - Centered content area with a title linking to the home page.
+ * - A prompt inviting users to contact or give feedback.
+ * - Embeds the ContactFormFields component, passing down the closeModal function to close the modal on form submission or cancel.
+ *
+ * Usage:
+ * ```tsx
+ * const [isModalOpen, setModalOpen] = useState(false);
+ * <ContactUsFormModal isOpen={isModalOpen} setIsOpen={setModalOpen} />
+ * ```
+ *
+ * This component must be used within a provider for DarkmodeContext.
+ */
+
+
 export const ContactUsFormModal: React.FC<ContactFormModalProps> = ({ isOpen, setIsOpen }) => {
     const context = useContext(DarkmodeContext);
     if (!context) throw new Error("DarkmodeContext must be used within a DarkModeProvider");

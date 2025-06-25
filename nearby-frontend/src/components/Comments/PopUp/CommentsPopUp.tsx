@@ -4,13 +4,23 @@ import { DarkmodeContext } from '@/context/DarkMode/DarkmodeContext';
 import { useCommentsPopup } from './useCommentsPopUp';
 
 interface CommentsPopupProps {
+    /** The ID of the location associated with the comment */
     locationId: number | null;
+    /** Callback function to close the popup */
     onClose: () => void;
+    /** The name of the place being commented on */
     placeName: string | null;
 }
 
+/**
+ * A modal popup component that allows users to submit comments for a specific location.
+ *
+ * Uses a custom hook `useCommentsPopup` for form logic and integrates with dark mode
+ * via context.
+ */
 const CommentsPopup: React.FC<CommentsPopupProps> = ({ locationId, onClose, placeName }) => {
     const { darkMode } = useContext(DarkmodeContext)!;
+
     const {
         message,
         setMessage,
@@ -22,12 +32,9 @@ const CommentsPopup: React.FC<CommentsPopupProps> = ({ locationId, onClose, plac
 
     if (!locationId) return null;
 
-
     return (
         <Transition appear show={true} as={Fragment}>
-            <Dialog
-                as="div" className="relative z-50" onClose={onClose}>
-
+            <Dialog as="div" className="relative z-50" onClose={onClose}>
                 <Transition.Child
                     as={Fragment}
                     enter="ease-out duration-300"
@@ -57,7 +64,6 @@ const CommentsPopup: React.FC<CommentsPopupProps> = ({ locationId, onClose, plac
                                     darkMode ? "bg-gray-800 text-white" : "bg-white text-blue-950"
                                 }`}
                             >
-                                {/* Close Icon */}
                                 <button
                                     type="button"
                                     onClick={onClose}
@@ -75,14 +81,14 @@ const CommentsPopup: React.FC<CommentsPopupProps> = ({ locationId, onClose, plac
                                 </button>
 
                                 <Dialog.Title as="h3" className="text-lg font-medium leading-6">
-                                    Adicionar Comentário
+                                    Add Comment
                                 </Dialog.Title>
 
                                 <form onSubmit={handleSubmit} className="mt-4 space-y-4">
                                     <textarea
                                         value={message}
                                         onChange={(e) => setMessage(e.target.value)}
-                                        placeholder="Escreva aqui o seu comentário..."
+                                        placeholder="Write your comment here..."
                                         required
                                         disabled={submitted}
                                         className={`w-full p-2 rounded-md border resize-none min-h-[100px] ${

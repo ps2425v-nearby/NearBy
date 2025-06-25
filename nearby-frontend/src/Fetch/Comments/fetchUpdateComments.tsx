@@ -1,3 +1,18 @@
+/**
+ * Sends a request to update an existing comment.
+ *
+ * @param commentId - The ID of the comment to be updated.
+ * @param updatedData - The updated comment data.
+ *   - userId: ID of the user who made the comment.
+ *   - placeId: ID of the related place.
+ *   - placeName (optional): Name of the place.
+ *   - content: Updated comment content.
+ * @param token - JWT token for authentication.
+ *
+ * @throws {Error} If the request response is not successful.
+ *
+ * @returns {Promise<any>} Returns the updated comment data in JSON format.
+ */
 export async function fetchUpdateComment(
     commentId: number,
     updatedData: {

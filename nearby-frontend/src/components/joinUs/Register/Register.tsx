@@ -10,6 +10,26 @@ import { InputField } from "./InputField";
 import { fetchCreateUser } from "@/Fetch/JoinUs/fetchCreateUser";
 import { fetchLogin } from "@/Fetch/JoinUs/fetchLogin";
 import {useCookies} from "react-cookie";
+/**
+ * Register component provides a user registration form with full functionality including
+ * user input validation, server communication for user creation and login, and UI feedback.
+ *
+ * Important aspects:
+ * - Uses a reducer (`registerReducer`) to manage form state (email, username, password, submitting).
+ * - Consumes context for dark mode styling and authentication state management.
+ * - On form submit:
+ *    - Validates that all fields are filled.
+ *    - Sends user creation request to backend.
+ *    - If successful, automatically logs in the user by fetching a login token.
+ *    - Stores auth token in cookies, updates auth context with user info.
+ *    - Shows success or error notifications accordingly.
+ *    - Redirects user to homepage on success.
+ * - Uses a reusable `InputField` component for consistent input UI with dark mode support.
+ * - Handles loading state to disable form and provide feedback during async operations.
+ * - Includes a navbar and responsive layout.
+ *
+ * Props: None (uses context and hooks internally)
+ */
 
 export function Register() {
     const [state, dispatch] = React.useReducer(registerReducer, initialRegisterState);

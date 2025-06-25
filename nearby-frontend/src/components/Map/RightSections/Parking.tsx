@@ -6,6 +6,21 @@ interface ParkingProps {
     parkingSpaces: ParkingSpaceType[];
     darkMode: boolean;
 }
+/**
+ * Parking component displays paginated parking space information.
+ *
+ * Props:
+ * - parkingSpaces: array of ParkingSpaceType objects containing location and tags.
+ * - darkMode: boolean flag to toggle dark/light theme styles.
+ *
+ * Features:
+ * - Pagination with 6 items per page, with next/previous buttons and current page indicator.
+ * - Cards styled with hover effects and dark mode support.
+ * - Shows parking type label (capitalized) if available, else defaults to "Estacionamento".
+ * - Displays latitude and longitude rounded to 4 decimals with icons.
+ * - Graceful fallback when no parking data is available.
+ */
+
 
 export const Parking: React.FC<ParkingProps> = ({parkingSpaces, darkMode}) => {
     const [currentPage, setCurrentPage] = useState(1);

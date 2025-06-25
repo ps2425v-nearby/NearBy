@@ -4,6 +4,10 @@ import { FaMapMarkerAlt, FaRoad } from "react-icons/fa";
 interface Props {
     location: any;
 }
+
+/**
+ * Displays location details including search radius and traffic level with icons.
+ */
 export const LocationHeader: React.FC<Props> = ({ location }) => (
     <div className="space-y-2">
         <p className="flex items-center"><FaMapMarkerAlt className="mr-2 text-blue-500"/> <strong>Raio de busca:</strong>  {location.searchRadius}m</p>

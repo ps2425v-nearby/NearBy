@@ -1,6 +1,19 @@
 import clsx from "clsx";
 import React from "react";
 
+/**
+ * Section component renders a titled section with optional dark mode styling.
+ *
+ * Props:
+ * - title: string to display as the section heading.
+ * - darkMode: boolean flag to toggle between dark and light styles.
+ * - children: React nodes to be rendered inside the section content.
+ *
+ * Features:
+ * - Title styled with bold font and bottom border.
+ * - Text and border colors adapt to darkMode.
+ */
+
 export const Section: React.FC<React.PropsWithChildren<{ title: string; darkMode: boolean }>> = ({
                                                                                                      title,
                                                                                                      darkMode,

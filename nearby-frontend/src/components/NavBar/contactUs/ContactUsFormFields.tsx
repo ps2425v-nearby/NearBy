@@ -9,6 +9,25 @@ interface Props {
     closeModal: () => void;
 }
 
+
+/**
+ * ContactFormFields component renders the contact form fields for user input and handles form submission.
+ *
+ * Features:
+ * - Controlled form inputs for name, email, and message.
+ * - Uses dark mode context to apply appropriate styling.
+ * - Integrates with Notifications context to display success/error messages.
+ * - Sends form data to backend API with authorization token from cookies.
+ * - Manages submission state to prevent multiple submissions and disables the submit button accordingly.
+ * - Closes the parent modal on successful submission after a short delay.
+ *
+ * Props:
+ * - closeModal: function to close the modal containing this form.
+ *
+ * Usage:
+ * Render within a modal or any container where contact form functionality is needed.
+ */
+
 export const ContactFormFields: React.FC<Props> = ({closeModal}) => {
     const {showNotification} = useNotification();
     const {darkMode} = useContext(DarkmodeContext)!;

@@ -5,6 +5,33 @@ import {GeoSearchControl, OpenStreetMapProvider} from "leaflet-geosearch";
 
 export type OnPick = (lat: number, lon: number, radius?: number) => void;
 
+/**
+ * Custom hook to initialize and manage a Leaflet map with search and drawing capabilities.
+ *
+ * Features:
+ * - Initializes a Leaflet map on a provided container.
+ * - Adds OpenStreetMap tile layer.
+ * - Integrates leaflet-geosearch with OpenStreetMapProvider for address search.
+ * - Adds drawing controls for markers and circles.
+ * - Supports adding interactive markers with radius circles.
+ * - Limits request frequency to prevent rapid repeated actions.
+ * - Synchronizes circle and marker display with user interactions.
+ * - Exposes methods to programmatically add markers and set map view.
+ * - Manages internal state to track map, markers, circles, and interaction cooldown.
+ *
+ * @param containerRef React ref to the map container div element.
+ * @param onPick Callback invoked when a location is selected or drawn, with lat, lon, and radius.
+ * @param radius Current radius to draw around markers or circles.
+ * @param icon Leaflet icon used for markers.
+ *
+ * @returns Object containing:
+ * - mapRef: reference to the Leaflet map instance.
+ * - addMarkerAt: function to add a marker programmatically.
+ * - setViewAt: function to pan the map view to a given location with offset.
+ * - isCleared: boolean state indicating if the map layers are cleared.
+ * - setIsCleared: setter for the isCleared state.
+ */
+
 export function useLeafletMap(
     containerRef: React.RefObject<HTMLDivElement>,
     onPick: OnPick,

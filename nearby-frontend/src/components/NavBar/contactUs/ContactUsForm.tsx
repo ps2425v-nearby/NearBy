@@ -3,6 +3,22 @@ import { useState } from 'react';
 import { ContactUsFormModal } from './ContactUsFormModal';
 import { DarkmodeContext } from '@/context/DarkMode/DarkmodeContext';
 import { useContext } from 'react';
+/**
+ * Contactusform component renders a button labeled "Ajuda" (Help) that opens the contact form modal.
+ *
+ * It manages the modal's open state internally using React's useState hook.
+ * The component consumes the DarkmodeContext to adjust styling according to the current theme (dark or light).
+ *
+ * When the button is clicked, it sets `isOpen` to true, displaying the ContactUsFormModal.
+ * The ContactUsFormModal component receives `isOpen` and `setIsOpen` props to control its visibility.
+ *
+ * The button is only visible on large screens (`lg:block`), and includes an icon that adapts its style for dark mode.
+ *
+ * Usage:
+ * Simply include <Contactusform /> anywhere in your app where you want the help/contact button and modal.
+ *
+ * This component requires being wrapped within a DarkModeProvider to provide DarkmodeContext.
+ */
 
 const Contactusform = () => {
     const [isOpen, setIsOpen] = useState(false);

@@ -7,6 +7,11 @@ interface Props {
     crimes: CrimeType[];
 }
 
+/**
+ * Displays a collapsible section listing crime records.
+ * Shows a toggle button to expand/collapse the crime list.
+ * When open, displays crimes with city, type, and value or a message if no crimes are present.
+ */
 export const CrimeSection: React.FC<Props> = ({ crimes }) => {
     const [open, setOpen] = useState(false);
     return (

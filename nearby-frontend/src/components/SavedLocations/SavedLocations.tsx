@@ -10,6 +10,20 @@ import {useSavedLocations} from "../SavedLocations/Hooks/useSavedLocations";
 import {useLocationCompare} from "../SavedLocations/Hooks/useLocationCompare";
 import {useCookies} from "react-cookie";
 
+/**
+ * SavedLocations component
+ *
+ * - Displays user's saved locations with options to delete and compare.
+ * - Uses DarkmodeContext to adapt styling based on dark mode.
+ * - Uses Notifications context to show feedback messages.
+ * - Uses custom hooks for managing saved locations and comparison logic.
+ * - Supports deleting a location with confirmation and error handling.
+ * - Allows comparing up to 3 locations at once, disables compare button accordingly.
+ * - Displays a loader while fetching saved locations.
+ * - Layout adapts responsively, showing comparison cards alongside the saved list.
+ */
+
+
 export const SavedLocations: React.FC = () => {
 
     const {darkMode} = useContext(DarkmodeContext)!;

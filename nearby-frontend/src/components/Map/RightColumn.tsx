@@ -23,6 +23,24 @@ interface RightColumnProps {
     cityNames: string;
     darkMode: boolean;
 }
+/**
+ * RightColumn component displays a comprehensive overview of location-related data including weather, traffic, crimes,
+ * parking spaces, and housing prices. It organizes this information into distinct sections for clarity.
+ *
+ * Props:
+ * - weather: Weather data for the selected location.
+ * - trafficLevel: Current traffic intensity description.
+ * - parkingSpaces: Array of parking space details.
+ * - crimes: Array of crime statistics objects.
+ * - housingPrices: Average housing prices for the specified city.
+ * - cityNames: Name(s) of the city or area shown.
+ * - darkMode: Boolean flag to toggle dark/light theme styles.
+ *
+ * Each section is styled consistently and adapts visually to dark mode. The component uses utility classes
+ * and the clsx library to conditionally apply styles.
+ *
+ * Composed of smaller components: Section, Weather, Traffic, Crimes, Parking, HousingPrices.
+ */
 
 export const RightColumn: React.FC<RightColumnProps> = ({
                                                             weather,

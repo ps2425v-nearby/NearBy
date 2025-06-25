@@ -8,6 +8,12 @@ interface Props {
     darkMode: boolean;
 }
 
+
+/**
+ * Displays a collapsible section for a category of places.
+ * Shows the category title and toggles visibility of the list of places.
+ */
+
 export const CategorySection: React.FC<Props> = ({ title, places, darkMode }) => {
     const [open, setOpen] = useState(false);
     return (

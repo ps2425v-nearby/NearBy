@@ -13,6 +13,26 @@ type LeftColumnProps = {
     onComment: (lat: number, lon: number) => void;
     commentsMap: Comment[];
 };
+/**
+ * LeftColumn component displays relevant places and user comments within a given radius.
+ * It supports dark mode styling and includes pagination for comments.
+ * It provides action buttons for saving the current location and adding comments.
+ *
+ * Props:
+ * - radius: number representing the radius (in meters) around which places are displayed.
+ * - places: array of PlaceType objects representing the relevant places.
+ * - darkMode: boolean flag to toggle between light and dark themes.
+ * - onSave: callback invoked when the user clicks to save the location.
+ * - onComment: callback invoked with latitude and longitude when the user wants to add a comment.
+ * - commentsMap: array of Comment objects to display, paginated.
+ *
+ * Features:
+ * - Pagination logic for comments (2 per page).
+ * - Filtering places to only those with a name.
+ * - Dynamic styling via clsx for dark/light themes.
+ * - Hover overlays on place and comment cards for interactive UI feedback.
+ * - Action buttons that use localStorage to retrieve last marker coordinates.
+ */
 
 export const LeftColumn: React.FC<LeftColumnProps> = ({
                                                           radius,

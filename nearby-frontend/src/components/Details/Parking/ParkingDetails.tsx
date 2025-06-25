@@ -8,7 +8,10 @@ interface Props {
     park: PlaceType;
     index: number;
 }
-
+/**
+ * Component for displaying individual parking place details.
+ * Includes toggle for showing/hiding extra tag and coordinate info.
+ */
 export const ParkingDetails: React.FC<Props> = ({ park, index }) => {
     const [showDetails, setShowDetails] = useState(false);
 

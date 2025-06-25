@@ -10,6 +10,27 @@ import { getInputClasses } from "./inputClasses";
 import { fetchLogin } from "@/Fetch/JoinUs/fetchLogin";
 import {useCookies} from "react-cookie";
 
+/**
+ * Login Component
+ *
+ * This component renders a modal login form that allows users to sign in.
+ *
+ * Key features:
+ * - Uses useReducer for managing form state (username, password, submitting).
+ * - Opens/closes modal using state and Headless UI's Dialog and Transition components for accessibility and smooth animations.
+ * - Integrates with authentication context (`useAuth`) to update global user state on successful login.
+ * - Performs async login with `fetchLogin`, sets authentication token cookie on success.
+ * - Displays notifications for success or error using a notifications context.
+ * - Supports dark mode styling via context.
+ * - Includes navigation to a registration page.
+ *
+ * Important details:
+ * - Disables submit button while logging in or if fields are empty.
+ * - Handles errors gracefully and shows user feedback.
+ * - Modal can be closed via close button or background click.
+ */
+
+
 export const Login = () => {
     const [state, dispatch] = useReducer(loginReducer, initialState);
     const [isOpen, setIsOpen] = useState(false);

@@ -12,6 +12,22 @@ interface CrimesProps {
     darkMode: boolean;
 }
 
+/**
+ * Crimes component displays a paginated list of crime statistics.
+ *
+ * Props:
+ * - crimes: array of Crime objects { city, type, valor } to display.
+ * - darkMode: boolean flag to toggle dark/light styling.
+ *
+ * Features:
+ * - Pagination with 2 crimes per page.
+ * - Navigation buttons to move between pages, disabled at bounds.
+ * - Responsive grid layout for crime cards.
+ * - Styles adapt to dark mode for backgrounds, text, borders, and buttons.
+ * - Displays message when no crime data is available.
+ */
+
+
 export const Crimes: React.FC<CrimesProps> = ({ crimes, darkMode }) => {
     const [currentCrimePage, setCurrentCrimePage] = useState(1);
     const crimesPerPage = 2;

@@ -14,6 +14,27 @@ export const initialState: LoginState = {
     password: "",
     submitting: false,
 };
+/**
+ * Reducer and types for managing login form state.
+ *
+ * LoginState:
+ * - username: current value of the username input field.
+ * - password: current value of the password input field.
+ * - submitting: boolean indicating whether the login request is in progress.
+ *
+ * LoginAction:
+ * - SET_USERNAME: updates the username state.
+ * - SET_PASSWORD: updates the password state.
+ * - SET_SUBMITTING: toggles the submitting state (true when submitting, false otherwise).
+ *
+ * loginReducer:
+ * - Pure reducer function that updates the state based on the dispatched action.
+ * - Throws an error if an unknown action type is dispatched, helping catch bugs early.
+ *
+ * initialState:
+ * - Defines the default values for the login form state when the component mounts.
+ */
+
 
 export function loginReducer(state: LoginState, action: LoginAction): LoginState {
     switch (action.type) {

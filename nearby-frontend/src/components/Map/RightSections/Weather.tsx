@@ -8,6 +8,16 @@ interface WeatherProps {
     darkMode: boolean;
 }
 
+/**
+ * Weather Component
+ * A React component that displays weather information for different seasons.
+ * It allows users to toggle the visibility of detailed weather data for each season.
+ *
+ * @param {WindResponse | null} weather - The weather data to display, structured by season.
+ * @param {boolean} darkMode - Flag to determine if dark mode styles should be applied.
+ *
+ * @returns {JSX.Element} The rendered weather section with collapsible seasons.
+ */
 export const Weather: React.FC<WeatherProps> = ({ weather, darkMode }) => {
     const [openSeasons, setOpenSeasons] = useState<Record<string, boolean>>({});
 

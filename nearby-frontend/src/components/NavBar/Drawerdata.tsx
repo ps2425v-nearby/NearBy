@@ -1,5 +1,5 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 interface NavigationItem {
     name: string;
@@ -15,10 +15,25 @@ const navigation: NavigationItem[] = [
     { name: 'GitHub', href: 'https://github.com/orgs/ps2425v-nearby/repositories', current: false },
 ]
 
+/**
+ * Utility function to join multiple class names conditionally.
+ * Filters out falsy values and joins the rest with spaces.
+ *
+ * @param classes - List of class names (strings) that may be conditionally applied
+ * @returns {string} Concatenated class string
+ */
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
 
+/**
+ * Data component renders a vertical navigation menu with links and a "Contact Us" button.
+ *
+ * Each navigation item is rendered as a Link. The currently active item can be styled differently.
+ * The "Contact Us" button is styled and placed below the links.
+ *
+ * @returns {JSX.Element} Navigation menu UI
+ */
 const Data = () => {
     return (
         <div className="rounded-md max-w-sm w-full mx-auto">
@@ -31,7 +46,7 @@ const Data = () => {
                                 to={item.href}
                                 className={classNames(
                                     item.current ? 'bg-blue-950 text-purple' : 'text-blue-950 hover:text-purple',
-                                    'block  py-2 rounded-md text-base font-medium'
+                                    'block py-2 rounded-md text-base font-medium'
                                 )}
                                 aria-current={item.current ? 'page' : undefined}
                             >

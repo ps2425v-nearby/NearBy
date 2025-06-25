@@ -27,7 +27,10 @@ const categoryLabels: Record<string, string> = {
     MobilitySupport: "Apoio à Mobilidade",
     SpecialOrUncommon: "Especial ou Raro",
 };
-
+/**
+ * Groups places by their categories based on predefined tag filters.
+ * Places that don't match any category are grouped under "Outros".
+ */
 function useGroupedPlaces(location: SpecificLocationType) {
     return React.useMemo(() => {
         const grouped: Record<string, any[]> = {};
@@ -50,6 +53,11 @@ function useGroupedPlaces(location: SpecificLocationType) {
     }, [location]);
 }
 
+
+/**
+ * Displays detailed information about a location, including general info, categorized places,
+ * crimes, and parking sections. Supports dark mode styling.
+ */
 export const LocationDetails: React.FC<Props> = ({ location, darkMode }) => {
     const grouped = useGroupedPlaces(location);
 

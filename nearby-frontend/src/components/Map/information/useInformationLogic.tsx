@@ -8,6 +8,21 @@ import {InformationProps} from "@/components/Map/information/InformationProps";
 import {Comment} from "@/types/CommentType";
 import {useCookies} from "react-cookie";
 
+/**
+ * Custom hook to manage information logic for map-related data and interactions.
+ *
+ * Features:
+ * - Manages radius state with a maximum cap of 2500 meters.
+ * - Fetches and updates comments based on location and radius.
+ * - Handles saving of user locations with related data (places, weather, traffic, crimes, parking).
+ * - Retrieves location details for commenting.
+ * - Provides keyboard interaction support for radius input.
+ * - Integrates dark mode context and user authentication state.
+ * - Manages loading and no-data states.
+ *
+ * @param {InformationProps} props - The properties including city IDs, radius, places, parking spaces, weather, crimes, traffic level, and handlers.
+ * @returns An object exposing state, handlers, and data necessary for UI components to interact with map information.
+ */
 
 export function useInformationLogic({
                                         cityIdentification,

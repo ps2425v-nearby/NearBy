@@ -21,6 +21,14 @@ interface Props {
     place: PlaceType;
 }
 
+/**
+ * PlaceDetails Component
+ * Renders a card-like UI element displaying the place’s name or relevant tags
+ * (e.g., amenity, shop) and a toggleable section for additional tag details and
+ * coordinates. Icons are used to visually distinguish different tag types.
+ *
+ * @param place - The PlaceType object containing location data and tags
+ */
 export const PlaceDetails: React.FC<Props> = ({ place }) => {
     const [showDetails, setShowDetails] = useState(false);
     const tags = place.tags instanceof Map ? Object.fromEntries(place.tags) : place.tags;

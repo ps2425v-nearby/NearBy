@@ -6,6 +6,20 @@ interface HousingPricesProps {
 
     darkMode: boolean;
 }
+/**
+ * HousingPrices component displays estimated housing prices for various apartment sizes.
+ *
+ * Props:
+ * - housingPrices: number representing price per square meter.
+ * - darkMode: boolean flag to toggle dark/light theme styles.
+ *
+ * Features:
+ * - Shows 5 predefined apartment sizes (m²) with their tipology and total price.
+ * - Tipology categorization based on size ranges (T0 to T4).
+ * - Styled cards with hover effects and dark mode support.
+ * - Progress bar visualizes relative size compared to largest apartment.
+ * - Gracefully handles missing price data by showing a placeholder message.
+ */
 
 export const HousingPrices: React.FC<HousingPricesProps> = ({housingPrices, darkMode}) => {
     const tipology = (m2: number) => {

@@ -1,14 +1,13 @@
-import React, {useContext} from 'react';
-import {Disclosure} from '@headlessui/react';
-import {Link} from 'react-router-dom';
-import {Bars3Icon, MoonIcon, SunIcon} from '@heroicons/react/24/outline';
-import {Drawer} from "./Drawer";
+import React, { useContext } from 'react';
+import { Disclosure } from '@headlessui/react';
+import { Link } from 'react-router-dom';
+import { Bars3Icon, MoonIcon, SunIcon } from '@heroicons/react/24/outline';
+import { Drawer } from "./Drawer";
 import Contactusform from './contactUs/Contactus';
-import {Login} from '@/components/joinUs/Login/Login';
-import {DarkmodeContext} from '@/context/DarkMode/DarkmodeContext';
-import {useNotification} from "@/context/Notifications/NotificationsContext";
-import {useAuth} from "@/AuthContext";
-
+import { Login } from '@/components/joinUs/Login/Login';
+import { DarkmodeContext } from '@/context/DarkMode/DarkmodeContext';
+import { useNotification } from "@/context/Notifications/NotificationsContext";
+import { useAuth } from "@/AuthContext";
 
 interface NavigationItem {
     name: string;
@@ -16,68 +15,96 @@ interface NavigationItem {
     current: boolean;
 }
 
-
+/**
+ * List of navigation items for the navbar.
+ */
 const navigation: NavigationItem[] = [
-    {name: 'Equipa', href: '/aboutus', current: false},
-    {name: 'As minhas Localizações', href: '/savedLocations', current: false},
-    {name: 'Comentários', href: '/comments', current: false},
-    {name: 'Procura por Filtros', href: '/filtersearch', current: false},
-    {name: 'GitHub', href: 'https://github.com/orgs/ps2425v-nearby/repositories', current: false},
-]
+    { name: 'Equipa', href: '/aboutus', current: false },
+    { name: 'As minhas Localizações', href: '/savedLocations', current: false },
+    { name: 'Comentários', href: '/comments', current: false },
+    { name: 'Procura por Filtros', href: '/filtersearch', current: false },
+    { name: 'GitHub', href: 'https://github.com/orgs/ps2425v-nearby/repositories', current: false },
+];
 
+/**
+ * Utility function to join CSS class names conditionally.
+ *
+ * @param {...string[]} classes - List of class names.
+ * @returns {string} Combined class string.
+ */
 function classNames(...classes: string[]) {
-    return classes.filter(Boolean).join(' ')
+    return classes.filter(Boolean).join(' ');
 }
 
+/**
+ * Navbar component with responsive layout, dark mode toggle,
+ * user authentication checks, and navigation links.
+ *
+ * Displays different UI for desktop and mobile,
+ * includes contact and login components,
+ * and shows notifications if user tries to access protected pages while logged out.
+ *
+ * @returns {JSX.Element} The rendered navbar.
+ */
 const Navbar = () => {
-    const {showNotification} = useNotification();
+    const { showNotification } = useNotification();
     const [isOpen, setIsOpen] = React.useState(false);
 
+    // Get dark mode context, throw error if used outside provider
     const context = useContext(DarkmodeContext);
     if (!context) {
         throw new Error("DarkmodeContext must be used within a DarkModeProvider");
     }
-    const {loggedIn} = useAuth();
 
+    // Get user auth state
+    const { loggedIn } = useAuth();
+
+    /**
+     * Handle click on navigation links,
+     * prevents navigation and shows notification if user is not logged in.
+     *
+     * @param {React.MouseEvent<HTMLAnchorElement>} e - The click event.
+     */
     const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
         if (!loggedIn) {
-            e.preventDefault(); // Impede a navegação
+            e.preventDefault(); // Prevent navigation
             showNotification("Por favor, faça login para acessar esta página.", "error");
         }
     };
 
-    const {darkMode, toggleDarkMode} = context;
+    const { darkMode, toggleDarkMode } = context;
 
     return (
         <>
-            <Disclosure as="nav"
-                        id={"navbar"}
-                        className={`fixed top-0 w-full z-40 h-16 sm:h-20 backdrop-blur-md transition-all duration-300 ${
-                            darkMode
-                                ? 'bg-gray-900/95 border-gray-700'
-                                : 'bg-white/95 border-gray-200'
-                        } border-b shadow-lg`}>
+            <Disclosure
+                as="nav"
+                id={"navbar"}
+                className={`fixed top-0 w-full z-40 h-16 sm:h-20 backdrop-blur-md transition-all duration-300 ${
+                    darkMode
+                        ? 'bg-gray-900/95 border-gray-700'
+                        : 'bg-white/95 border-gray-200'
+                } border-b shadow-lg`}
+            >
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="relative flex h-16 sm:h-20 items-center justify-between">
                         {/* LOGO & TITLE SECTION */}
                         <div className="flex items-center space-x-3">
-                            <Link
-                                to="/"
-                                className="flex-shrink-0 cursor-pointer group relative"
-                            >
+                            <Link to="/" className="flex-shrink-0 cursor-pointer group relative">
                                 <div className="relative w-10 h-10 sm:w-12 sm:h-12">
                                     <div
                                         className={`absolute inset-0 rounded-full transition-all duration-300 group-hover:scale-110 ${
                                             darkMode
                                                 ? 'bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-blue-600/20 shadow-lg shadow-blue-500/20'
                                                 : 'bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-blue-600/10 shadow-md shadow-blue-500/10'
-                                        } group-hover:rotate-12`}></div>
+                                        } group-hover:rotate-12`}
+                                    ></div>
                                     <div
                                         className={`relative w-full h-full rounded-full overflow-hidden transition-all duration-300 group-hover:shadow-xl backdrop-blur-sm ${
                                             darkMode
                                                 ? 'bg-gray-900/50 border border-gray-700/50 group-hover:shadow-blue-500/30'
                                                 : 'bg-white/50 border border-gray-200/50 group-hover:shadow-blue-500/20'
-                                        }`}>
+                                        }`}
+                                    >
                                         <img
                                             src="/images/logo.png"
                                             alt="NearBy Logo"
@@ -85,7 +112,8 @@ const Navbar = () => {
                                         />
                                     </div>
                                     <div
-                                        className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400/0 via-purple-400/0 to-blue-500/0 group-hover:from-blue-400/20 group-hover:via-purple-400/20 group-hover:to-blue-500/20 transition-all duration-300 blur-lg pointer-events-none"></div>
+                                        className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400/0 via-purple-400/0 to-blue-500/0 group-hover:from-blue-400/20 group-hover:via-purple-400/20 group-hover:to-blue-500/20 transition-all duration-300 blur-lg pointer-events-none"
+                                    ></div>
                                 </div>
                             </Link>
                             <Link
@@ -119,7 +147,8 @@ const Navbar = () => {
                                     {item.name}
                                     {!item.current && (
                                         <span
-                                            className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 group-hover:w-full transition-all duration-300"></span>
+                                            className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 group-hover:w-full transition-all duration-300"
+                                        ></span>
                                     )}
                                 </Link>
                             ))}
@@ -128,7 +157,7 @@ const Navbar = () => {
                         <div className="flex items-center space-x-3">
                             {/* CONTACT BUTTON - Hidden on mobile */}
                             <div className="hidden sm:block">
-                                <Contactusform/>
+                                <Contactusform />
                             </div>
                             {/* DARK MODE TOGGLE */}
                             <button
@@ -144,17 +173,19 @@ const Navbar = () => {
                                     {darkMode ? (
                                         <SunIcon
                                             id={"light-mode"}
-                                            className="h-5 w-5 transition-transform duration-300 rotate-0"/>
+                                            className="h-5 w-5 transition-transform duration-300 rotate-0"
+                                        />
                                     ) : (
                                         <MoonIcon
                                             id={"dark-mode"}
-                                            className="h-5 w-5 transition-transform duration-300 rotate-0"/>
+                                            className="h-5 w-5 transition-transform duration-300 rotate-0"
+                                        />
                                     )}
                                 </div>
                             </button>
                             {/* LOGIN BUTTON - Hidden on mobile */}
                             <div className="hidden sm:block">
-                                <Login/>
+                                <Login />
                             </div>
                             {/* MOBILE MENU BUTTON */}
                             <div className="lg:hidden">
@@ -167,7 +198,7 @@ const Navbar = () => {
                                     }`}
                                     aria-label="Open menu"
                                 >
-                                    <Bars3Icon className="h-6 w-6"/>
+                                    <Bars3Icon className="h-6 w-6" />
                                 </button>
                             </div>
                         </div>
@@ -197,8 +228,8 @@ const Navbar = () => {
                                     ))}
                                 </div>
                                 <div className="border-t border-gray-200 dark:border-gray-700 pt-6 space-y-4">
-                                    <Contactusform/>
-                                    <Login/>
+                                    <Contactusform />
+                                    <Login />
                                 </div>
                             </div>
                         </Drawer>
@@ -206,7 +237,7 @@ const Navbar = () => {
                 </div>
             </Disclosure>
 
-            {/* NAVBAR SPACER - This pushes content below the fixed navbar */}
+            {/* NAVBAR SPACER - pushes page content below the fixed navbar */}
             <div className="h-16 sm:h-20"></div>
         </>
     );

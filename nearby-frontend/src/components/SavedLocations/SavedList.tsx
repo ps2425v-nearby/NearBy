@@ -9,6 +9,24 @@ interface Props {
     onDelete: (name:string,id:number)=>void;
     disableCompare: (loc:SimpleLocation)=>boolean;
 }
+
+/**
+ * SavedList component
+ *
+ * - Renders a list of saved locations.
+ * - Each location displays its name (as a Link) and coordinates.
+ * - Includes buttons for comparing and deleting each location.
+ * - The Compare button is disabled based on the disableCompare callback.
+ * - Uses icons from lucide-react for buttons.
+ * - Supports dark mode styling with Tailwind CSS classes.
+ *
+ * Props:
+ * - locations: Array of saved location objects.
+ * - onCompare: Function called with location id and name to add to comparison.
+ * - onDelete: Function called with location name and id to delete it.
+ * - disableCompare: Predicate function to determine if compare button should be disabled.
+ */
+
 export const SavedList: React.FC<Props> = ({ locations,onCompare, onDelete, disableCompare }) => (
     <ul className="space-y-4">
         {locations.map((l)=>(

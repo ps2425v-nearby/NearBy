@@ -5,6 +5,17 @@ export type RegisterState = {
     isSubmitting: boolean;
 };
 
+/**
+ * Reducer and state definitions for managing the registration form state.
+ *
+ * Important aspects:
+ * - `RegisterState` holds the form fields: email, name, password, and a submitting flag.
+ * - Actions (`RegisterAction`) allow updating each field individually and toggling the submitting state.
+ * - `initialRegisterState` initializes all fields empty and submitting as false.
+ * - `registerReducer` updates the state immutably based on the dispatched action.
+ * - Throws an error if an unknown action type is dispatched to catch programming errors early.
+ */
+
 export type RegisterAction =
     | { type: 'SET_EMAIL'; payload: string }
     | { type: 'SET_NAME'; payload: string }

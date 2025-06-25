@@ -1,6 +1,18 @@
-import {Amenity, ProcessedData, MapCenter} from '@/types/FilterTypes';
+import { Amenity, ProcessedData, MapCenter } from '@/types/FilterTypes';
+
 /**
- * Busca amenities (pontos de interesse) através do backend.
+ * Fetches amenities (points of interest) via the backend.
+ *
+ * @param parish - Parish ID
+ * @param municipality - Municipality ID
+ * @param district - District ID
+ * @param selectedPoints - Array of selected points of interest keys
+ * @param data - Processed location data maps
+ * @param setAmenities - Setter function to update amenities state
+ * @param setMapCenter - Setter function to update the map center
+ * @param setLoading - Setter function to update loading state
+ * @param setError - Setter function to update error messages
+ * @param token - Optional authentication token
  */
 export const fetchAmenities = async (
     parish: string,
@@ -19,12 +31,14 @@ export const fetchAmenities = async (
         setMapCenter(null);
         return;
     }
+
     const parishName = data.parishMap.get(municipality)?.find((f) => f.id === parish)?.nome || parish;
     const municipalityName = data.municipalityMap.get(district)?.find((c) => c.id === municipality)?.nome || municipality;
     const districtName = data.districts.find((d) => d.id === district)?.nome || district;
 
     setLoading(true);
     setError(null);
+
     try {
         const response = await fetch('/api/map/amenities', {
             method: 'POST',
@@ -41,14 +55,15 @@ export const fetchAmenities = async (
         });
 
         if (!response.ok) {
-          setError('Erro ao buscar dados do servidor');
+            setError('Error fetching data from the server');
             setLoading(false);
             return;
         }
 
         const dataResponse = await response.json();
+
         if (!dataResponse.amenities || dataResponse.amenities.length === 0) {
-            setError('Nenhum ponto de interesse encontrado para os critérios selecionados.');
+            setError('No points of interest found for the selected criteria.');
             setLoading(false);
             return;
         } else {
@@ -56,11 +71,9 @@ export const fetchAmenities = async (
             setAmenities(dataResponse.amenities);
         }
 
-
     } catch (err) {
-        setError('Erro ao buscar pontos de interesse. Tente novamente.');
+        setError('Error fetching points of interest. Please try again.');
     } finally {
         setLoading(false);
     }
 };
-

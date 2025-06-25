@@ -1,3 +1,10 @@
+/**
+ * Fetches housing prices based on location data.
+ *
+ * @param locationData - Array of location identifiers or strings.
+ * @returns Promise resolving to a number representing the housing price, or 0 if unavailable.
+ * @throws Throws an error if an invalid HTML response is received instead of JSON.
+ */
 export async function fetchHousingPrices(locationData: string[]): Promise<number> {
     const overpassUrl = `/api/housing/prices`;
 
@@ -21,7 +28,7 @@ export async function fetchHousingPrices(locationData: string[]): Promise<number
     const text = await response.text();
 
     if (text.trim().startsWith("<")) {
-        throw new Error("Recebida resposta HTML inválida em vez de JSON.");
+        throw new Error("Received invalid HTML response instead of JSON.");
     }
 
     const data = JSON.parse(text);

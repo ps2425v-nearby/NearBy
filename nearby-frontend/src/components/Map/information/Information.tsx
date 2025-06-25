@@ -7,6 +7,19 @@ import { useInformationLogic } from "./useInformationLogic";
 import CommentsPopup from "../../Comments/PopUp/CommentsPopUp";
 import {InformationProps} from "./InformationProps";
 
+
+/**
+ * Information component displays detailed information about a selected location on the map.
+ * It includes options to set a search radius, view nearby places, weather conditions, traffic levels,
+ * parking spaces, crime statistics, and housing prices.
+ * It also allows users to save locations and add comments.
+ * It is designed to be responsive and supports both light and dark modes.
+ * It handles loading states and displays appropriate messages when no data is available.
+ * It uses a custom hook for managing state and logic related to the information display.
+
+ * @param props
+ * @constructor
+ */
 export function Information(props: InformationProps) {
     const {
         darkMode,

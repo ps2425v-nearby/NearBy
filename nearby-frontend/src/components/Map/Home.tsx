@@ -16,6 +16,26 @@ const customIcon = L.icon({
     iconAnchor: [16, 32],
 });
 
+/**
+ * Home component integrates a Leaflet map with various functionalities including markers, radius selection,
+ * place information retrieval, and side panel display. It manages loading state, handles user interactions
+ * with the map, and conditionally renders UI elements based on the current state.
+ *
+ * Key features:
+ * - Custom Leaflet marker icon usage.
+ * - Uses multiple custom hooks for managing map state, place info, and home page logic.
+ * - Handles asynchronous data loading with timeout fallback to show no-data state.
+ * - Reacts to map clicks to set markers and fetch corresponding location data.
+ * - Displays detailed place information in a side panel when a marker is selected.
+ * - Supports dark mode styling via context.
+ *
+ * Dependencies:
+ * - Leaflet, Leaflet Draw, Leaflet GeoSearch for map functionalities.
+ * - Custom hooks: useLeafletMap, usePlaceInfo, useHomeState.
+ * - DarkmodeContext for theme management.
+ * - Navbarin component for the navigation bar.
+ */
+
 export default function Home() {
 
     const { darkMode } = useContext(DarkmodeContext)!;

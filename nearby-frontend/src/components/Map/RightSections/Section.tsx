@@ -7,6 +7,20 @@ interface SectionProps {
     children: React.ReactNode;
 }
 
+/**
+ * Section component renders a titled section with optional dark mode styling.
+ *
+ * Props:
+ * - title: string, the heading text displayed at the top of the section.
+ * - darkMode: boolean, toggles dark or light color scheme for text and borders.
+ * - children: React.ReactNode, the content to render inside the section.
+ *
+ * Usage:
+ * Wrap content with <Section title="My Title" darkMode={true}>...</Section>
+ * to create a styled section with a heading and themed text.
+ */
+
+
 export const Section: React.FC<SectionProps> = ({ title, darkMode, children }) => (
     <section>
         <h4

@@ -1,3 +1,11 @@
+/**
+ * Mapping of Points of Interest (POI) categories to their corresponding OpenStreetMap tags.
+ *
+ * Each key is a human-readable category name (in Portuguese),
+ * and the value is the corresponding OSM tag used for filtering or querying map data.
+ *
+ * Some entries have empty strings, indicating categories without a specific OSM tag.
+ */
 export const interestedPointsMap: { [key: string]: string } = {
     'Escolas': 'amenity=school',
     'Universidades': 'amenity=university',

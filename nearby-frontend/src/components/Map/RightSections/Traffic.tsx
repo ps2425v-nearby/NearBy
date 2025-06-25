@@ -5,6 +5,18 @@ interface TrafficProps {
     trafficLevel: string;
     darkMode: boolean;
 }
+/**
+ * Traffic component displays a traffic level label with styling that adapts to dark mode.
+ *
+ * Props:
+ * - trafficLevel: string — the traffic information text to display.
+ * - darkMode: boolean — toggles between dark and light background/text colors.
+ *
+ * If trafficLevel is empty or falsy, it displays a fallback error message.
+ *
+ * Usage:
+ * <Traffic trafficLevel="Moderate" darkMode={true} />
+ */
 
 export const Traffic: React.FC<TrafficProps> = ({ trafficLevel, darkMode }) => (
     <div

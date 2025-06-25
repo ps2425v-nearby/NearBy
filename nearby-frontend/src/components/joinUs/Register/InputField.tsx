@@ -12,6 +12,26 @@ interface InputFieldProps {
     placeholder?: string;
     darkMode: boolean;
 }
+/**
+ * InputField component renders a labeled input element with styling that adapts to dark mode.
+ *
+ * Key aspects:
+ * - Accepts common input props: type, id, value, onChange, placeholder, autoComplete, and required flag.
+ * - Dynamically applies styles based on the `darkMode` boolean to switch between light and dark themes.
+ * - The label is linked to the input via `htmlFor` and `id` for accessibility.
+ * - The input has focus styles with blue accents for better UX.
+ *
+ * Props:
+ * - `label`: Text shown above the input as its label.
+ * - `type`: The input type, e.g., "text", "password", etc.
+ * - `id`: Unique identifier used for linking label and input.
+ * - `value`: Controlled value of the input.
+ * - `onChange`: Change handler function for updating the value.
+ * - `required`: Whether the input is required (default is true).
+ * - `autoComplete`: Optional autocomplete attribute for browser hints.
+ * - `placeholder`: Optional placeholder text inside the input.
+ * - `darkMode`: Boolean indicating if dark mode styling should be applied.
+ */
 
 export const InputField = ({
                                label,
