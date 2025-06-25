@@ -1,0 +1,22 @@
+{
+  "distritos": [
+    {"id": "01", "nome": "Aveiro"},
+    {"id": "02", "nome": "Beja"},
+    {"id": "03", "nome": "Braga"},
+    {"id": "04", "nome": "Bragança"},
+    {"id": "05", "nome": "Castelo Branco"},
+    {"id": "06", "nome": "Coimbra"},
+    {"id": "07", "nome": "Évora"},
+    {"id": "08", "nome": "Faro"},
+    {"id": "09", "nome": "Guarda"},
+    {"id": "10", "nome": "Leiria"},
+    {"id": "11", "nome": "Lisboa"},
+    {"id": "12", "nome": "Portalegre"},
+    {"id": "13", "nome": "Porto"},
+    {"id": "14", "nome": "Santarém"},
+    {"id": "15", "nome": "Setúbal"},
+    {"id": "16", "nome": "Viana do Castelo"},
+    {"id": "17", "nome": "Vila Real"},
+    {"id": "18", "nome": "Viseu"}
+  ]
+}

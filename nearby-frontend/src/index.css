@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.dark .leaflet-control-geosearch button.reset {
+    background-color: #1f2937; /* Cor de fundo escura */
+    color: white; /* Cor do texto */
+    border: 1px solid #4b5563; /* Cor da borda */
+}
+
+.leaflet-control-geosearch input {
+    transition: background-color 0.3s, color 0.3s, border 0.1s;
+    border: 1px solid black;
+    padding: 8px; /* Certifique-se de que o padding é consistente */
+    background-color: white; /* Fundo para modo claro */
+}
+.dark .leaflet-control-geosearch form {
+    background-color: #1f2937; /* Cor de fundo escura */
+    color: white; /* Cor do texto, se necessário */
+    box-shadow: 0 1px 5px rgba(255, 255, 255, 0.25); /* Ajuste da sombra para modo escuro */
+}
+.dark .leaflet-control-geosearch input {
+    background-color: #1f2937; /* Fundo escuro */
+    color: white;
+    border: 1px solid black;
+    padding: 8px; /* Certifique-se de que o padding é consistente */
+}
+
+
+
+
+/* Resultados de Pesquisa */
+.leaflet-control-geosearch .results {
+    display: block;
+    position: absolute;
+    top: 40px; /* Ajuste se necessário */
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    background-color: white;
+    color: black;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 0;
+    margin: 0;
+}
+
+.leaflet-control-geosearch .results div {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.leaflet-control-geosearch .results div:hover {
+    background-color: #f0f0f0;
+}
+
+/* Modo Escuro */
+.dark .leaflet-control-geosearch input {
+    background-color: #1f2937;
+    color: white;
+    border: 1px solid #4b5563;
+}
+
+.dark .leaflet-control-geosearch .results {
+    background-color: #1f2937;
+    color: white;
+    border: 1px solid #4b5563;
+}
+
+.dark .leaflet-control-geosearch .results div {
+    color: white;
+}
+
+.dark .leaflet-control-geosearch .results div:hover {
+    background-color: #374151;
+    color: white;
+}
+
+/* Classe ativa */
+.leaflet-control-geosearch .results.active {
+    padding: 8px 0;
+    border-top: 1px solid #c6c6c6;
+}
