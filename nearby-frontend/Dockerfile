@@ -1,4 +1,4 @@
-# Stage 1: Build
+# Stage 1: Build React app
 FROM node:20-alpine AS build
 
 WORKDIR /app
@@ -7,15 +7,16 @@ COPY . .
 RUN npm install && npm run build
 
 # Stage 2: Serve with Nginx
-FROM nginx:alpine
+FROM nginx:stable-alpine
 
-# Copy the frontend build to Nginx's default web root
+# Remove default nginx static files
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copy build output to Nginx's static folder
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Serve on port 8081
-EXPOSE 8081
+# Copy custom nginx config (optional)
+# COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Update Nginx to listen on 8081 instead of 80
-RUN sed -i 's/listen       80;/listen       8081;/' /etc/nginx/conf.d/default.conf
-
+EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
