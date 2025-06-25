@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Aveiro",
+    "osm_id": 3920249
+  },
+  {
+    "name": "Beja",
+    "osm_id": 5134927
+  },
+  {
+    "name": "Braga",
+    "osm_id": 3738284
+  },
+  {
+    "name": "Bragança",
+    "osm_id": 3905929
+  },
+  {
+    "name": "Castelo Branco",
+    "osm_id": 4104644
+  },
+  {
+    "name": "Coimbra",
+    "osm_id": 4875183
+  },
+  {
+    "name": "Évora",
+    "osm_id": 5130767
+  },
+  {
+    "name": "Faro",
+    "osm_id": 1278415
+  },
+  {
+    "name": "Guarda",
+    "osm_id": 3905924
+  },
+  {
+    "name": "Leiria",
+    "osm_id": 5011694
+  },
+  {
+    "name": "Lisboa",
+    "osm_id": 2897141
+  },
+  {
+    "name": "Portalegre",
+    "osm_id": 5123448
+  },
+  {
+    "name": "Porto",
+    "osm_id": 3459013
+  },
+  {
+    "name": "Santarém",
+    "osm_id": 5122644
+  },
+  {
+    "name": "Setúbal",
+    "osm_id": 5143590
+  },
+  {
+    "name": "Viana do Castelo",
+    "osm_id": 3898131
+  },
+  {
+    "name": "Vila Real",
+    "osm_id": 3967823
+  },
+  {
+    "name": "Viseu",
+    "osm_id": 3920285
+  },
+  {
+    "name": "Região Autónoma dos Açores",
+    "osm_id": 1629146
+  },
+  {
+    "name": "Região Autónoma da Madeira",
+    "osm_id": 1629145
+  }
+]

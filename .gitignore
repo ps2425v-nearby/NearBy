@@ -1,0 +1,4 @@
+.gradle
+.idea
+build
+src/main/kotlin/pt/isel/project/nearby/Enviromennt.kt
