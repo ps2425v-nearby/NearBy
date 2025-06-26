@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_DB: projeto
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Ricardo
+      POSTGRES_PASSWORD: manuecana
     ports:
       - "5432:5432"
     volumes:
@@ -18,9 +18,9 @@ services:
     build: ./nearby-backend
     container_name: nearby-backend
     environment:
-      KEY_DB_URL: jdbc:postgresql://db:5432/projeto
+      KEY_DB_URL: jdbc:postgresql://db:5432/postgres
       SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: Ricardo
+      SPRING_DATASOURCE_PASSWORD: manuecana
     depends_on:
       - db
     expose:

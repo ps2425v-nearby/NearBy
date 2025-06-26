@@ -9,6 +9,5 @@ RUN cp $(find build/libs -type f -name "*-SNAPSHOT.jar" ! -name "*-plain.jar") a
 FROM openjdk:21-jdk-slim
 WORKDIR /app
 COPY --from=builder /app/app.jar .
-COPY src/main/resources/osmID.json .
 EXPOSE 8080
 CMD ["java", "-jar", "app.jar"]
