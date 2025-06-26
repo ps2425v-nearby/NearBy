@@ -1,58 +1,33 @@
 // src/components/Map/Hooks/useLeafletMap.ts
 import * as L from "leaflet";
-import React, {useEffect, useRef} from "react";
-import {GeoSearchControl, OpenStreetMapProvider} from "leaflet-geosearch";
+import React, { useEffect, useRef } from "react";
+import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
 
 export type OnPick = (lat: number, lon: number, radius?: number) => void;
-
-/**
- * Custom hook to initialize and manage a Leaflet map with search and drawing capabilities.
- *
- * Features:
- * - Initializes a Leaflet map on a provided container.
- * - Adds OpenStreetMap tile layer.
- * - Integrates leaflet-geosearch with OpenStreetMapProvider for address search.
- * - Adds drawing controls for markers and circles.
- * - Supports adding interactive markers with radius circles.
- * - Limits request frequency to prevent rapid repeated actions.
- * - Synchronizes circle and marker display with user interactions.
- * - Exposes methods to programmatically add markers and set map view.
- * - Manages internal state to track map, markers, circles, and interaction cooldown.
- *
- * @param containerRef React ref to the map container div element.
- * @param onPick Callback invoked when a location is selected or drawn, with lat, lon, and radius.
- * @param radius Current radius to draw around markers or circles.
- * @param icon Leaflet icon used for markers.
- *
- * @returns Object containing:
- * - mapRef: reference to the Leaflet map instance.
- * - addMarkerAt: function to add a marker programmatically.
- * - setViewAt: function to pan the map view to a given location with offset.
- * - isCleared: boolean state indicating if the map layers are cleared.
- * - setIsCleared: setter for the isCleared state.
- */
 
 export function useLeafletMap(
     containerRef: React.RefObject<HTMLDivElement>,
     onPick: OnPick,
     radius: number,
-    icon: L.Icon,
+    icon: L.Icon
 ) {
     const [isCleared, setIsCleared] = React.useState(false);
     const mapRef = useRef<L.Map | null>(null);
     const circleRef = useRef<L.Circle | null>(null);
     const markersRef = useRef<L.LayerGroup | null>(null);
-    const radiusRef = useRef(radius);
     const drawnItemsRef = useRef<L.FeatureGroup | null>(null);
+    const radiusRef = useRef(radius);
     const interactionTimestamps = useRef<number[]>([]);
 
+    // Keep radius in sync
     useEffect(() => {
         radiusRef.current = radius;
     }, [radius]);
 
+    // Request throttling
     function canProceedWithRequest(): boolean {
         const now = Date.now();
-        const windowSize = 3000; // 3 seconds
+        const windowSize = 3000; // ms
         const maxRequests = 3;
 
         interactionTimestamps.current = interactionTimestamps.current.filter(
@@ -67,53 +42,108 @@ export function useLeafletMap(
         return true;
     }
 
+    // Shared draw + select logic
+    function handleDraw(lat: number, lon: number, r: number) {
+        drawCircle(lat, lon, r);
+        onPick(lat, lon, r);
+        panToOffset(lat, lon);
+    }
+
+    function drawCircle(lat: number, lon: number, r: number) {
+        if (!mapRef.current) return;
+
+        if (circleRef.current) {
+            mapRef.current.removeLayer(circleRef.current);
+        }
+
+        circleRef.current = L.circle([lat, lon], { radius: r }).addTo(mapRef.current);
+    }
+
+    function panToOffset(lat: number, lon: number) {
+        const map = mapRef.current;
+        const container = containerRef.current;
+        if (!map || !container) return;
+
+        const offsetX = map.getSize().x / 4;
+        const currentPoint = map.latLngToContainerPoint([lat, lon]);
+        const adjustedPoint = currentPoint.add([offsetX, 0]);
+        const adjustedLatLng = map.containerPointToLatLng(adjustedPoint);
+        map.panTo(adjustedLatLng);
+    }
+
+    function clearMap() {
+        markersRef.current?.clearLayers();
+        drawnItemsRef.current?.clearLayers();
+
+        if (circleRef.current && mapRef.current) {
+            mapRef.current.removeLayer(circleRef.current);
+            circleRef.current = null;
+        }
+
+        setIsCleared(true);
+    }
+
+    function addInteractiveMarker(lat: number, lng: number, r: number) {
+        if (!mapRef.current || !markersRef.current) return;
+
+        const marker = L.marker([lat, lng], { icon });
+        marker.addTo(markersRef.current);
+        marker.addTo(drawnItemsRef.current!);
+
+        marker.on("click", () => {
+            handleDraw(lat, lng, r);
+        });
+
+        return marker;
+    }
+
     useEffect(() => {
         if (!containerRef.current || mapRef.current) return;
 
         const map = L.map(containerRef.current).setView([38.7489, -9.1004], 13);
         mapRef.current = map;
-        (containerRef.current as any)._leaflet_map = map; // adiciona a referência do mapa no DOM
-
+        (containerRef.current as any)._leaflet_map = map; // Custom DOM access
 
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
             attribution: "&copy; OpenStreetMap contributors",
         }).addTo(map);
 
+        // Marker and Draw layers
         markersRef.current = L.layerGroup().addTo(map);
+        drawnItemsRef.current = new L.FeatureGroup();
+        map.addLayer(drawnItemsRef.current);
 
-        const drawnItems = new L.FeatureGroup();
-        drawnItemsRef.current = drawnItems;
-        map.addLayer(drawnItems);
-
+        // Draw Controls
         const drawControl = new L.Control.Draw({
-            edit: { featureGroup: drawnItems },
+            edit: { featureGroup: drawnItemsRef.current },
             draw: {
                 polygon: false,
+                rectangle: false,
                 circle: {},
                 marker: { icon },
-                rectangle: false,
                 circlemarker: false,
                 polyline: false,
             },
         });
         map.addControl(drawControl);
 
+        // GeoSearch Control
         const provider = new OpenStreetMapProvider();
-        const searchControl = new (GeoSearchControl as any)({
+        const searchControl = new (GeoSearchControl as unknown as new (opts: any) => L.Control)({
             provider,
             style: "bar",
-            showMarker: true,
-            showPopup: true,
             autoClose: true,
+            showPopup: true,
+            keepResult: true,
             retainZoomLevel: false,
             animateZoom: true,
-            keepResult: true,
             searchLabel: "Procurar morada...",
-            marker: { icon },
+            showMarker: false, // we’ll handle our own
         });
 
         map.addControl(searchControl);
 
+        // Events
         map.on("geosearch/showlocation", (result: any) => {
             if (!canProceedWithRequest()) {
                 alert("Estás a fazer pedidos demasiado rapidamente. Por favor, espera um pouco.");
@@ -121,13 +151,8 @@ export function useLeafletMap(
             }
 
             const { x: lon, y: lat } = result.location;
-            drawCircle(lat, lon, radiusRef.current);
-            onPick(lat, lon, radiusRef.current);
-            panToOffset(lat, lon);
-        });
-
-        map.on(L.Draw.Event.DELETED, () => {
-            clearMap();
+            addInteractiveMarker(lat, lon, radiusRef.current);
+            handleDraw(lat, lon, radiusRef.current);
         });
 
         map.on(L.Draw.Event.CREATED, (e: any) => {
@@ -137,72 +162,36 @@ export function useLeafletMap(
             }
 
             const layer = e.layer;
-            drawnItems.addLayer(layer);
+            drawnItemsRef.current?.addLayer(layer);
 
             if (layer instanceof L.Marker) {
                 const { lat, lng } = layer.getLatLng();
-                drawnItems.removeLayer(layer);
+                drawnItemsRef.current?.removeLayer(layer);
                 addInteractiveMarker(lat, lng, radiusRef.current);
-                drawCircle(lat, lng, radiusRef.current);
-                onPick(lat, lng, radiusRef.current);
-                panToOffset(lat, lng);
+                handleDraw(lat, lng, radiusRef.current);
             } else if (layer instanceof L.Circle) {
                 const { lat, lng } = layer.getLatLng();
                 const r = layer.getRadius();
                 addInteractiveMarker(lat, lng, r);
-                drawCircle(lat, lng, r);
-                onPick(lat, lng, r);
-                panToOffset(lat, lng);
+                handleDraw(lat, lng, r);
             } else if (layer instanceof L.Polygon) {
                 const bounds = layer.getBounds();
                 const center = bounds.getCenter();
                 const diag = bounds.getNorthWest().distanceTo(bounds.getSouthEast());
-                addInteractiveMarker(center.lat, center.lng, diag / 2);
-                drawCircle(center.lat, center.lng, diag / 2);
-                onPick(center.lat, center.lng, diag / 2);
-                panToOffset(center.lat, center.lng);
+                const r = diag / 2;
+                addInteractiveMarker(center.lat, center.lng, r);
+                handleDraw(center.lat, center.lng, r);
             }
         });
 
-        map.on(L.Draw.Event.DRAWSTART, () => {});
-        map.on(L.Draw.Event.DRAWSTOP, () => {});
-
-        function addInteractiveMarker(lat: number, lng: number, r: number) {
-            if (!mapRef.current || !markersRef.current) return;
-
-            const marker = L.marker([lat, lng], { icon });
-
-            marker.addTo(markersRef.current);
-            marker.addTo(drawnItemsRef.current!);
-
-            marker.on("click", function () {
-                drawCircle(lat, lng, r);
-                onPick(lat, lng, r);
-                panToOffset(lat, lng);
-            });
-
-            return marker;
-        }
-
-        function clearMap() {
-            if (markersRef.current) markersRef.current.clearLayers();
-            if (circleRef.current && mapRef.current) {
-                mapRef.current.removeLayer(circleRef.current);
-                circleRef.current = null;
-            }
-            if (drawnItemsRef.current) {
-                drawnItemsRef.current.clearLayers();
-            }
-            setIsCleared(true);
-        }
+        map.on(L.Draw.Event.DELETED, clearMap);
 
         (mapRef as any).currentClear = clearMap;
 
         return () => {
-            if (mapRef.current) {
-                mapRef.current.remove();
-                mapRef.current = null;
-            }
+            map.off(); // Clean up listeners
+            map.remove();
+            mapRef.current = null;
         };
     }, [containerRef]);
 
@@ -211,26 +200,6 @@ export function useLeafletMap(
             panToOffset(lat, lon);
         }
     };
-
-    function panToOffset(lat: number, lon: number) {
-        const map = mapRef.current;
-        const container = containerRef.current;
-        if (!map || !container) return;
-
-        const mapSize = map.getSize();
-        const offsetX = mapSize.x / 4;
-
-        const currentPoint = map.latLngToContainerPoint([lat, lon]);
-        const adjustedPoint = currentPoint.add([offsetX, 0]);
-        const adjustedLatLng = map.containerPointToLatLng(adjustedPoint);
-        map.panTo(adjustedLatLng);
-    }
-
-    function drawCircle(lat: number, lon: number, r: number) {
-        if (!mapRef.current) return;
-        if (circleRef.current) mapRef.current.removeLayer(circleRef.current);
-        circleRef.current = L.circle([lat, lon], { radius: r }).addTo(mapRef.current);
-    }
 
     return {
         mapRef,
@@ -244,15 +213,13 @@ export function useLeafletMap(
 
             const marker = L.marker([lat, lon], { icon }).addTo(markersRef.current);
             marker.on("click", () => {
-                drawCircle(lat, lon, r);
-                onPick(lat, lon, r);
-                panToOffset(lat, lon);
+                handleDraw(lat, lon, r);
             });
-            drawCircle(lat, lon, r);
-            panToOffset(lat, lon);
+
+            handleDraw(lat, lon, r);
         },
         setViewAt,
         isCleared,
-        setIsCleared
+        setIsCleared,
     };
 }
