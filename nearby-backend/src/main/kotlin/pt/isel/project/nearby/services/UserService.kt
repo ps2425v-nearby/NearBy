@@ -34,7 +34,7 @@ class UserService(
                     failure(Error.EmailAlreadyTaken)
                 } else {
 
-                    val player = it.userRepository.createUser(name, email, password)
+                     it.userRepository.createUser(name, email, password)
                     success(true)
                 }
 

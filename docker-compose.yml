@@ -1,39 +1,38 @@
-version: '3.9'
+version: "3.9"
 
 services:
+  db:
+    image: postgres:16
+    container_name: nearby-db
+    environment:
+      POSTGRES_DB: projeto
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Ricardo
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./nearby-backend/src/main/kotlin/pt/isel/project/nearby/sql/CreateTable.sql:/docker-entrypoint-initdb.d/CreateTable.sql:ro
+
   backend:
     build: ./nearby-backend
     container_name: nearby-backend
-    ports:
-      - "8080:8080"
     environment:
-      KEY_DB_URL: jdbc:postgresql://db:5432/postgres
+      KEY_DB_URL: jdbc:postgresql://db:5432/projeto
       SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: manuecana
+      SPRING_DATASOURCE_PASSWORD: Ricardo
     depends_on:
       - db
+    expose:
+      - "8080"
 
   frontend:
     build: ./nearby-frontend
     container_name: nearby-frontend
     ports:
       - "8081:80"
-    volumes:
-      - ./nearby-frontend/nginx.conf:/etc/nginx/conf.d/default.conf:ro  # Mount custom Nginx config
     depends_on:
       - backend
-
-  db:
-    image: postgres:16
-    container_name: nearby-postgres
-    environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: manuecana
-    ports:
-      - "15432:5432"
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
 
 volumes:
   postgres-data:
