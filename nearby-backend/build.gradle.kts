@@ -45,10 +45,15 @@ dependencies {
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     implementation("org.seleniumhq.selenium:selenium-java:4.1.0")
 
-
-
-
 }
+sourceSets {
+    main {
+        resources {
+            srcDirs("src/main/resources")
+        }
+    }
+}
+
 
 kotlin {
     compilerOptions {
