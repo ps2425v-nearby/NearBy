@@ -43,16 +43,17 @@ dependencies {
     testImplementation("com.squareup.okhttp3:mockwebserver:4.11.0")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     implementation("org.seleniumhq.selenium:selenium-java:4.1.0")
-
 }
+
 sourceSets {
     main {
         resources {
             srcDirs("src/main/resources")
+            // Incluir explicitamente todos os arquivos de recursos
+            include("**/*")
         }
     }
 }
-
 
 kotlin {
     compilerOptions {
@@ -64,6 +65,22 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
+// Garantir que os recursos sejam copiados corretamente
+tasks.withType<ProcessResources> {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    // Incluir todos os arquivos JSON
+    include("**/*.json")
+    include("**/*.properties")
+    include("**/*.yml")
+    include("**/*.yaml")
+    include("**/*")
+}
+
 tasks.test {
     jvmArgs("-XX:+EnableDynamicAgentLoading")
+}
+
+// Garantir que o JAR final contenha todos os recursos
+tasks.withType<Jar> {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }

@@ -48,9 +48,6 @@ from Location;
 select *
 from Client;
 
-delete from Client where id = 4;
-
-
 select *
 from Comments;
 

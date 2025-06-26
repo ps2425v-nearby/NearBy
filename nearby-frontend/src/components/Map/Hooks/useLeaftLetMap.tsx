@@ -17,29 +17,36 @@ export function useLeafletMap(
     const markersRef = useRef<L.LayerGroup | null>(null);
     const drawnItemsRef = useRef<L.FeatureGroup | null>(null);
     const radiusRef = useRef(radius);
-    const interactionTimestamps = useRef<number[]>([]);
+    const lastRequestTime = useRef<number>(0);
+    const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     // Keep radius in sync
     useEffect(() => {
         radiusRef.current = radius;
     }, [radius]);
 
-    // Request throttling
+    // Improved throttling - more permissive
     function canProceedWithRequest(): boolean {
         const now = Date.now();
-        const windowSize = 3000; // ms
-        const maxRequests = 3;
+        const minInterval = 500; // Reduzido de 3000ms para 500ms
 
-        interactionTimestamps.current = interactionTimestamps.current.filter(
-            ts => now - ts < windowSize
-        );
-
-        if (interactionTimestamps.current.length >= maxRequests) {
+        if (now - lastRequestTime.current < minInterval) {
             return false;
         }
 
-        interactionTimestamps.current.push(now);
+        lastRequestTime.current = now;
         return true;
+    }
+
+    // Debounced request handler
+    function debouncedRequest(callback: () => void, delay: number = 300) {
+        if (debounceTimeoutRef.current) {
+            clearTimeout(debounceTimeoutRef.current);
+        }
+
+        debounceTimeoutRef.current = setTimeout(() => {
+            callback();
+        }, delay);
     }
 
     // Shared draw + select logic
@@ -56,7 +63,7 @@ export function useLeafletMap(
             mapRef.current.removeLayer(circleRef.current);
         }
 
-        circleRef.current = L.circle([lat, lon], { radius: r }).addTo(mapRef.current);
+        circleRef.current = L.circle([lat, lon], {radius: r}).addTo(mapRef.current);
     }
 
     function panToOffset(lat: number, lon: number) {
@@ -86,7 +93,7 @@ export function useLeafletMap(
     function addInteractiveMarker(lat: number, lng: number, r: number) {
         if (!mapRef.current || !markersRef.current) return;
 
-        const marker = L.marker([lat, lng], { icon });
+        const marker = L.marker([lat, lng], {icon});
         marker.addTo(markersRef.current);
         marker.addTo(drawnItemsRef.current!);
 
@@ -115,12 +122,12 @@ export function useLeafletMap(
 
         // Draw Controls
         const drawControl = new L.Control.Draw({
-            edit: { featureGroup: drawnItemsRef.current },
+            edit: {featureGroup: drawnItemsRef.current},
             draw: {
                 polygon: false,
                 rectangle: false,
                 circle: {},
-                marker: { icon },
+                marker: {icon},
                 circlemarker: false,
                 polyline: false,
             },
@@ -138,50 +145,56 @@ export function useLeafletMap(
             retainZoomLevel: false,
             animateZoom: true,
             searchLabel: "Procurar morada...",
-            showMarker: false, // we’ll handle our own
+            showMarker: false, // we'll handle our own
         });
 
         map.addControl(searchControl);
 
-        // Events
+        // Events - usando debounce em vez de throttling agressivo
         map.on("geosearch/showlocation", (result: any) => {
-            if (!canProceedWithRequest()) {
-                alert("Estás a fazer pedidos demasiado rapidamente. Por favor, espera um pouco.");
-                return;
-            }
+            const {x: lon, y: lat} = result.location;
 
-            const { x: lon, y: lat } = result.location;
-            addInteractiveMarker(lat, lon, radiusRef.current);
-            handleDraw(lat, lon, radiusRef.current);
+            // Usar debounce para evitar múltiplos pedidos rápidos
+            debouncedRequest(() => {
+                if (canProceedWithRequest()) {
+                    addInteractiveMarker(lat, lon, radiusRef.current);
+                    handleDraw(lat, lon, radiusRef.current);
+                } else {
+                    // Feedback mais suave - sem alert intrusivo
+                    console.log("Pedido ignorado - muito rápido");
+                }
+            });
         });
 
         map.on(L.Draw.Event.CREATED, (e: any) => {
-            if (!canProceedWithRequest()) {
-                alert("Estás a fazer pedidos demasiado rapidamente. Por favor, espera um pouco.");
-                return;
-            }
-
             const layer = e.layer;
-            drawnItemsRef.current?.addLayer(layer);
 
-            if (layer instanceof L.Marker) {
-                const { lat, lng } = layer.getLatLng();
-                drawnItemsRef.current?.removeLayer(layer);
-                addInteractiveMarker(lat, lng, radiusRef.current);
-                handleDraw(lat, lng, radiusRef.current);
-            } else if (layer instanceof L.Circle) {
-                const { lat, lng } = layer.getLatLng();
-                const r = layer.getRadius();
-                addInteractiveMarker(lat, lng, r);
-                handleDraw(lat, lng, r);
-            } else if (layer instanceof L.Polygon) {
-                const bounds = layer.getBounds();
-                const center = bounds.getCenter();
-                const diag = bounds.getNorthWest().distanceTo(bounds.getSouthEast());
-                const r = diag / 2;
-                addInteractiveMarker(center.lat, center.lng, r);
-                handleDraw(center.lat, center.lng, r);
-            }
+            debouncedRequest(() => {
+                if (canProceedWithRequest()) {
+                    drawnItemsRef.current?.addLayer(layer);
+
+                    if (layer instanceof L.Marker) {
+                        const {lat, lng} = layer.getLatLng();
+                        drawnItemsRef.current?.removeLayer(layer);
+                        addInteractiveMarker(lat, lng, radiusRef.current);
+                        handleDraw(lat, lng, radiusRef.current);
+                    } else if (layer instanceof L.Circle) {
+                        const {lat, lng} = layer.getLatLng();
+                        const r = layer.getRadius();
+                        addInteractiveMarker(lat, lng, r);
+                        handleDraw(lat, lng, r);
+                    } else if (layer instanceof L.Polygon) {
+                        const bounds = layer.getBounds();
+                        const center = bounds.getCenter();
+                        const diag = bounds.getNorthWest().distanceTo(bounds.getSouthEast());
+                        const r = diag / 2;
+                        addInteractiveMarker(center.lat, center.lng, r);
+                        handleDraw(center.lat, center.lng, r);
+                    }
+                } else {
+                    console.log("Pedido ignorado - muito rápido");
+                }
+            });
         });
 
         map.on(L.Draw.Event.DELETED, clearMap);
@@ -189,6 +202,10 @@ export function useLeafletMap(
         (mapRef as any).currentClear = clearMap;
 
         return () => {
+            // Limpar timeout ao desmontar
+            if (debounceTimeoutRef.current) {
+                clearTimeout(debounceTimeoutRef.current);
+            }
             map.off(); // Clean up listeners
             map.remove();
             mapRef.current = null;
@@ -204,19 +221,17 @@ export function useLeafletMap(
     return {
         mapRef,
         addMarkerAt: (lat: number, lon: number, r: number) => {
-            if (!canProceedWithRequest()) {
-                alert("Estás a fazer pedidos demasiado rapidamente. Por favor, espera um pouco.");
-                return;
-            }
-
-            if (!mapRef.current || !markersRef.current) return;
-
-            const marker = L.marker([lat, lon], { icon }).addTo(markersRef.current);
-            marker.on("click", () => {
-                handleDraw(lat, lon, r);
+            debouncedRequest(() => {
+                if (canProceedWithRequest() && mapRef.current && markersRef.current) {
+                    const marker = L.marker([lat, lon], {icon}).addTo(markersRef.current);
+                    marker.on("click", () => {
+                        handleDraw(lat, lon, r);
+                    });
+                    handleDraw(lat, lon, r);
+                } else {
+                    console.log("Pedido ignorado - muito rápido");
+                }
             });
-
-            handleDraw(lat, lon, r);
         },
         setViewAt,
         isCleared,

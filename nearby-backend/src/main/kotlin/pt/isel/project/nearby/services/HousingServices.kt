@@ -12,34 +12,35 @@ import java.io.FileNotFoundException
 @Service
 class HousingServices(private val housingRequester: HousingRequester) {
 
-    fun fetchHouseSales(locationData: List<String>): Int =
-        runBlocking {
-            val district = locationData.last()
-            val osmId = fetchOsmId(district)
-            val areaCouncil = osmId?.let { osmId + 3600000000  } // area para procurar
-            if(locationData.size <=2){
-                val districtInfo = housingRequester.fetchDistrictPricesSync(osmId, district)
-                return@runBlocking districtInfo
-
-            }
-            val council = locationData[locationData.size - 2]
-            val municipality = locationData[locationData.size - 3]
-            val councilID = housingRequester.fetchCouncilIdSync(areaCouncil, council)
-
-            if(councilID == 0L) {
-                return@runBlocking housingRequester.fetchDistrictPricesSync(osmId, district)
-            }
-
-            return@runBlocking housingRequester.fetchCouncilPricesSync(councilID, council, municipality)
+    fun fetchHouseSales(locationData: List<String>): Int = runBlocking {
+        val district = locationData.last()
+        val osmId = fetchOsmId(district)
+        val areaCouncil = osmId?.let { osmId + 3600000000 } // area para procurar
+        if (locationData.size <= 2) {
+            val districtInfo = housingRequester.fetchDistrictPricesSync(osmId, district)
+            return@runBlocking districtInfo
 
         }
+        val council = locationData[locationData.size - 2]
+        val municipality = locationData[locationData.size - 3]
+        val councilID = housingRequester.fetchCouncilIdSync(areaCouncil, council)
+
+        if (councilID == 0L) {
+            return@runBlocking housingRequester.fetchDistrictPricesSync(osmId, district)
+        }
+
+        return@runBlocking housingRequester.fetchCouncilPricesSync(councilID, council, municipality)
+
+    }
 
     fun fetchOsmId(districtName: String): Long? {
         val mapper = jacksonObjectMapper()
 
-        // Carregar o arquivo JSON a partir do classpath
-        val inputStream = ClassLoader.getSystemClassLoader().getResourceAsStream("osmID.json")
-            ?: throw FileNotFoundException("Arquivo districts_osm.json não encontrado no classpath.")
+
+        // Opção 1: Usando Thread.currentThread().contextClassLoader (Recomendado)
+        val inputStream = Thread.currentThread().contextClassLoader.getResourceAsStream("osmID.json")
+            ?: this::class.java.classLoader.getResourceAsStream("osmID.json")
+            ?: throw FileNotFoundException("Arquivo osmID.json não encontrado no classpath.")
 
         // Ler o arquivo JSON usando o InputStream
         val districts: List<District> = mapper.readValue(inputStream)
