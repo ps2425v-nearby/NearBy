@@ -1,6 +1,7 @@
 package pt.isel.project.nearby.config
 
 import okhttp3.internal.concurrent.TaskRunner.Companion.logger
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
@@ -12,12 +13,15 @@ class WebConfig(
     private val tokenAuthInterceptor: TokenAuthInterceptor
 ) : WebMvcConfigurer {
 
+    @Value("\${frontend.url}")
+    private lateinit var frontendUrl: String
+
 
     override fun addCorsMappings(registry: CorsRegistry) {
         logger.info("Configuração de CORS aplicada") // Log de verificação
 
         registry.addMapping("/**") // Permite todas as rotas
-            .allowedOrigins("http://localhost:8081") // Permite apenas o frontend do localhost:8081
+            .allowedOrigins(frontendUrl) // Permite o frontend especificado
             .allowedMethods("GET", "POST", "PUT", "DELETE") // Métodos HTTP permitidos
             .allowedHeaders("*") // Permite todos os headers
             .allowCredentials(true) // Permite enviar credenciais, se necessário

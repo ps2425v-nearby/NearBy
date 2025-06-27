@@ -5,13 +5,11 @@
   "scripts": {
     "build": "webpack",
     "start": "webpack serve",
-
-
-    "test":          "jest --watch",
-    "test:rtl":      "jest --roots Tests-RTL --watchAll=false",
+    "test": "jest --watch",
+    "test:rtl": "jest --roots Tests-RTL --watchAll=false",
     "test:e2e": "playwright test --config=playwright.config.tsx",
-    "test:all":      "npm-run-all --serial test:rtl test:e2e",
-    "pw:install":    "playwright install"
+    "test:all": "npm-run-all --serial test:rtl test:e2e",
+    "pw:install": "playwright install"
   },
   "author": "",
   "license": "ISC",
@@ -29,6 +27,7 @@
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "autoprefixer": "^10.4.21",
+    "copy-webpack-plugin": "^13.0.0",
     "css-loader": "^7.1.2",
     "html-webpack-plugin": "^5.6.3",
     "jest": "^29.7.0",

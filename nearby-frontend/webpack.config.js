@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+require('dotenv').config();
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: './src/index.ts',
@@ -12,7 +13,7 @@ module.exports = {
         proxy: [
             {
                 context: ['/api'],
-                target: 'http://localhost:8080',
+                target: process.env.BACKEND_URL,
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                 },
@@ -63,11 +64,17 @@ module.exports = {
     },
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'build'),
+        clean: true, // Optional: cleans the build folder before each build
     },
     plugins: [
         new HtmlWebpackPlugin({
             template: './public/index.html',
+        }),
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: 'public/images', to: 'images' }
+            ],
         }),
     ]
 };
