@@ -49,8 +49,7 @@ export const ContactFormFields: React.FC<Props> = ({closeModal}) => {
         e.preventDefault();
         setIsSubmitting(true);
         try {
-            console.log("TOKEN", cookies.token);
-            const response = await fetch('http://localhost:8081/api/email', {
+            const response = await fetch('/api/email', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json',
                 Authorization: `Bearer ${cookies.token}`},

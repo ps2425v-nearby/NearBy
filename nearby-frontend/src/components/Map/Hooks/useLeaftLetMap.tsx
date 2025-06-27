@@ -160,8 +160,7 @@ export function useLeafletMap(
                     addInteractiveMarker(lat, lon, radiusRef.current);
                     handleDraw(lat, lon, radiusRef.current);
                 } else {
-                    // Feedback mais suave - sem alert intrusivo
-                    console.log("Pedido ignorado - muito rápido");
+
                 }
             });
         });
@@ -192,7 +191,7 @@ export function useLeafletMap(
                         handleDraw(center.lat, center.lng, r);
                     }
                 } else {
-                    console.log("Pedido ignorado - muito rápido");
+
                 }
             });
         });
@@ -229,7 +228,6 @@ export function useLeafletMap(
                     });
                     handleDraw(lat, lon, r);
                 } else {
-                    console.log("Pedido ignorado - muito rápido");
                 }
             });
         },

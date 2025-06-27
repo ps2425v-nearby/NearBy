@@ -5,11 +5,11 @@ services:
     image: postgres:16
     container_name: nearby-db
     environment:
-      POSTGRES_DB: projeto
+      POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: manuecana
     ports:
-      - "5432:5432"
+      - "15432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - ./nearby-backend/src/main/kotlin/pt/isel/project/nearby/sql/CreateTable.sql:/docker-entrypoint-initdb.d/CreateTable.sql:ro
