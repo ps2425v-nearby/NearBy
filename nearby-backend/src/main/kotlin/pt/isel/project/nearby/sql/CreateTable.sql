@@ -1,9 +1,3 @@
-DROP TABLE IF EXISTS Comments;
-DROP TABLE IF EXISTS TOKEN;
-DROP TABLE IF EXISTS Location;
-DROP TABLE IF EXISTS Client;
-
-
 create table Client
 (
     id       serial primary key,
@@ -40,17 +34,5 @@ CREATE TABLE Comments
     updated_at  TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT check_content_not_empty CHECK (TRIM(content) != '')
 );
-
-
-SELECT *
-from Location;
-
-select *
-from Client;
-
-select *
-from Comments;
-
-select * from token;
 
 

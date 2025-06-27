@@ -19,8 +19,8 @@ services:
     container_name: nearby-backend
     environment:
       KEY_DB_URL: jdbc:postgresql://db:5432/postgres
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: manuecana
+      KEY_DB_USERNAME: postgres
+      KEY_DB_PASSWORD: manuecana
     depends_on:
       - db
     expose:
