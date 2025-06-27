@@ -2,6 +2,10 @@ module.exports = {
     preset: 'ts-jest',
     testEnvironment: 'jest-environment-jsdom',
     setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+
+    roots: ['<rootDir>/Tests-RTL'],
+    testMatch: ['**/*.test.ts?(x)'],
+
     transform: {
         '^.+\\.(ts|tsx)$': 'ts-jest',
     },
@@ -16,6 +20,8 @@ module.exports = {
         'leaflet/dist/leaflet.css$': '<rootDir>/__mocks__/styleMock.js',
         'leaflet-draw/dist/leaflet.draw.css$': '<rootDir>/__mocks__/styleMock.js',
         'leaflet-geosearch/dist/geosearch.css$': '<rootDir>/__mocks__/styleMock.js',
+
+        '^@/(.*)$': '<rootDir>/src/$1',
     }
 
 };

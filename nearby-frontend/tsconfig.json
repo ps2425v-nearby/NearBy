@@ -20,7 +20,7 @@
   },
   "include": [
     "src/**/*",        // Inclui todos os arquivos na pasta src
-    "tests/**/*",      // Inclui todos os arquivos dentro da pasta tests
+    "Tests-RTL/**/*",      // Inclui todos os arquivos dentro da pasta tests
     "node_modules/@types"  // Inclui os tipos personalizados do node_modules
   ],
   "exclude": ["node_modules", "dist"]

@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "test": "jest --watch",
     "build": "webpack",
     "start": "webpack serve",
-    "test:rtl": "npm test -- --watchAll=false /Tests ",
-    "test:playwright": "playwright test",
-    "test:all": "npm-run-all --parallel test:rtl test:playwright"
+
+
+    "test":          "jest --watch",
+    "test:rtl":      "jest --roots Tests-RTL --watchAll=false",
+    "test:e2e": "playwright test --config=playwright.config.tsx",
+    "test:all":      "npm-run-all --serial test:rtl test:e2e",
+    "pw:install":    "playwright install"
   },
   "author": "",
   "license": "ISC",

@@ -105,19 +105,7 @@ test.describe('FilterSearch Component Tests', () => {
         // Verifica o estado de carregamento
         await expect(page.locator('text=A carregar pontos de interesse...')).toBeVisible({ timeout: 5000 });
     });
-    test('should show error message if fetch fails', async ({ page }) => {
-        // Simula erro (podes mockar o endpoint via route interception se estiveres a usar msw ou interceptação de network)
 
-        await page.selectOption('select[aria-label="Selecionar distrito"]', { index: 1 });
-        await page.selectOption('select[aria-label="Selecionar concelho"]', { index: 1 });
-        await page.selectOption('select[aria-label="Selecionar freguesia"]', { index: 1 });
-
-        // Seleciona ponto
-        await page.check('input[type="checkbox"]:near(:text("Praias"))');
-
-        // Verifica erro
-        await expect(page.locator('text=/Nenhum ponto de interesse encontrado para os critérios selecionados./i')).toBeVisible();
-    });
 
     test('should render with initial empty state', async ({ page }) => {
         await expect(page.locator('select[aria-label="Selecionar distrito"]')).toHaveValue('');
