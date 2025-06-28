@@ -25,5 +25,17 @@ export async function fetchLogin(payload: LoginPayload) {
         throw new Error(errorText || "Login failed");
     }
 
-    return await response.json();
+    // FIX: Verifica se há conteúdo antes de fazer .json()
+    const text = await response.text();
+
+    if (!text || text.trim() === '') {
+        throw new Error("Login failed - server returned empty response");
+    }
+
+    try {
+        return JSON.parse(text);
+    } catch (jsonError) {
+        console.error("Invalid JSON response:", text);
+        throw new Error("Login failed - invalid server response");
+    }
 }
