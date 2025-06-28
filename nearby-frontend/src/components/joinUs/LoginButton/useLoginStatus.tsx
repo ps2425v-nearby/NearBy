@@ -1,6 +1,7 @@
 import { useCookies } from 'react-cookie';
 import { useAuth } from "@/AuthContext";
 import {requestUrl} from "@/utils/Backend_URL";
+import { useNavigate } from "react-router-dom";
 /**
  * Custom hook to manage and provide the current user's login status and logout functionality.
  *
@@ -24,6 +25,7 @@ export const useLoginStatus = () => {
     const isLoggedIn = auth.loggedIn
     const username = auth.username
     const [,removeCookie] = useCookies(['token']);
+    const navigate = useNavigate();
 
     const handleLogout = async () => {
         try {
@@ -33,7 +35,7 @@ export const useLoginStatus = () => {
             auth.setUserID(null);
             auth.setLoggedIn(false);
             localStorage.removeItem("markerRadii")
-            window.location.reload();
+            navigate("/"); // Redirect to main page
         } catch (error) {
             console.error("Erro ao fazer logout:", error);
         }
