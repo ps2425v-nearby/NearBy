@@ -1,3 +1,4 @@
+require('dotenv').config();
 /**
  * Payload structure for logging in a user.
  */
