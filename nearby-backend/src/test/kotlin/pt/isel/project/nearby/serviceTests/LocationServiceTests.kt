@@ -129,9 +129,7 @@ class LocationServiceTests {
         coEvery { zoneRequester.fetchZoneAsync(lat, lon) } returns mockZones
         coEvery { crimesRequester.fetchCrimesAsync(mockZones.toSet()) } returns mockCrimes
 
-        // Act
         val result  =service.fetchAllAsync(lat, lon, radius)
-
 
         assertTrue(result is Either.Right)
         val output = result.value
@@ -154,7 +152,6 @@ class LocationServiceTests {
         coEvery { zoneRequester.fetchZoneAsync(lat, lon) } returns mockZones
         coEvery { crimesRequester.fetchCrimesAsync(mockZones.toSet()) } throws CancellationException()
 
-        // Act
         val result = service.fetchAllAsync(lat, lon, radius)
 
         assertTrue(result is Either.Left)
@@ -164,7 +161,7 @@ class LocationServiceTests {
 
     @Test
     fun `saveLocation returns LocationAlreadyExists when location exists`() {
-        // Arrange
+
         val input = LocationInputModel(
             lat = 38.7369,
             lon = -9.1427,
@@ -190,10 +187,8 @@ class LocationServiceTests {
             zoneRequester = mockk(relaxed = true)
         )
 
-        // Act
         val result = locationService.saveLocation(input)
 
-        // Assert
         assertTrue(result is Either.Left)
         assertEquals(Error.LocationAlreadyExists, result.value)
     }
@@ -219,10 +214,8 @@ class LocationServiceTests {
             zoneRequester = mockk(relaxed = true)
         )
 
-        // Act
         val result = locationService.saveLocation(input)
 
-        // Assert
         assertTrue(result is Either.Right)
         assertEquals(1, result.value)
     }

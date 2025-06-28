@@ -39,7 +39,7 @@ class HousingServices(private val housingRequester: HousingRequester) {
         try {
             val district = locationData.last()
             val osmId = fetchOsmId(district)
-            val areaCouncil = osmId?.let { osmId + 3600000000 } // area para procurar
+            val areaCouncil = osmId?.let { osmId + 3600000000 }
             if (locationData.size <= 2) {
                 val districtInfo = housingRequester.fetchDistrictPricesSync(osmId, district)
                 success(districtInfo)
@@ -78,12 +78,10 @@ class HousingServices(private val housingRequester: HousingRequester) {
         val mapper = jacksonObjectMapper()
 
 
-        // Opção 1: Usando Thread.currentThread().contextClassLoader (Recomendado)
         val inputStream = Thread.currentThread().contextClassLoader.getResourceAsStream("osmID.json")
             ?: this::class.java.classLoader.getResourceAsStream("osmID.json")
             ?: throw FileNotFoundException("Arquivo osmID.json não encontrado no classpath.")
 
-        // Ler o arquivo JSON usando o InputStream
         val districts: List<District> = mapper.readValue(inputStream)
         return districts.find { it.name.equals(districtName, ignoreCase = true) }?.osm_id
     }

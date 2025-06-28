@@ -9,7 +9,6 @@ import pt.isel.project.nearby.request.doAsync
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-// Estrutura para armazenar valores numéricos de temperatura e vento
 /**
  * Data class representing weather information for a specific time period.
  *
@@ -30,10 +29,10 @@ data class WeatherInfo(
  * @param night Weather information for the night period (18:00-00:00).
  */
 data class SeasonalWeatherValues(
-    val season: String, // Ex.: "Verão"
-    val morning: WeatherInfo, // Manhã (06:00-12:00)
-    val afternoon: WeatherInfo, // Tarde (12:00-18:00)
-    val night: WeatherInfo // Noite (18:00-00:00)
+    val season: String,
+    val morning: WeatherInfo,
+    val afternoon: WeatherInfo,
+    val night: WeatherInfo
 )
 
 /**
@@ -61,9 +60,9 @@ class OpenMeteoRequester(
      * @return A list of SeasonalWeatherValues containing weather data categorized by season.
      */
     override suspend fun fetchWindAsync(lat: Double, long: Double): List<SeasonalWeatherValues> {
-        // Calcular datas dinamicamente
-        val endDate = LocalDate.now().minusDays(1) // Dia anterior ao atual
-        val startDate = endDate.minusYears(1).plusDays(1) // Um ano antes, ajustado
+
+        val endDate = LocalDate.now().minusDays(1)
+        val startDate = endDate.minusYears(1).plusDays(1)
         val formatter = DateTimeFormatter.ISO_LOCAL_DATE
         val startDateStr = startDate.format(formatter)
         val endDateStr = endDate.format(formatter)
@@ -87,7 +86,6 @@ class OpenMeteoRequester(
                 throw ApiResponseException(message = "Invalid data format")
             }
 
-            // Processar dados por estação e período
             processSeasonalData(times, temperatures, windSpeeds)
         }
     }
@@ -108,15 +106,14 @@ class OpenMeteoRequester(
         temperatures: List<Double>,
         windSpeeds: List<Double>
     ): List<SeasonalWeatherValues>{
-        // Definir estações (baseado em Portugal)
+
         val seasons = mapOf(
-            "Verão" to (6..8),    // Junho a Agosto
-            "Outono" to (9..11),  // Setembro a Novembro
-            "Inverno" to (12..2), // Dezembro a Fevereiro
-            "Primavera" to (3..5) // Março a Maio
+            "Verão" to (6..8),
+            "Outono" to (9..11),
+            "Inverno" to (12..2),
+            "Primavera" to (3..5)
         )
 
-        // Agrupar dados por estação
         return seasons.map { (season, months) ->
             val morningTemps = mutableListOf<Double>()
             val morningWinds = mutableListOf<Double>()
@@ -155,7 +152,6 @@ class OpenMeteoRequester(
                 }
             }
 
-            // Calcular médias numéricas
             SeasonalWeatherValues(
                 season = season,
                 morning = WeatherInfo(

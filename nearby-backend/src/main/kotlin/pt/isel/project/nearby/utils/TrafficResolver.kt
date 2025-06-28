@@ -14,7 +14,6 @@ fun calculateTraffic(lista: List<TrafficInfo>): String {
 
     if (lista.isEmpty()) return "Sem dados de tráfego"
 
-    // Conta o número de ocorrências por tipo de highway
     val count = lista.mapNotNull { it.tags["highway"] }
         .groupingBy { it }
         .eachCount()

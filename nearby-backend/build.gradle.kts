@@ -23,10 +23,9 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jdbi:jdbi3-core:3.37.1")
     implementation("org.postgresql:postgresql:42.7.2")
-    implementation("org.jsoup:jsoup:1.16.1") // Jsoup é tipo o "cheerio" do Java/Kotlin
+    implementation("org.jsoup:jsoup:1.16.1")
     implementation("org.springframework.boot:spring-boot-starter-web")
 
-    // To use email
     implementation("javax.mail:javax.mail-api:1.6.2")
     implementation("com.sun.mail:javax.mail:1.6.2")
 
@@ -49,7 +48,6 @@ sourceSets {
     main {
         resources {
             srcDirs("src/main/resources")
-            // Incluir explicitamente todos os arquivos de recursos
             include("**/*")
         }
     }
@@ -65,10 +63,8 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-// Garantir que os recursos sejam copiados corretamente
 tasks.withType<ProcessResources> {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    // Incluir todos os arquivos JSON
     include("**/*.json")
     include("**/*.properties")
     include("**/*.yml")
@@ -80,7 +76,6 @@ tasks.test {
     jvmArgs("-XX:+EnableDynamicAgentLoading")
 }
 
-// Garantir que o JAR final contenha todos os recursos
 tasks.withType<Jar> {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }

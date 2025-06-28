@@ -29,7 +29,6 @@ class TokenAuthInterceptor(
         handler: Any
     ): Boolean {
         if (request.method.equals("OPTIONS", ignoreCase = true)) {
-            // Allow CORS preflight requests through without token
             return true
         }
 

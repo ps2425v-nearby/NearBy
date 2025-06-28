@@ -11,7 +11,7 @@ import javax.crypto.spec.SecretKeySpec
  * @return A SecretKeySpec object representing the AES key.
  */
 fun generateKey(): SecretKeySpec {
-    val key = "ProjetoFinal2025" // 16 characters for 128-bit key
+    val key = "ProjetoFinal2025"
     return SecretKeySpec(key.toByteArray(), "AES")
 }
 

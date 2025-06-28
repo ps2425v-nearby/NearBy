@@ -184,7 +184,7 @@ class GlobalExceptionHandler {
         e: Exception,
         request: HttpServletRequest
     ): ResponseEntity<ErrorResponse> {
-        e.printStackTrace() // ou logger.warn() se preferires
+        e.printStackTrace()
         val errorResponse = ErrorResponse(
             timestamp = LocalDateTime.now(),
             status = HttpStatus.INTERNAL_SERVER_ERROR.value(),

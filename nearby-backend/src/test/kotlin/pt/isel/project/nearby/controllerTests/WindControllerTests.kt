@@ -26,7 +26,6 @@ class WindApiIntegrationTest {
 
         val response = client.send(request, HttpResponse.BodyHandlers.ofString())
 
-        // Verifica se a resposta HTTP foi 200 OK
         assertEquals(200, response.statusCode())
     }
 }

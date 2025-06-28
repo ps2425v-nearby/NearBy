@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
+import pt.isel.project.nearby.PathTemplate
 import pt.isel.project.nearby.interceptors.TokenAuthInterceptor
 
 /**
@@ -44,15 +45,15 @@ class WebConfig(
      *
      */
     override fun addCorsMappings(registry: CorsRegistry) {
-        logger.info("Configuração de CORS aplicada") // Log de verificação
+        logger.info("Configuração de CORS aplicada")
 
-        println("Configuração de CORS aplicada para o frontend: $frontendUrl") // Log de verificação
+        println("Configuração de CORS aplicada para o frontend: $frontendUrl")
 
-        registry.addMapping("/**") // Permite todas as rotas
-            .allowedOrigins(frontendUrl) // Permite o frontend especificado
-            .allowedMethods("GET", "POST", "PUT", "DELETE") // Métodos HTTP permitidos
-            .allowedHeaders("*") // Permite todos os headers
-            .allowCredentials(true) // Permite enviar credenciais, se necessário
+        registry.addMapping("/**")
+            .allowedOrigins(frontendUrl)
+            .allowedMethods("GET", "POST", "PUT", "DELETE")
+            .allowedHeaders("*")
+            .allowCredentials(true)
     }
 
     /**
@@ -62,10 +63,18 @@ class WebConfig(
      * @param registry The InterceptorRegistry to register the interceptor.
      */
     override fun addInterceptors(registry: InterceptorRegistry) {
-        logger.info("Interceptor de autenticação de token adicionado") // Log de verificação
+        logger.info("Interceptor de autenticação de token adicionado")
 
         registry.addInterceptor(tokenAuthInterceptor)
             .addPathPatterns("/**")
-            .excludePathPatterns("/session", "/all-places", "/zones","/housing/prices","/comments/search","/users", "/locations")
+            .excludePathPatterns(
+                PathTemplate.LOGIN,
+                PathTemplate.GET_ZONE_MARKER,
+                PathTemplate.ZONE_IDENTIFIER,
+                PathTemplate.HOUSING_PRICES,
+                PathTemplate.COMMENTS_SEARCH,
+                PathTemplate.CREATE_USER,
+                PathTemplate.SAVE
+            )
     }
 }

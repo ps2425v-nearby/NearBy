@@ -11,11 +11,13 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
+import pt.isel.project.nearby.domain.Either
 
 import pt.isel.project.nearby.request.housing.HousingRequester
 import pt.isel.project.nearby.services.HousingServices
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class HousingServicesTest {
@@ -47,7 +49,8 @@ class HousingServicesTest {
 
         val result = serviceSpy.fetchHouseSales(locationData)
 
-        assertEquals(expectedPrice, result)
+        assertTrue(result is Either.Right)
+        assertEquals(expectedPrice, result.value)
     }
 
     @Test
@@ -64,7 +67,8 @@ class HousingServicesTest {
 
         val result = serviceSpy.fetchHouseSales(locationData)
 
-        assertEquals(4000, result)
+        assertTrue(result is Either.Right)
+        assertEquals(4000, result.value)
     }
 
     @Test
@@ -82,6 +86,7 @@ class HousingServicesTest {
 
         val result = serviceSpy.fetchHouseSales(locationData)
 
-        assertEquals(3000, result)
+        assertTrue(result is Either.Right)
+        assertEquals(3000, result.value)
     }
 }

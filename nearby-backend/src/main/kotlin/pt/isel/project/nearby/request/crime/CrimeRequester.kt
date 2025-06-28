@@ -53,7 +53,7 @@ class CrimesRequester(
                         CrimesInfo(
                             city = it.geodsg,
                             type = it.dim_3_t,
-                            valor = it.valor ?: "0" // Default to "0" if valor is null
+                            valor = it.valor ?: "0"
                         )
                     }
                 } else null

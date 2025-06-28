@@ -32,7 +32,7 @@ class CommentController(private val commentService: CommentService) {
      * @param placeId the ID of the place whose comments are being retrieved
      * @return a ResponseEntity containing the list of comments, or an error response if the request fails
      */
-    @GetMapping(PathTemplate.COMMENTS_BY_PLACE_ID) // PathTemplate.COMMENTSBYPLACEID
+    @GetMapping(PathTemplate.COMMENTS_BY_PLACE_ID)
     fun getCommentsByPlaceId(@PathVariable placeId: Int): ResponseEntity<List<CommentOutputModel>> {
         return when (val result = commentService.getCommentsByPlaceId(placeId)) {
             is Either.Right -> ResponseEntity.ok(result.value.map {
@@ -61,7 +61,7 @@ class CommentController(private val commentService: CommentService) {
      * @param radius the radius (in meters) to search within
      * @return a ResponseEntity containing the list of matching comments, or an error response if the request fails
      */
-    @GetMapping(PathTemplate.COMMENTS_SEARCH) // PathTemplate.COMMENTSSEARCH
+    @GetMapping(PathTemplate.COMMENTS_SEARCH)
     fun searchComments(
         @RequestParam lat: Double?,
         @RequestParam lon: Double?,

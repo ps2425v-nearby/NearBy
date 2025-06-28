@@ -62,7 +62,6 @@ class TokenController(val userService: UserService) {
     fun logout(@RequestBody token: UserLogoutModel): ResponseEntity<*> {
         return when (val res = userService.removeToken(token.token)) {
             is Either.Right -> ResponseEntity.status(200).header("Content-Type", mediaType)
-          //      .header(HttpHeaders.SET_COOKIE, authCookie.toString())
                 .body(UserTokenRemoveOutputModel(success = res.value))
 
             is Either.Left -> when (res.value) {
