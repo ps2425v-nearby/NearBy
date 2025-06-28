@@ -13,8 +13,25 @@ import pt.isel.project.nearby.domain.Either
 import pt.isel.project.nearby.services.UserService
 import pt.isel.project.nearby.utils.Error
 
+/**
+ * Controller for handling user-related requests.
+ * This controller provides endpoints for user creation and retrieval by ID.
+ * It uses the UserService to perform operations and returns appropriate HTTP responses.
+ *
+ * @property userServices The service used to handle user operations.
+ * @constructor Creates a UserController with the specified UserService.
+ *
+ * @RestController annotation indicates that this class is a Spring MVC controller.
+ */
 @RestController
 class UserController(val userServices: UserService) {
+
+    /**
+     * Retrieves a user by their ID.
+     *
+     * @param id the ID of the user to retrieve
+     * @return a ResponseEntity containing the user data or an error response if the user is not found
+     */
     @GetMapping(PathTemplate.USER_ID)
     fun get(@PathVariable id: Int): ResponseEntity<*> {
         return when (val res = userServices.getById(id)) {
@@ -28,6 +45,12 @@ class UserController(val userServices: UserService) {
         }
     }
 
+    /**
+     * Creates a new user with the provided details.
+     *
+     * @param user The model containing user details for creation.
+     * @return A ResponseEntity indicating success or an error response if the creation fails.
+     */
     @PostMapping(PathTemplate.CREATE_USER)
     fun create(@RequestBody user: UserCreateModel): ResponseEntity<*> {
         return when (val res = userServices.createUser(user.name, user.email,user.password)) {

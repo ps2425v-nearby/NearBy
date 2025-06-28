@@ -6,11 +6,20 @@ import pt.isel.project.nearby.domain.Place
 import pt.isel.project.nearby.domain.Location
 import pt.isel.project.nearby.repository.LocationRepository
 
+/**
+ * JdbiLocationRepository is an implementation of the LocationRepository interface
+ * that uses JDBI to interact with the database for location-related operations.
+ *
+ * @property handle The JDBI Handle used to execute SQL queries and updates.
+ */
 class JdbiLocationRepository(private val handle: Handle) : LocationRepository {
-    override suspend fun fetchAllPlaces(lat: Double, long: Double, searchRadius: Double): List<Place> {
-        TODO("Not yet implemented")
-    }
 
+    /**
+     * Saves a new location to the database.
+     *
+     * @param location The LocationInputModel containing the details of the location to be saved.
+     * @return The ID of the newly created location, or null if the operation failed.
+     */
     override fun saveLocation(location: LocationInputModel): Int? {
         return handle.createUpdate(
             """
@@ -29,6 +38,13 @@ class JdbiLocationRepository(private val handle: Handle) : LocationRepository {
             .firstOrNull()
     }
 
+    /**
+     * Retrieves a location by its latitude and longitude coordinates.
+     *
+     * @param lat The latitude of the location.
+     * @param lon The longitude of the location.
+     * @return The Location object if found, or null if not found.
+     */
     override fun getLocationByCoords(lat: Double, lon: Double): Location? =
         handle.createQuery(
             """
@@ -42,18 +58,13 @@ class JdbiLocationRepository(private val handle: Handle) : LocationRepository {
             .findOne()
             .orElse(null)
 
-    override fun getLocationByCoords(id: Int): Location? =
-        handle.createQuery(
-            """
-            SELECT * FROM Location
-            WHERE id = :id
-            """
-        )
-            .bind("id", id)
-            .mapTo(Location::class.java)
-            .findOne()
-            .orElse(null)
 
+    /**
+     * Retrieves a location by its ID.
+     *
+     * @param userId The ID of the location.
+     * @return The Location object if found, or null if not found.
+     */
     override fun getLocationsByUser(userId: Int): List<Location> {
         return handle.createQuery(
             """
@@ -68,6 +79,12 @@ class JdbiLocationRepository(private val handle: Handle) : LocationRepository {
 
     }
 
+    /**
+     * Deletes a location by its ID.
+     *
+     * @param id The ID of the location to be deleted.
+     * @return The number of rows affected by the delete operation.
+     */
     override fun deleteLocation(id: Int): Int {
         return handle.createUpdate(
             "DELETE FROM Location WHERE id = :locId"
@@ -76,6 +93,12 @@ class JdbiLocationRepository(private val handle: Handle) : LocationRepository {
             .execute()
     }
 
+    /**
+     * Retrieves a location by its ID.
+     *
+     * @param id The ID of the location to be retrieved.
+     * @return The Location object if found, or null if not found.
+     */
     override fun getLocation(id: Int): Location? {
         return handle.createQuery(
             """
@@ -87,7 +110,5 @@ class JdbiLocationRepository(private val handle: Handle) : LocationRepository {
             .mapTo(Location::class.java)
             .findOne()
             .orElse(null)
-
-
     }
 }

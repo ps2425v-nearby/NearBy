@@ -2,6 +2,14 @@ package pt.isel.project.nearby.utils
 
 import pt.isel.project.nearby.domain.TrafficInfo
 
+/**
+ * This function calculates the traffic level based on a list of TrafficInfo objects.
+ * It categorizes the traffic into different levels based on the types of highways present
+ * and their respective counts.
+ *
+ * @param lista A list of TrafficInfo objects containing traffic data.
+ * @return A string describing the traffic level.
+ */
 fun calculateTraffic(lista: List<TrafficInfo>): String {
 
     if (lista.isEmpty()) return "Sem dados de tráfego"

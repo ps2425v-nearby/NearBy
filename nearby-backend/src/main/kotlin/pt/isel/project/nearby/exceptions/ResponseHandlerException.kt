@@ -9,9 +9,26 @@ import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import java.time.LocalDateTime
 
+/**
+ * Centralized exception handler for the entire application.
+ *
+ * This controller advice intercepts exceptions thrown by controllers and services,
+ * mapping them to appropriate HTTP responses with structured error information.
+ *
+ * Each specific exception is mapped to a corresponding HTTP status code and message,
+ * ensuring consistent error reporting across the API.
+ */
 @ControllerAdvice
 class GlobalExceptionHandler {
 
+    /**
+     * Handles specific exceptions related to fetching zone data.
+     * Maps the exception to a 400 Bad Request response with an error message.
+     *
+     * @param e The exception thrown during the fetch operation.
+     * @param request The HTTP request that caused the exception.
+     * @return A ResponseEntity containing the error response with status 400 Bad Request.
+     */
     @ExceptionHandler(FetchZoneException::class)
     fun handleFetchZoneException(e: FetchZoneException, request: HttpServletRequest): ResponseEntity<ErrorResponse> {
         val errorResponse = ErrorResponse(
@@ -24,6 +41,14 @@ class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse)
     }
 
+    /**
+     * Handles exceptions related to fetching wind data.
+     * Maps the exception to a 400 Bad Request response with an error message.
+     *
+     * @param e The exception thrown during the fetch operation.
+     * @param request The HTTP request that caused the exception.
+     * @return A ResponseEntity containing the error response with status 400 Bad Request.
+     */
     @ExceptionHandler(FetchWindException::class)
     fun handleFetchWindException(e: FetchWindException, request: HttpServletRequest): ResponseEntity<ErrorResponse> {
         val errorResponse = ErrorResponse(
@@ -36,6 +61,14 @@ class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse)
     }
 
+    /**
+     * Handles exceptions related to fetching traffic data.
+     * Maps the exception to a 500 Internal Server Error response with an error message.
+     *
+     * @param e The exception thrown during the fetch operation.
+     * @param request The HTTP request that caused the exception.
+     * @return A ResponseEntity containing the error response with status 500 Internal Server Error.
+     */
     @ExceptionHandler(FetchTrafficException::class)
     fun handleFetchTrafficException(
         e: FetchTrafficException,
@@ -51,6 +84,14 @@ class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse)
     }
 
+    /**
+     * Handles exceptions related to saving places.
+     * Maps the exception to a 500 Internal Server Error response with an error message.
+     *
+     * @param e The exception thrown during the save operation.
+     * @param request The HTTP request that caused the exception.
+     * @return A ResponseEntity containing the error response with status 500 Internal Server Error.
+     */
     @ExceptionHandler(SavePlacesException::class)
     fun handleSavePlacesException(e: SavePlacesException, request: HttpServletRequest): ResponseEntity<ErrorResponse> {
         val errorResponse = ErrorResponse(
@@ -63,6 +104,14 @@ class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse)
     }
 
+    /**
+     * Handles exceptions when no parking spaces are found.
+     * Maps the exception to a 204 No Content response with an error message.
+     *
+     * @param e The exception thrown when no parking spaces are found.
+     * @param request The HTTP request that caused the exception.
+     * @return A ResponseEntity containing the error response with status 204 No Content.
+     */
     @ExceptionHandler(NoParkingSpacesFoundException::class)
     fun handleNoParkingSpacesFoundException(
         e: NoParkingSpacesFoundException,
@@ -78,6 +127,14 @@ class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(errorResponse)
     }
 
+    /**
+     * Handles exceptions when no places are found.
+     * Maps the exception to a 404 Not Found response with an error message.
+     *
+     * @param e The exception thrown when no places are found.
+     * @param request The HTTP request that caused the exception.
+     * @return A ResponseEntity containing the error response with status 404 Not Found.
+     */
     @ExceptionHandler(NoPlacesFoundException::class)
     fun handleNoPlacesFoundException(
         e: NoPlacesFoundException,
@@ -93,7 +150,13 @@ class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse)
     }
 
-
+    /**
+     * Handles exceptions when a requested resource is not found.
+     * Maps the exception to a 404 Not Found response with an error message.
+     *
+     * @param request The HTTP request that caused the exception.
+     * @return A ResponseEntity containing the error response with status 404 Not Found.
+     */
     @ExceptionHandler(NoSuchElementException::class)
     fun handleNoSuchElementException(
         request: HttpServletRequest
@@ -108,6 +171,14 @@ class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse)
     }
 
+    /**
+     * Handles generic exceptions that are not specifically handled by other methods.
+     * Maps the exception to a 500 Internal Server Error response with an error message.
+     *
+     * @param e The exception thrown during the operation.
+     * @param request The HTTP request that caused the exception.
+     * @return A ResponseEntity containing the error response with status 500 Internal Server Error.
+     */
     @ExceptionHandler(Exception::class)
     fun handleGenericException(
         e: Exception,
@@ -124,7 +195,13 @@ class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse)
     }
 
-
+    /**
+     * Handles exceptions related to invalid JSON input.
+     * Maps the exception to a 400 Bad Request response with an error message.
+     *
+     * @param request The HTTP request that caused the exception.
+     * @return A ResponseEntity containing the error response with status 400 Bad Request.
+     */
     @ExceptionHandler(HttpMessageNotReadableException::class)
     fun handleInvalidJsonException(
         request: HttpServletRequest
@@ -139,6 +216,14 @@ class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse)
     }
 
+    /**
+     * Handles exceptions when a required request parameter is missing.
+     * Maps the exception to a 400 Bad Request response with an error message.
+     *
+     * @param e The exception thrown when a required parameter is missing.
+     * @param request The HTTP request that caused the exception.
+     * @return A ResponseEntity containing the error response with status 400 Bad Request.
+     */
     @ExceptionHandler(MissingServletRequestParameterException::class)
     fun handleMissingParams(
         e: MissingServletRequestParameterException,

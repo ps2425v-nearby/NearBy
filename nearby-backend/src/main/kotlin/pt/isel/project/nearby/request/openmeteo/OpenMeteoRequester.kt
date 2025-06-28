@@ -10,11 +10,25 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 // Estrutura para armazenar valores numéricos de temperatura e vento
+/**
+ * Data class representing weather information for a specific time period.
+ *
+ * @param temperature The average temperature in degrees Celsius.
+ * @param windSpeed The average wind speed in kilometers per hour.
+ */
 data class WeatherInfo(
-    val temperature: Double, // Temperatura média em °C
-    val windSpeed: Double   // Velocidade média do vento em km/h
+    val temperature: Double,
+    val windSpeed: Double
 )
 
+/**
+ * Data class representing seasonal weather values.
+ *
+ * @param season The name of the season (e.g., "Verão", "Outono", "Inverno", "Primavera").
+ * @param morning Weather information for the morning period (06:00-12:00).
+ * @param afternoon Weather information for the afternoon period (12:00-18:00).
+ * @param night Weather information for the night period (18:00-00:00).
+ */
 data class SeasonalWeatherValues(
     val season: String, // Ex.: "Verão"
     val morning: WeatherInfo, // Manhã (06:00-12:00)
@@ -22,12 +36,30 @@ data class SeasonalWeatherValues(
     val night: WeatherInfo // Noite (18:00-00:00)
 )
 
+/**
+ * OpenMeteoRequester is a class that implements the OpenMeteoRequests interface.
+ * It fetches wind and temperature data from the Open-Meteo API for a specified latitude and longitude,
+ * and processes the data to return seasonal weather values.
+ *
+ * @property client The OkHttpClient used to make HTTP requests.
+ * @property gson The Gson instance used for JSON parsing.
+ */
 @Component
 class OpenMeteoRequester(
     val client: OkHttpClient,
     val gson: Gson,
 ) : OpenMeteoRequests {
 
+    /**
+     * Fetches wind and temperature data asynchronously for a given latitude and longitude.
+     * This method retrieves historical weather data for the past year,
+     * calculating the average temperature and wind speed for each season
+     * and categorizing it by time of day (morning, afternoon, night).
+     *
+     * @param lat The latitude of the location.
+     * @param long The longitude of the location.
+     * @return A list of SeasonalWeatherValues containing weather data categorized by season.
+     */
     override suspend fun fetchWindAsync(lat: Double, long: Double): List<SeasonalWeatherValues> {
         // Calcular datas dinamicamente
         val endDate = LocalDate.now().minusDays(1) // Dia anterior ao atual
@@ -59,6 +91,18 @@ class OpenMeteoRequester(
             processSeasonalData(times, temperatures, windSpeeds)
         }
     }
+
+    /**
+     * Processes the weather data to categorize it by season and time of day.
+     * This method takes lists of timestamps, temperatures, and wind speeds,
+     * and returns a list of SeasonalWeatherValues containing the average temperature and wind speed
+     * for each season and time of day (morning, afternoon, night).
+     *
+     * @param times A list of timestamps in ISO format.
+     * @param temperatures A list of temperatures corresponding to the timestamps.
+     * @param windSpeeds A list of wind speeds corresponding to the timestamps.
+     * @return A list of SeasonalWeatherValues containing categorized weather data.
+     */
     private fun processSeasonalData(
         times: List<String>,
         temperatures: List<Double>,

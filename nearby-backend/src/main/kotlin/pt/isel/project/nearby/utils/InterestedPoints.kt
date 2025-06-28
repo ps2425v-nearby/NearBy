@@ -1,5 +1,13 @@
 package pt.isel.project.nearby.utils
 
+/**
+ * This file contains a map of interested points of interest (POIs) in Portuguese,
+ * along with their corresponding OpenStreetMap (OSM) tags.
+ * The keys are the names of the POIs in Portuguese,
+ * and the values are the OSM tags used to query these POIs.
+ * The map can be used to filter and retrieve specific types of locations
+ * from OpenStreetMap data.
+ */
 val interestedPointsMap: Map<String, String> = mapOf(
     "Escolas" to "amenity=school",
     "Universidades" to "amenity=university",

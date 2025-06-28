@@ -6,11 +6,20 @@ import pt.isel.project.nearby.repository.CommentsRepository
 import pt.isel.project.nearby.repository.jdbi.mappers.CommentMapper
 
 
+/**
+ * JdbiCommentsRepository is an implementation of CommentsRepository that uses JDBI to interact with the database.
+ * It provides methods to get, create, update, delete, and search comments related to places.
+ *
+ * @property handle The JDBI Handle used to execute SQL queries.
+ */
 class JdbiCommentsRepository(private val handle: Handle) : CommentsRepository {
-    init {
-        handle.registerRowMapper(CommentMapper())
-    }
 
+    /**
+     * Retrieves a list of comments associated with a specific place ID.
+     *
+     * @param placeId The ID of the place for which comments are to be retrieved.
+     * @return A list of Comment objects associated with the specified place ID.
+     */
     override fun getCommentsByPlaceId(placeId: Int): List<Comment> {
         return handle.createQuery(
             """
@@ -26,6 +35,12 @@ class JdbiCommentsRepository(private val handle: Handle) : CommentsRepository {
             .list() as List<Comment>
     }
 
+    /**
+     * Retrieves a list of comments made by a specific user.
+     *
+     * @param userId The ID of the user for whom comments are to be retrieved.
+     * @return A list of Comment objects made by the specified user.
+     */
     override fun getCommentsByUserId(userId: Int): List<Comment> {
         return handle.createQuery(
             """
@@ -41,6 +56,15 @@ class JdbiCommentsRepository(private val handle: Handle) : CommentsRepository {
             .list()
     }
 
+    /**
+     * Creates a new comment for a specific place.
+     *
+     * @param userId The ID of the user creating the comment.
+     * @param placeId The ID of the place for which the comment is being created.
+     * @param placeName The name of the place for which the comment is being created.
+     * @param comment The content of the comment.
+     * @return The created Comment object.
+     */
     override fun createComment(userId: Int, placeId: Int, placeName: String, comment: String): Comment {
         return handle.createQuery(
             """
@@ -58,6 +82,13 @@ class JdbiCommentsRepository(private val handle: Handle) : CommentsRepository {
             .one()
     }
 
+    /**
+     * Updates an existing comment by its ID.
+     *
+     * @param commentId The ID of the comment to be updated.
+     * @param comment The new content for the comment.
+     * @return The updated Comment object, or null if the comment was not found.
+     */
     override fun updateComment(commentId: Int, comment: String): Comment? {
         return handle.createQuery(
             """
@@ -75,6 +106,12 @@ class JdbiCommentsRepository(private val handle: Handle) : CommentsRepository {
             .orElse(null)
     }
 
+    /**
+     * Deletes a comment by its ID.
+     *
+     * @param commentId The ID of the comment to be deleted.
+     * @return The number of rows affected by the delete operation (should be 1 if successful).
+     */
     override fun deleteComment(commentId: Int): Int {
         return handle.createUpdate(
             """
@@ -86,6 +123,14 @@ class JdbiCommentsRepository(private val handle: Handle) : CommentsRepository {
             .execute()
     }
 
+    /**
+     * Searches for comments within a specified radius around a given latitude and longitude.
+     *
+     * @param lat The latitude to search around.
+     * @param lon The longitude to search around.
+     * @param radius The search radius in meters.
+     * @return A list of Comment objects that match the search criteria.
+     */
     override fun searchComments(
         lat: Double?,
         lon: Double?,

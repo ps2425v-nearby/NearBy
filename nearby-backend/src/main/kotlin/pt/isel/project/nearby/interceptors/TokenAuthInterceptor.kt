@@ -12,6 +12,17 @@ class TokenAuthInterceptor(
     private val userService: UserService
 ) : HandlerInterceptor {
 
+    /**
+     * Intercepts incoming HTTP requests to check for a valid Bearer token in the Authorization header.
+     * If the token is missing or invalid, it rejects the request with a 401 Unauthorized status.
+     * If the request is an OPTIONS request (CORS preflight), it allows the request to pass through without token validation.
+     *
+     * @param request The incoming HTTP request.
+     * @param response The HTTP response to be sent back.
+     * @param handler The handler for the request.
+     *
+     * @return Boolean indicating whether to proceed with the request (true) or reject it (false).
+     */
     override fun preHandle(
         request: HttpServletRequest,
         response: HttpServletResponse,
@@ -41,6 +52,14 @@ class TokenAuthInterceptor(
     }
 
 
+    /**
+     * Sends a 401 Unauthorized response with the provided message.
+     *
+     * @param response The HTTP response to be sent back.
+     * @param message The message to include in the response body.
+     *
+     * @return Boolean indicating that the request is rejected.
+     */
     private fun reject(response: HttpServletResponse, message: String): Boolean {
         response.status = HttpServletResponse.SC_UNAUTHORIZED
         response.writer.write(message)

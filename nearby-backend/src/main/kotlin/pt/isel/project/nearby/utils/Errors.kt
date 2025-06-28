@@ -1,5 +1,9 @@
 package pt.isel.project.nearby.utils
 
+/**
+ * Error is a sealed class representing various error states that can occur in the application.
+ * Each object within this class represents a specific type of error, allowing for type-safe error handling.
+ */
 sealed class Error {
     // User
     object UserAlreadyExists : Error()

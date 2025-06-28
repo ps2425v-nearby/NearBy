@@ -15,9 +15,30 @@ import javax.mail.Transport
 import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeMessage
 
+
+/**
+ * EmailService is a service class that provides methods to send emails.
+ * It uses JavaMail API to construct and send emails with the specified details.
+ * The service handles email sending errors and returns appropriate responses.
+ *
+ * @property name The name of the sender.
+ * @property email The email address of the sender.
+ * @property message The content of the email message.
+ */
 @Service
 class EmailService {
 
+    /**
+     * Sends an email with the provided name, email, and message.
+     * It constructs a MIME message and sends it using the JavaMail API.
+     * If the email is sent successfully, it returns a success response;
+     * otherwise, it returns an error response.
+     *
+     * @param name The name of the sender.
+     * @param email The email address of the sender.
+     * @param message The content of the email message.
+     * @return An EmailSendingResult indicating success or failure of the email sending operation.
+     */
     fun sendEmail(name: String, email: String, message: String): EmailSendingResult {
         return try {
             val properties = Properties().apply {

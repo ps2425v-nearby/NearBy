@@ -8,6 +8,13 @@ import pt.isel.project.nearby.domain.CrimesInfo
 import pt.isel.project.nearby.request.doAsync
 import pt.isel.project.nearby.request.model.ApiCrimeModel
 
+/**
+ * CrimesRequester is a class that implements the CrimeRequests interface.
+ * It fetches crime data from an external API and processes it to return a list of CrimesInfo.
+ *
+ * @property client The OkHttpClient used to make HTTP requests.
+ * @property gson The Gson instance used for JSON parsing.
+ */
 @Component
 class CrimesRequester(
     private val client: OkHttpClient,
@@ -16,6 +23,12 @@ class CrimesRequester(
 
     private val url = "https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=0008074&Dim1=S7A2022&lang=PT"
 
+    /**
+     * Fetches crime data for a collection of city names asynchronously.
+     *
+     * @param cityNames A collection of city names to filter the crime data.
+     * @return A list of CrimesInfo containing crime details for the specified cities.
+     */
     override suspend fun fetchCrimesAsync(cityNames: Collection<String>): List<CrimesInfo> {
         val request = Request.Builder()
             .url(url)
@@ -49,10 +62,16 @@ class CrimesRequester(
     }
 }
 
-
+/**
+ * Data class representing a crime entry.
+ *
+ * @property geodsg The name of the city.
+ * @property dim_3_t The type of crime (description).
+ * @property valor The value as a string, formatted with a comma.
+ */
 data class CrimeEntry(
-    val geodsg: String,     // Nome da cidade
-    val dim_3_t: String,    // Tipo de crime (descrição)
-    val valor: String?       // Valor como string com ","
+    val geodsg: String,
+    val dim_3_t: String,
+    val valor: String?
 )
 

@@ -11,10 +11,27 @@ import pt.isel.project.nearby.domain.Either
 import pt.isel.project.nearby.services.CommentService
 import pt.isel.project.nearby.utils.Error
 
+/**
+ * Controller for handling comment-related requests.
+ * This controller provides endpoints for creating, retrieving, updating, and deleting comments.
+ * It uses the CommentService to perform operations and returns appropriate HTTP responses.
+ *
+ * @property commentService The service used to handle comment operations.
+ * @constructor Creates a CommentController with the specified CommentService.
+ *
+ * @RestController annotation indicates that this class is a Spring MVC controller.
+ * @RequestMapping annotation specifies the base URL for all endpoints in this controller.
+ */
 @RestController
 @RequestMapping("/comments")
 class CommentController(private val commentService: CommentService) {
 
+    /**
+     * Returns the list of comments associated with a specific location.
+     *
+     * @param placeId the ID of the place whose comments are being retrieved
+     * @return a ResponseEntity containing the list of comments, or an error response if the request fails
+     */
     @GetMapping(PathTemplate.COMMENTS_BY_PLACE_ID) // PathTemplate.COMMENTSBYPLACEID
     fun getCommentsByPlaceId(@PathVariable placeId: Int): ResponseEntity<List<CommentOutputModel>> {
         return when (val result = commentService.getCommentsByPlaceId(placeId)) {
@@ -36,6 +53,14 @@ class CommentController(private val commentService: CommentService) {
         }
     }
 
+    /**
+     * Searches for comments within a specified radius of a geographic coordinate.
+     *
+     * @param lat the latitude of the search center
+     * @param lon the longitude of the search center
+     * @param radius the radius (in meters) to search within
+     * @return a ResponseEntity containing the list of matching comments, or an error response if the request fails
+     */
     @GetMapping(PathTemplate.COMMENTS_SEARCH) // PathTemplate.COMMENTSSEARCH
     fun searchComments(
         @RequestParam lat: Double?,
@@ -61,7 +86,13 @@ class CommentController(private val commentService: CommentService) {
         }
     }
 
-    @GetMapping(PathTemplate.COMMENTS_BY_USER_ID) // PathTemplate.COMMENTSBYUSERID
+    /**
+     * Returns the list of comments made by the user with the given ID.
+     *
+     * @param userId the ID of the user whose comments are being requested
+     * @return a ResponseEntity containing the list of comments, or an error response if the request fails
+     */
+    @GetMapping(PathTemplate.COMMENTS_BY_USER_ID)
     fun getCommentsByUserId(@PathVariable userId: Int): ResponseEntity<List<CommentOutputModel>> {
         return when (val result = commentService.getCommentsByUserId(userId)) {
             is Either.Right -> ResponseEntity.ok(result.value.map {
@@ -82,6 +113,12 @@ class CommentController(private val commentService: CommentService) {
         }
     }
 
+    /**
+     * Creates a new comment with the provided data.
+     *
+     * @param input the data required to create the comment, including user, place, and content
+     * @return a ResponseEntity containing the created comment, or an error response if creation fails
+     */
     @PostMapping
     fun createComment(@RequestBody input: CommentInputModel): ResponseEntity<CommentOutputModel> {
         return when (val result = commentService.createComment(input.userId, input.placeId, input.placeName,input.content)) {
@@ -105,6 +142,13 @@ class CommentController(private val commentService: CommentService) {
         }
     }
 
+    /**
+     * Updates the content of an existing comment.
+     *
+     * @param commentId the ID of the comment to be updated
+     * @param input the new content to update the comment with
+     * @return a ResponseEntity containing the updated comment, or an error response if the comment was not found or the update failed
+     */
     @PutMapping(COMMENT_BY_ID)
     fun updateComment(
         @PathVariable commentId: Int,
@@ -130,6 +174,12 @@ class CommentController(private val commentService: CommentService) {
         }
     }
 
+    /**
+     * Deletes a comment by its ID.
+     *
+     * @param commentId the ID of the comment to delete
+     * @return a ResponseEntity with no content if deletion was successful, or an error response if the comment was not found or the deletion failed
+     */
     @DeleteMapping(COMMENT_BY_ID)
     fun deleteComment(@PathVariable commentId: Int): ResponseEntity<Unit> {
         return when (val result = commentService.deleteComment(commentId)) {

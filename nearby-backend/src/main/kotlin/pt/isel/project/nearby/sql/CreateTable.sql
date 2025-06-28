@@ -23,6 +23,7 @@ CREATE TABLE Location
     CONSTRAINT fk_user FOREIGN KEY (userId) REFERENCES Client (id)
 );
 
+
 CREATE TABLE Comments
 (
     id          SERIAL PRIMARY KEY,

@@ -3,6 +3,10 @@ package pt.isel.project.nearby.repository
 import pt.isel.project.nearby.domain.Token
 import pt.isel.project.nearby.domain.User
 
+/**
+ * Interface for managing users in the Nearby application.
+ * Provides methods to retrieve users by various criteria,
+ */
 interface UserRepository {
     fun getById(id: Int): User?
     fun getByName(username: String): User?

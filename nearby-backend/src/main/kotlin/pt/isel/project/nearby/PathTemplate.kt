@@ -1,5 +1,10 @@
 package pt.isel.project.nearby
 
+/**
+ * PathTemplate is an object that contains constants representing various API endpoint paths.
+ * These paths are used to define the structure of the API endpoints for different resources
+ * such as locations, comments, user authentication, and more.
+ */
 object PathTemplate {
     //location paths
     const val SAVE = "/locations"
