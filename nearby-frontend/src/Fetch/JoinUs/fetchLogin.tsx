@@ -5,7 +5,7 @@ interface LoginPayload {
     name: string;
     password: string;
 }
-
+const backendUrl = process.env.REACT_APP_BACKEND_URL;
 /**
  * Sends a login request with user credentials.
  *
@@ -14,7 +14,7 @@ interface LoginPayload {
  * @returns Parsed JSON response on successful login.
  */
 export async function fetchLogin(payload: LoginPayload) {
-    const response = await fetch("/api/session", {
+    const response = await fetch(`${backendUrl}/api/session`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -25,17 +25,5 @@ export async function fetchLogin(payload: LoginPayload) {
         throw new Error(errorText || "Login failed");
     }
 
-    // FIX: Verifica se há conteúdo antes de fazer .json()
-    const text = await response.text();
-
-    if (!text || text.trim() === '') {
-        throw new Error("Login failed - server returned empty response");
-    }
-
-    try {
-        return JSON.parse(text);
-    } catch (jsonError) {
-        console.error("Invalid JSON response:", text);
-        throw new Error("Login failed - invalid server response");
-    }
+    return await response.json();
 }
