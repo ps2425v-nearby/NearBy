@@ -7,6 +7,7 @@ import {fetchLocationByLatLon} from "@/Fetch/Location/fetchLocationId";
 import {InformationProps} from "@/components/Map/information/InformationProps";
 import {Comment} from "@/types/CommentType";
 import {useCookies} from "react-cookie";
+import {requestUrl} from "@/utils/Backend_URL";
 
 /**
  * Custom hook to manage information logic for map-related data and interactions.
@@ -54,7 +55,7 @@ export function useInformationLogic({
                 return;
             }
             const {lat, lon} = JSON.parse(lastMarker);
-            const response = await fetch(`/api/comments/search?lat=${lat}&lon=${lon}&radius=${radius}`);
+            const response = await fetch(`${requestUrl}/api/comments/search?lat=${lat}&lon=${lon}&radius=${radius}`);
             if (!response.ok) {
                 showNotification("Falha ao buscar comentários.", "error");
                 return;
