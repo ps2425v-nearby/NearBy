@@ -1,4 +1,3 @@
-require('dotenv').config();
 /**
  * Payload structure for logging in a user.
  */
@@ -6,7 +5,8 @@ interface LoginPayload {
     name: string;
     password: string;
 }
-const backendUrl = process.env.REACT_APP_BACKEND_URL;
+// const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
 /**
  * Sends a login request with user credentials.
  *
@@ -15,7 +15,7 @@ const backendUrl = process.env.REACT_APP_BACKEND_URL;
  * @returns Parsed JSON response on successful login.
  */
 export async function fetchLogin(payload: LoginPayload) {
-    const response = await fetch(`${backendUrl}/api/session`, {
+    const response = await fetch(`https://backend-deploy-latest.onrender.com/api/session`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
