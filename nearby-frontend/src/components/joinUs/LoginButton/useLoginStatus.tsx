@@ -1,5 +1,6 @@
 import { useCookies } from 'react-cookie';
 import { useAuth } from "@/AuthContext";
+import {requestUrl} from "@/utils/Backend_URL";
 /**
  * Custom hook to manage and provide the current user's login status and logout functionality.
  *
@@ -26,7 +27,7 @@ export const useLoginStatus = () => {
 
     const handleLogout = async () => {
         try {
-            await fetch("/api/logout", { method: "POST", credentials: "include" });
+            await fetch(`${requestUrl}/api/logout`, { method: "POST", credentials: "include" });
             removeCookie('token', { path: '/' });  // <- remover cookie aqui
             auth.setUsername(null);
             auth.setUserID(null);

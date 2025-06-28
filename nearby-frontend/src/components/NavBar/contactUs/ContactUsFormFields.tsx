@@ -4,6 +4,7 @@ import {useNotification} from '@/context/Notifications/NotificationsContext';
 import {DarkmodeContext} from '@/context/DarkMode/DarkmodeContext';
 import {useContext} from 'react';
 import {useCookies} from "react-cookie";
+import {requestUrl} from "@/utils/Backend_URL";
 
 interface Props {
     closeModal: () => void;
@@ -49,7 +50,7 @@ export const ContactFormFields: React.FC<Props> = ({closeModal}) => {
         e.preventDefault();
         setIsSubmitting(true);
         try {
-            const response = await fetch('/api/email', {
+            const response = await fetch(`${requestUrl}/api/email`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json',
                 Authorization: `Bearer ${cookies.token}`},
