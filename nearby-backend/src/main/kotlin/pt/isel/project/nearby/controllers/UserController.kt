@@ -1,6 +1,6 @@
 package pt.isel.project.nearby.controllers
 
-import org.springframework.http.ResponseCookie
+
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pt.isel.project.nearby.PathTemplate

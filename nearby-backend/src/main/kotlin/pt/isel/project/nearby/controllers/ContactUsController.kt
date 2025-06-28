@@ -6,13 +6,8 @@ import org.springframework.web.bind.annotation.*
 import pt.isel.project.nearby.PathTemplate
 import pt.isel.project.nearby.controllers.models.EmailRequest
 import pt.isel.project.nearby.controllers.models.EmailResponse
-import pt.isel.project.nearby.controllers.models.ProblemJson
-import pt.isel.project.nearby.controllers.models.exceptions.apiRequestError
-import pt.isel.project.nearby.controllers.models.exceptions.apiResponseError
-import pt.isel.project.nearby.controllers.models.exceptions.timeoutError
 import pt.isel.project.nearby.domain.Either
 import pt.isel.project.nearby.services.EmailService
-import pt.isel.project.nearby.utils.Error
 
 @RestController
 class EmailController @Autowired constructor(private val emailService: EmailService) {

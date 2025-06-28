@@ -1,6 +1,7 @@
 package pt.isel.project.nearby.services
 
 import kotlinx.coroutines.*
+import org.slf4j.Logger
 import org.springframework.stereotype.Service
 import pt.isel.project.nearby.controllers.models.AmenitiesRequest
 import pt.isel.project.nearby.controllers.models.AmenitiesResponse

@@ -1,6 +1,5 @@
 package pt.isel.project.nearby.interceptors
 
-import okhttp3.internal.concurrent.TaskRunner.Companion.logger
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Component
@@ -18,8 +17,6 @@ class TokenAuthInterceptor(
         response: HttpServletResponse,
         handler: Any
     ): Boolean {
-        logger.info("Interceptando requisição para validação de token: ${request.method} ${request.requestURI}")
-
         if (request.method.equals("OPTIONS", ignoreCase = true)) {
             // Allow CORS preflight requests through without token
             return true

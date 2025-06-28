@@ -1,6 +1,5 @@
 package pt.isel.project.nearby.controllers
 
-import org.springframework.http.ResponseCookie
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pt.isel.project.nearby.PathTemplate
@@ -16,18 +15,18 @@ import pt.isel.project.nearby.utils.Error
 
 class TokenController(val userService: UserService) {
 
-    val MEDIA_TYPE = "application/json"
+    val mediaType = "application/json"
 
     @PostMapping(PathTemplate.LOGIN)
     fun login(@RequestBody player: UserInputModel): ResponseEntity<*> {
-        when (val res = userService.createToken(player.name, player.password)) {
+        return when (val res = userService.createToken(player.name, player.password)) {
             is Either.Right -> {
-                return ResponseEntity.status(200)
-                    .header("Content-Type", MEDIA_TYPE)
+                ResponseEntity.status(200)
+                    .header("Content-Type", mediaType)
                     .body(UserTokenCreateOutputModel(token = res.value.token.toString(), userID = res.value.userID))
             }
 
-            is Either.Left -> return when (res.value) {
+            is Either.Left -> when (res.value) {
                 Error.UserOrPasswordInvalid -> ProblemJson.response(400, userOrPasswordInvalid(player.name))
                 else -> ProblemJson.response(500, ProblemJson.internalServerError())
             }
@@ -36,18 +35,10 @@ class TokenController(val userService: UserService) {
 
     @PostMapping(PathTemplate.LOGOUT)
     fun logout(@RequestBody token: UserLogoutModel): ResponseEntity<*> {
-        val authCookie = ResponseCookie
-            .from("token", token.token)
-            .httpOnly(true)
-            .secure(false) // Set to false for localhost testing
-            .path("/")
-            .maxAge(0)
-            .build()
-
         return when (val res = userService.removeToken(token.token)) {
-            is Either.Right -> ResponseEntity.status(200).header("Content-Type", MEDIA_TYPE)
+            is Either.Right -> ResponseEntity.status(200).header("Content-Type", mediaType)
           //      .header(HttpHeaders.SET_COOKIE, authCookie.toString())
-                .body(UserTokenRemoveOutputModel(sucess = res.value))
+                .body(UserTokenRemoveOutputModel(success = res.value))
 
             is Either.Left -> when (res.value) {
                 Error.TokenNotFound -> ProblemJson.response(404, tokenNotFound(token))

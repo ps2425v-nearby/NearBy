@@ -63,7 +63,7 @@ class TokenControllerTests {
 
         assertEquals(200, response.statusCode.value())
         val body = response.body as UserTokenRemoveOutputModel
-        assertTrue(body.sucess)
+        assertTrue(body.success)
     }
 
     @Test

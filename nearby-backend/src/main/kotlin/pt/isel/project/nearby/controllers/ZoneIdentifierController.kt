@@ -1,9 +1,7 @@
 package pt.isel.project.nearby.controllers
 
-import pt.isel.project.nearby.domain.ZoneIdentifier
+
 import pt.isel.project.nearby.services.ZoneService
-
-
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pt.isel.project.nearby.PathTemplate
