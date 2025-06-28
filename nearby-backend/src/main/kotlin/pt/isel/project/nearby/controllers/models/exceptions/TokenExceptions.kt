@@ -7,12 +7,12 @@ fun <T> userOrPasswordInvalid(username: T) = ProblemJson(
     URI("http://localhost:8080/errors/user_or_password_invalid"),
     "User or Password invalid",
     "Invalid password for user: $username",
-    "/login"
+    "/session"
 )
 
 fun <T> tokenNotFound(playerID: T) = ProblemJson(
     URI("http://localhost:8080/errors/tokenNotFound"),
     "Token not found",
-    "Player token with id: $playerID not found.",
-    "/login"
+    "User token with id: $playerID not found.",
+    "/session"
 )

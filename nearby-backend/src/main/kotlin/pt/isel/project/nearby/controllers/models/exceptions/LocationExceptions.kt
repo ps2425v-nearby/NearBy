@@ -24,3 +24,5 @@ fun <T> locationHasComments(locID: T) = ProblemJson(
     "Location with id: $locID has comments and cannot be deleted.",
     "/locations/$locID/comments"
 )
+
+

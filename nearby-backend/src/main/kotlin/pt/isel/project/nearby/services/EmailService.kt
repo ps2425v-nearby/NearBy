@@ -1,6 +1,11 @@
 package pt.isel.project.nearby.services
 
 import org.springframework.stereotype.Service
+import pt.isel.project.nearby.controllers.models.EmailResponse
+import pt.isel.project.nearby.domain.EmailSendingResult
+import pt.isel.project.nearby.domain.failure
+import pt.isel.project.nearby.domain.success
+import pt.isel.project.nearby.utils.Error
 import java.util.Properties
 import javax.mail.Authenticator
 import javax.mail.Message
@@ -10,21 +15,10 @@ import javax.mail.Transport
 import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeMessage
 
-data class EmailRequest(
-    val name: String,
-    val email: String,
-    val message: String
-)
-
-data class EmailResponse(
-    val success: Boolean,
-    val message: String
-)
-
 @Service
 class EmailService {
 
-    fun sendEmail(name: String, email: String, message: String): Boolean {
+    fun sendEmail(name: String, email: String, message: String): EmailSendingResult {
         return try {
             val properties = Properties().apply {
                 put("mail.smtp.auth", "true")
@@ -62,10 +56,9 @@ class EmailService {
             }
 
             Transport.send(mimeMessage)
-            true
+            success(EmailResponse(true, "Email sent successfully"))
         } catch (e: Exception) {
-            e.printStackTrace()
-            false
+            failure(Error.EmailSendingError)
         }
     }
 }

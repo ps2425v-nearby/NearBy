@@ -30,4 +30,7 @@ sealed class Error {
 
     // Server
     object InternalServerError : Error()
+
+    // Email
+    object EmailSendingError : Error()
 }
