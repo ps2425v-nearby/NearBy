@@ -14,6 +14,8 @@ module.exports = {
             {
                 context: ['/api'],
                 target: process.env.BACKEND_URL,
+                secure: false, // This fixes SSL issues in dev
+                changeOrigin: true,
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                 },

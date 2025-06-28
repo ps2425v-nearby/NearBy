@@ -16,9 +16,10 @@ class WebConfig(
     @Value("\${frontend.url}")
     private lateinit var frontendUrl: String
 
-
     override fun addCorsMappings(registry: CorsRegistry) {
         logger.info("Configuração de CORS aplicada") // Log de verificação
+
+        println("Configuração de CORS aplicada para o frontend: $frontendUrl") // Log de verificação
 
         registry.addMapping("/**") // Permite todas as rotas
             .allowedOrigins(frontendUrl) // Permite o frontend especificado
