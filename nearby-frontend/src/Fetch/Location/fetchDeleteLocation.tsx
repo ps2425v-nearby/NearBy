@@ -1,3 +1,5 @@
+import {requestUrl} from "@/utils/Backend_URL";
+
 /**
  * Sends a request to delete a location by its ID.
  *
@@ -8,7 +10,7 @@
  * @throws Throws an error if the request fails with specific messages for common HTTP status codes.
  */
 export async function fetchDeleteLocation(name: string, locationId: number, token: string): Promise<boolean> {
-    const deleteUrl = `/api/locations/${locationId}`;
+    const deleteUrl = `${requestUrl}/api/locations/${locationId}`;
 
     const response = await fetch(deleteUrl, {
         method: 'DELETE',

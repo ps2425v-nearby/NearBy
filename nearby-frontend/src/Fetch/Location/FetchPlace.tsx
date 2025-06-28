@@ -1,4 +1,5 @@
 import { AllInformationType } from "@/types/AllInformationType";
+import {requestUrl} from "@/utils/Backend_URL";
 
 /**
  * Fetches detailed information about places around a given latitude and longitude within a search radius.
@@ -10,7 +11,7 @@ import { AllInformationType } from "@/types/AllInformationType";
  * @throws Throws an error if the server returns an invalid (HTML) response instead of JSON.
  */
 export async function fetchPlace(lat: number, lon: number, searchRadius: number): Promise<AllInformationType | null> {
-    const overpassUrl = `/api/all-places?lat=${lat}&lon=${lon}&searchRadius=${searchRadius}`;
+    const overpassUrl = `${requestUrl}/api/all-places?lat=${lat}&lon=${lon}&searchRadius=${searchRadius}`;
 
     const response = await fetch(overpassUrl);
 

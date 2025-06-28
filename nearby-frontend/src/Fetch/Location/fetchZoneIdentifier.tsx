@@ -1,3 +1,5 @@
+import {requestUrl} from "@/utils/Backend_URL";
+
 /**
  * Fetches zone identifiers for a given latitude and longitude.
  *
@@ -7,7 +9,7 @@
  *          Returns default values if the fetch fails or response is invalid.
  */
 export async function fetchZoneIdentier(lat: number, lon: number): Promise<string[]> {
-    const overpassUrl = `/api/zones?lat=${lat}&lon=${lon}`;
+    const overpassUrl = `${requestUrl}/api/zones?lat=${lat}&lon=${lon}`;
 
     try {
         const response = await fetch(overpassUrl);

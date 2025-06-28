@@ -1,3 +1,5 @@
+import {requestUrl} from "@/utils/Backend_URL";
+
 /**
  * Sends a request to delete a comment by its ID.
  *
@@ -9,7 +11,7 @@
  * @returns {Promise<boolean>} Returns true if the comment was successfully deleted.
  */
 export async function fetchDeleteComment(commentId: number, token: string) {
-    const response = await fetch(`/api/comments/${commentId}`, {
+    const response = await fetch(`${requestUrl}/api/comments/${commentId}`, {
         method: "DELETE",
         headers: {
             Authorization: `Bearer ${token}`

@@ -1,3 +1,5 @@
+import {requestUrl} from "@/utils/Backend_URL";
+
 /**
  * Sends a request to update an existing comment.
  *
@@ -23,7 +25,7 @@ export async function fetchUpdateComment(
     },
     token: string
 ) {
-    const response = await fetch(`/api/comments/${commentId}`, {
+    const response = await fetch(`${requestUrl}/api/comments/${commentId}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",

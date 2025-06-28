@@ -1,3 +1,5 @@
+import {requestUrl} from "@/utils/Backend_URL";
+
 /**
  * Fetches housing prices based on location data.
  *
@@ -6,7 +8,7 @@
  * @throws Throws an error if an invalid HTML response is received instead of JSON.
  */
 export async function fetchHousingPrices(locationData: string[]): Promise<number> {
-    const overpassUrl = `/api/housing/prices`;
+    const overpassUrl = `${requestUrl}/api/housing/prices`;
 
     if (!locationData || locationData.length === 0) {
         return 0;

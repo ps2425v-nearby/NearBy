@@ -1,3 +1,5 @@
+import {requestUrl} from "@/utils/Backend_URL";
+
 /**
  * Fetches location details by latitude and longitude.
  *
@@ -7,7 +9,7 @@
  * @throws Throws an error if the fetch fails or location is not found.
  */
 export async function fetchLocationByLatLon(lat: number, lon: number) {
-    const response = await fetch(`/api/locations?lat=${lat}&lon=${lon}`);
+    const response = await fetch(`${requestUrl}/api/locations?lat=${lat}&lon=${lon}`);
 
     // Check if the HTTP response status is OK (status code 200-299)
     if (!response.ok) throw new Error("Failed to fetch location");

@@ -1,4 +1,5 @@
 import { SimpleLocation } from "@/types/SimpleLocationType";
+import {requestUrl} from "@/utils/Backend_URL";
 
 /**
  * Fetches a list of saved simple location information for the current user.
@@ -12,7 +13,7 @@ export async function fetchReducedInformation(token: string): Promise<SimpleLoca
     const userID = localStorage.getItem("userID");
 
     // Make a GET request to fetch saved locations for the user
-    const response = await fetch(`/api/locations/saved?userID=${userID}`, {
+    const response = await fetch(`${requestUrl}/api/locations/saved?userID=${userID}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }

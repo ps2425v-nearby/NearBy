@@ -1,3 +1,5 @@
+import {requestUrl} from "@/utils/Backend_URL";
+
 /**
  * Fetches comments made by a specific user.
  *
@@ -7,7 +9,7 @@
  * @throws Throws an error if the request fails (non-ok status)
  */
 export async function fetchCommentsByUser(userId: number, token: string) {
-    const response = await fetch(`/api/comments/user/${userId}`, {
+    const response = await fetch(`${requestUrl}/api/comments/user/${userId}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }

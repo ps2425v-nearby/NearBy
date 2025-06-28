@@ -1,3 +1,5 @@
+import {requestUrl} from "@/utils/Backend_URL";
+
 /**
  * Payload structure for creating a new user.
  */
@@ -17,7 +19,7 @@ interface CreateUserPayload {
  *  - data: parsed JSON response data
  */
 export async function fetchCreateUser(payload: CreateUserPayload) {
-    const response = await fetch("/api/users", {
+    const response = await fetch(`${requestUrl}/api/users`, {
         method: "POST",
         credentials: "include", // <-- important for cookies/auth
         headers: { "Content-Type": "application/json" },

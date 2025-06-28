@@ -1,4 +1,5 @@
 import { Amenity, ProcessedData, MapCenter } from '@/types/FilterTypes';
+import {requestUrl} from "@/utils/Backend_URL";
 
 /**
  * Fetches amenities (points of interest) via the backend.
@@ -40,7 +41,7 @@ export const fetchAmenities = async (
     setError(null);
 
     try {
-        const response = await fetch('/api/map/amenities', {
+        const response = await fetch(`${requestUrl}/api/map/amenities`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

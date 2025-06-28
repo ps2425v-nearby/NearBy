@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 require('dotenv').config();
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
     entry: './src/index.ts',
@@ -77,6 +78,9 @@ module.exports = {
             patterns: [
                 { from: 'public/images', to: 'images' }
             ],
+        }),
+        new webpack.DefinePlugin({
+            'process.env.BACKEND_URL': JSON.stringify(process.env.BACKEND_URL),
         }),
     ]
 };

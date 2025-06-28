@@ -1,6 +1,7 @@
 import { PlaceType } from "@/types/PlaceType";
 import { ParkingSpaceType } from "@/types/parkingSpaceType";
 import { CrimeType } from "@/types/CrimeType";
+import {requestUrl} from "@/utils/Backend_URL";
 
 /**
  * Saves a location to the API with detailed information.
@@ -32,7 +33,7 @@ export async function saveApiLocation(
     userID: number,
     token: string
 ): Promise<any> {
-    const saveUrl = `/api/locations`;
+    const saveUrl = `${requestUrl}/api/locations`;
 
     const response = await fetch(saveUrl, {
         method: "POST",

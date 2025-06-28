@@ -1,4 +1,5 @@
 import { SpecificLocationType } from "@/types/SpecificLocationType";
+import {requestUrl} from "@/utils/Backend_URL";
 
 /**
  * Fetches a saved location by its ID.
@@ -9,7 +10,7 @@ import { SpecificLocationType } from "@/types/SpecificLocationType";
  * @throws Throws an error if the fetch request fails
  */
 export async function fetchSavedLocationById(locationId: number, token: string): Promise<SpecificLocationType> {
-    const saveUrl = `/api/locations/${locationId}`;
+    const saveUrl = `${requestUrl}/api/locations/${locationId}`;
 
     const response = await fetch(saveUrl, {
         method: "GET",

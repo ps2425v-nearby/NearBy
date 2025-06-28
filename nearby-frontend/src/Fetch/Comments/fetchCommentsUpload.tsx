@@ -1,3 +1,5 @@
+import {requestUrl} from "@/utils/Backend_URL";
+
 /**
  * Sends a new comment to the server.
  *
@@ -23,7 +25,7 @@ export async function fetchCommentsUploadRequest({
     message: string;
     token: string | null;
 }) {
-    return fetch('/api/comments', {
+    return fetch(`${requestUrl}/api/comments`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
