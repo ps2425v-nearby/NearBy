@@ -42,6 +42,8 @@ dependencies {
     testImplementation("com.squareup.okhttp3:mockwebserver:4.11.0")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     implementation("org.seleniumhq.selenium:selenium-java:4.1.0")
+
+    testImplementation("com.ninja-squad:springmockk:4.0.0")
 }
 
 sourceSets {

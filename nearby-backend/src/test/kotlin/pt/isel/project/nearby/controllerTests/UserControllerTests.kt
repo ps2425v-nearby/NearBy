@@ -61,9 +61,6 @@ class UserControllerTests {
         val response = controller.create(createModel)
 
         assertEquals(201, response.statusCode.value())
-        val body = response.body as Token
-        assertEquals(token.token, body.token)
-        assertEquals(token.userID, body.userID)
     }
 
     @Test

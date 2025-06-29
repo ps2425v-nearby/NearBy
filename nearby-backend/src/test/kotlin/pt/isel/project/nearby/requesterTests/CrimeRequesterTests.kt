@@ -13,9 +13,14 @@ class CrimeRequesterTests {
         gson = Gson()
     )
 
-    private val cityNames = listOf(
-        "Lisbon",
+    private val validCityNames = listOf(
+        "Lisboa",
         "Benfica",
+    )
+
+    private val invalidCityNames = listOf(
+        "InvalidCity1",
+        "InvalidCity2",
     )
 
     @Test
@@ -23,8 +28,7 @@ class CrimeRequesterTests {
         runBlocking {
 
             assertTrue(
-                requester.fetchCrimesAsync(cityNames).isEmpty(),
-                "Expected empty list when fetching crimes with invalid longitude"
+                requester.fetchCrimesAsync(invalidCityNames).isEmpty(),
             )
         }
     }
@@ -34,8 +38,7 @@ class CrimeRequesterTests {
         runBlocking {
 
             assertTrue(
-                requester.fetchCrimesAsync(cityNames).isNotEmpty(),
-                "Expected empty list when fetching crimes with invalid latitude"
+                requester.fetchCrimesAsync(validCityNames).isNotEmpty(),
             )
         }
     }

@@ -32,8 +32,6 @@ class ZoneService(private val zoneRequester: ZoneRequester) {
      * @param long The longitude of the location.
      * @return A ZoneAccessingResult containing the fetched zone data or an error.
      */
-
-
     fun fetchZone(lat: Double, long: Double): ZoneAccessingResult =
         try {
             val zone = zoneRequester.fetchZoneSync(lat, long)
