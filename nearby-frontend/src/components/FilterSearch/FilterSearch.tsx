@@ -68,7 +68,7 @@ const FilterSearch: React.FC = () => {
      * Map center coordinates and radius for preview.
      */
     const [mapCenter, setMapCenter] = useState<MapCenter | null>(null);
-    const [radius, setRadius] = useState(3000);
+    const [radius, setRadius] = useState(2000);
 
     /**
      * Cookie state to retrieve token for authenticated requests.

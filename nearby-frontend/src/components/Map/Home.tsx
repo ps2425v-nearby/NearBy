@@ -83,7 +83,7 @@ export default function Home() {
         const timeoutId = setTimeout(() => {
             setNoData(true);
             setIsLoading(false);
-        }, 12000); // 10 seconds
+        }, 20000);
 
         return () => clearTimeout(timeoutId);
     }, [isLoading, marker]);
