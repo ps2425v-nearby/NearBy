@@ -2,6 +2,7 @@ package pt.isel.project.nearby.interceptors
 
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import okhttp3.internal.concurrent.TaskRunner.Companion.logger
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.HandlerInterceptor
 import pt.isel.project.nearby.domain.Either

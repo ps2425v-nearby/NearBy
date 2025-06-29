@@ -42,7 +42,7 @@ class HousingServices(private val housingRequester: HousingRequester) {
             val areaCouncil = osmId?.let { osmId + 3600000000 }
             if (locationData.size <= 2) {
                 val districtInfo = housingRequester.fetchDistrictPricesSync(osmId, district)
-                success(districtInfo)
+                return@runBlocking success(districtInfo)
 
             }
             val council = locationData[locationData.size - 2]
@@ -50,10 +50,10 @@ class HousingServices(private val housingRequester: HousingRequester) {
             val councilID = housingRequester.fetchCouncilIdSync(areaCouncil, council)
 
             if (councilID == 0L) {
-                success(housingRequester.fetchDistrictPricesSync(osmId, district))
+                return@runBlocking success(housingRequester.fetchDistrictPricesSync(osmId, district))
             }
 
-            success(housingRequester.fetchCouncilPricesSync(councilID, council, municipality))
+            return@runBlocking success(housingRequester.fetchCouncilPricesSync(councilID, council, municipality))
 
         } catch (e: Exception) {
             when (e) {

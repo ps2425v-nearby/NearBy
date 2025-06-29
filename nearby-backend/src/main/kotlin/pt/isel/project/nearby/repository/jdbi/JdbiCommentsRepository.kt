@@ -14,6 +14,10 @@ import pt.isel.project.nearby.repository.jdbi.mappers.CommentMapper
  */
 class JdbiCommentsRepository(private val handle: Handle) : CommentsRepository {
 
+    init {
+        handle.registerRowMapper(CommentMapper())
+    }
+
     /**
      * Retrieves a list of comments associated with a specific place ID.
      *

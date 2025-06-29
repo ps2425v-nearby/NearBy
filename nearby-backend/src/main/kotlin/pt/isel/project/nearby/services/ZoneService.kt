@@ -1,10 +1,12 @@
 package pt.isel.project.nearby.services
 
 import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.runBlocking
 import org.springframework.stereotype.Service
 import pt.isel.project.nearby.controllers.models.exceptions.ApiRequestException
 import pt.isel.project.nearby.controllers.models.exceptions.ApiResponseException
 import pt.isel.project.nearby.domain.ZoneAccessingResult
+import pt.isel.project.nearby.domain.ZoneIdentifier
 import pt.isel.project.nearby.domain.failure
 import pt.isel.project.nearby.domain.success
 import pt.isel.project.nearby.request.zone.ZoneRequester
@@ -30,6 +32,8 @@ class ZoneService(private val zoneRequester: ZoneRequester) {
      * @param long The longitude of the location.
      * @return A ZoneAccessingResult containing the fetched zone data or an error.
      */
+
+
     fun fetchZone(lat: Double, long: Double): ZoneAccessingResult =
         try {
             val zone = zoneRequester.fetchZoneSync(lat, long)
@@ -42,4 +46,5 @@ class ZoneService(private val zoneRequester: ZoneRequester) {
                 else -> failure(Error.InternalServerError)
             }
         }
+
 }

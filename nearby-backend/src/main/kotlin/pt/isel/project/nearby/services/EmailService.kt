@@ -39,6 +39,7 @@ class EmailService {
      * @param message The content of the email message.
      * @return An EmailSendingResult indicating success or failure of the email sending operation.
      */
+
     fun sendEmail(name: String, email: String, message: String): EmailSendingResult {
         return try {
             val properties = Properties().apply {

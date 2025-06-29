@@ -8,6 +8,7 @@ import pt.isel.project.nearby.PathTemplate
 import pt.isel.project.nearby.controllers.models.ProblemJson
 import pt.isel.project.nearby.controllers.models.exceptions.*
 import pt.isel.project.nearby.domain.Either
+import pt.isel.project.nearby.domain.ZoneIdentifier
 import pt.isel.project.nearby.utils.Error
 
 
@@ -21,6 +22,8 @@ import pt.isel.project.nearby.utils.Error
  *
  * @RestController annotation indicates that this class is a Spring MVC controller.
  */
+
+
 @RestController
 class ZoneIdentifierController(private val zoneService: ZoneService) {
 
@@ -45,4 +48,5 @@ class ZoneIdentifierController(private val zoneService: ZoneService) {
             }
         }
     }
+
 }

@@ -72,7 +72,7 @@ class WebConfig(
                 PathTemplate.GET_ZONE_MARKER,
                 PathTemplate.ZONE_IDENTIFIER,
                 PathTemplate.HOUSING_PRICES,
-                PathTemplate.COMMENTS_SEARCH,
+                "/comments/search", // PathTemplate.COMMENTS_SEARCH,
                 PathTemplate.CREATE_USER,
                 PathTemplate.SAVE
             )

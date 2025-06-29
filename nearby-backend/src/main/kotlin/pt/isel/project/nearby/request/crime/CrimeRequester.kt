@@ -21,7 +21,7 @@ class CrimesRequester(
     private val gson: Gson
 ) : CrimeRequests {
 
-    private val url = "https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=0008074&Dim1=S7A2022&lang=PT"
+    private val url = "https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=0012260&lang=PT"
 
     /**
      * Fetches crime data for a collection of city names asynchronously.
@@ -39,7 +39,7 @@ class CrimesRequester(
             val body = response.body ?: throw ApiResponseException(message = response.message)
             val parsedList = gson.fromJson(body.string(), Array<ApiCrimeModel>::class.java).toList()
             val crimes = parsedList
-                .flatMap { it.Dados["2022"] ?: emptyList() }
+                .flatMap { it.Dados["2024"] ?: emptyList() }
 
             val cleanedCityNames = cityNames
                 .flatMap { it.split(",") }
