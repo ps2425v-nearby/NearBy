@@ -27,6 +27,34 @@ import pt.isel.project.nearby.interceptors.TokenAuthInterceptor
 class WebConfig(
     private val tokenAuthInterceptor: TokenAuthInterceptor
 ) : WebMvcConfigurer {
+
+    @Value("\${frontend.url}")
+    private lateinit var frontendUrl: String
+
+
+    /**
+     * This method allows the frontend application to make requests to the backend
+     * by specifying the allowed origins, methods, and headers.
+     *
+     * It enables CORS for all routes and allows requests from the specified frontend URL.
+     * The allowed methods are GET, POST, PUT, and DELETE, and all headers are permitted.
+     * This configuration is essential for enabling communication between the frontend and backend
+     * when they are hosted on different domains or ports, which is common in modern web applications.
+     *
+     * @param registry The CorsRegistry to configure CORS settings.
+     *
+     */
+    override fun addCorsMappings(registry: CorsRegistry) {
+        logger.info("Configuração de CORS aplicada")
+
+        println("Configuração de CORS aplicada para o frontend: $frontendUrl")
+
+        registry.addMapping("/**")
+            .allowedOrigins(frontendUrl)
+            .allowedMethods("GET", "POST", "PUT", "DELETE")
+            .allowedHeaders("*")
+            .allowCredentials(true)
+    }
     
     /**
      * This method registers the TokenAuthInterceptor to intercept all incoming requests
