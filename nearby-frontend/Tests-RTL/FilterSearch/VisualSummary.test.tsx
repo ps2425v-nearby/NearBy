@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import VisualSummary from '../../src/components/FilterSearch/VisualSummary'; // Ajuste o caminho conforme necessário
 import '@testing-library/jest-dom';
+process.env.BACKEND_URL = 'http://localhost:8080';
 
 // Mock do framer-motion para evitar erros de animação
 jest.mock('framer-motion', () => {

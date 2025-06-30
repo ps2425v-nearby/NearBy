@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { CityInfo } from "../../..//src/components/Map/Helpers/CityInfo";
 import '@testing-library/jest-dom';
 
+process.env.BACKEND_URL = 'http://localhost:8080';
 
 describe("<CityInfo />", () => {
     const baseProps = {

@@ -7,6 +7,7 @@ import '@testing-library/jest-dom';
 
 
 fetchMock.enableMocks();
+process.env.BACKEND_URL = 'http://localhost:8080';
 
 describe('SavedList Component', () => {
     const mockLocations: SimpleLocation[] = [

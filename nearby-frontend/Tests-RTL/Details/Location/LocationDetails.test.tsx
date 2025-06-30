@@ -3,6 +3,7 @@ import { LocationDetails } from "../../../src/components/Details/Location/Locati
 import {SpecificLocationType} from "@/types/SpecificLocationType";
 import '@testing-library/jest-dom';
 
+process.env.BACKEND_URL = 'http://localhost:8080';
 
 const mockLocation: SpecificLocationType = {
     id: 1,

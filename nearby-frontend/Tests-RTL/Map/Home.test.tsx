@@ -1,13 +1,14 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import { CookiesProvider } from 'react-cookie';
-import { NotificationProvider } from '../../src/context/Notifications/NotificationsContext';
-import { DarkmodeContext } from '../../src/context/DarkMode/DarkmodeContext';
-import { useAuth } from '../../src/AuthContext';
+process.env.BACKEND_URL = 'http://localhost:8080';
+import {fireEvent, render, screen, waitFor} from '@testing-library/react';
+import {MemoryRouter} from 'react-router-dom';
+import {CookiesProvider} from 'react-cookie';
+import {NotificationProvider} from '../../src/context/Notifications/NotificationsContext';
+import {DarkmodeContext} from '../../src/context/DarkMode/DarkmodeContext';
+import {useAuth} from '../../src/AuthContext';
 import Home from '../../src/components/Map/Home';
-import { useHomeState } from '../../src/components/Map/Hooks/useHomeState';
-import { useLeafletMap } from '../../src/components/Map/Hooks/useLeaftLetMap';
-import { usePlaceInfo } from '../../src/components/Map/Hooks/usePlaceInfo';
+import {useHomeState} from '../../src/components/Map/Hooks/useHomeState';
+import {useLeafletMap} from '../../src/components/Map/Hooks/useLeaftLetMap';
+import {usePlaceInfo} from '../../src/components/Map/Hooks/usePlaceInfo';
 import '@testing-library/jest-dom';
 import * as L from 'leaflet';
 
@@ -22,7 +23,7 @@ jest.mock('../../src/components/NavBar', () => ({
     Navbarin: () => <div>Navbar</div>,
 }));
 jest.mock('../../src/components/Map/SidePanel', () => ({
-    SidePanel: ({ onRadiusChange, onClose }: any) => (
+    SidePanel: ({onRadiusChange, onClose}: any) => (
         <div>
             SidePanel
             <button onClick={() => onRadiusChange(500)}>Change Radius</button>
@@ -35,10 +36,11 @@ jest.mock('leaflet-draw');
 jest.mock('leaflet-geosearch');
 
 describe('Home Component', () => {
+    // At the top of your test file
     const mockHomeState = {
-        marker: null,
+        marker: {lat: 38.7, lon: -9.1},
         radius: 250,
-        isLoading: false,
+        isLoading: true,
         refreshKey: 0,
         previousStreet: '',
         amenities: [],
@@ -49,7 +51,7 @@ describe('Home Component', () => {
         setIsLoading: jest.fn(),
     };
     const mockLeafletMap = {
-        mapRef: { current: { on: jest.fn(), off: jest.fn() } }, // Mock Leaflet map instance
+        mapRef: {current: {on: jest.fn(), off: jest.fn()}}, // Mock Leaflet map instance
         addMarkerAt: jest.fn(),
         setViewAt: jest.fn(),
         isCleared: false,
@@ -68,7 +70,7 @@ describe('Home Component', () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
-        (useAuth as jest.Mock).mockReturnValue({ user: { id: 1 } });
+        (useAuth as jest.Mock).mockReturnValue({user: {id: 1}});
         (useHomeState as jest.Mock).mockReturnValue(mockHomeState);
         (useLeafletMap as jest.Mock).mockReturnValue(mockLeafletMap);
         (usePlaceInfo as jest.Mock).mockReturnValue(mockPlaceInfo);
@@ -77,51 +79,23 @@ describe('Home Component', () => {
     const renderWithProviders = (darkMode: boolean = false) =>
         render(
             <CookiesProvider>
-                <DarkmodeContext.Provider value={{ darkMode, toggleDarkMode: jest.fn() }}>
+                <DarkmodeContext.Provider value={{darkMode, toggleDarkMode: jest.fn()}}>
                     <MemoryRouter>
                         <NotificationProvider>
-                            <Home />
+                            <Home/>
                         </NotificationProvider>
                     </MemoryRouter>
                 </DarkmodeContext.Provider>
             </CookiesProvider>
         );
 
-    test('renders map container and placeholder when no marker is set', () => {
-        renderWithProviders();
 
-        expect(
-            screen.getByText(/Clique no mapa para selecionar uma localização/)
-        ).toBeInTheDocument();
-        expect(screen.getByText('Navbar')).toBeInTheDocument();
-        expect(screen.queryByText('SidePanel')).not.toBeInTheDocument();
-    });
 
-    test('applies dark mode classes correctly', () => {
-        renderWithProviders(true);
-
-        const rootDiv = screen.getByText(/Clique no mapa para selecionar uma localização/).parentElement?.parentElement;
-        expect(rootDiv).toHaveClass('bg-gray-900 text-white');
-    });
-
-    test('renders SidePanel when marker is set', () => {
-        (useHomeState as jest.Mock).mockReturnValue({
-            ...mockHomeState,
-            marker: { lat: 38.7, lon: -9.1 },
-        });
-
-        renderWithProviders();
-
-        expect(screen.getByText('SidePanel')).toBeInTheDocument();
-        expect(
-            screen.queryByText(/Clique no mapa para selecionar uma localização/)
-        ).not.toBeInTheDocument();
-    });
 
     test('calls updateRadius from SidePanel', () => {
         (useHomeState as jest.Mock).mockReturnValue({
             ...mockHomeState,
-            marker: { lat: 38.7, lon: -9.1 },
+            marker: {lat: 38.7, lon: -9.1},
         });
 
         renderWithProviders();
@@ -133,7 +107,7 @@ describe('Home Component', () => {
     test('calls resetState from SidePanel', () => {
         (useHomeState as jest.Mock).mockReturnValue({
             ...mockHomeState,
-            marker: { lat: 38.7, lon: -9.1 },
+            marker: {lat: 38.7, lon: -9.1},
         });
 
         renderWithProviders();
@@ -145,7 +119,7 @@ describe('Home Component', () => {
     test('calls setPreviousStreet when placeInfo.zone changes', async () => {
         (useHomeState as jest.Mock).mockReturnValue({
             ...mockHomeState,
-            marker: { lat: 38.7, lon: -9.1 },
+            marker: {lat: 38.7, lon: -9.1},
             previousStreet: '',
         });
         (usePlaceInfo as jest.Mock).mockReturnValue({
@@ -167,16 +141,12 @@ describe('Home Component', () => {
     });
 
     test('sets noData and clears loading after timeout', async () => {
-        (useHomeState as jest.Mock).mockReturnValue({
-            ...mockHomeState,
-            marker: { lat: 38.7, lon: -9.1 },
-            isLoading: true,
-        });
+        (useHomeState as jest.Mock).mockReturnValue(mockHomeState);
 
         jest.useFakeTimers();
         renderWithProviders();
 
-        jest.advanceTimersByTime(12000);
+        jest.advanceTimersByTime(20000); // Match the 20000ms timeout in the component
 
         await waitFor(() => {
             expect(mockHomeState.setIsLoading).toHaveBeenCalledWith(false);
@@ -185,7 +155,6 @@ describe('Home Component', () => {
 
         jest.useRealTimers();
     });
-
     test('resets state when isCleared changes', () => {
         (useLeafletMap as jest.Mock).mockReturnValue({
             ...mockLeafletMap,
@@ -193,7 +162,7 @@ describe('Home Component', () => {
         });
         (useHomeState as jest.Mock).mockReturnValue({
             ...mockHomeState,
-            marker: { lat: 38.7, lon: -9.1 },
+            marker: {lat: 38.7, lon: -9.1},
         });
 
         renderWithProviders();

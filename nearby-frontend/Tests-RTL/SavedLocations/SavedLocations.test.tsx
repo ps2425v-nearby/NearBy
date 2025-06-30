@@ -1,3 +1,4 @@
+process.env.BACKEND_URL = 'http://localhost:8080';
 import React from "react";
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { SavedLocations } from "../../src/components/SavedLocations/SavedLocations";

@@ -1,5 +1,6 @@
 import {processData} from '../../src/components/FilterSearch/FilterReducer';
 import {DataEntry, Distrito} from '../../src/types/FilterTypes';
+process.env.BACKEND_URL = 'http://localhost:8080';
 
 describe('processData', () => {
     const sampleData: DataEntry[] = [

@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { PlaceDetails } from '@/components/Details/Place/PlaceDetails';
 import '@testing-library/jest-dom';
+process.env.BACKEND_URL = 'http://localhost:8080';
 
 describe('PlaceDetails', () => {
     const basePlace = {

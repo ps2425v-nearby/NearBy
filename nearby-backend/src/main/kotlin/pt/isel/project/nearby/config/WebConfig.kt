@@ -47,8 +47,6 @@ class WebConfig(
     override fun addCorsMappings(registry: CorsRegistry) {
         logger.info("Configuração de CORS aplicada")
 
-        println("Configuração de CORS aplicada para o frontend: $frontendUrl")
-
         registry.addMapping("/**")
             .allowedOrigins(frontendUrl)
             .allowedMethods("GET", "POST", "PUT", "DELETE")

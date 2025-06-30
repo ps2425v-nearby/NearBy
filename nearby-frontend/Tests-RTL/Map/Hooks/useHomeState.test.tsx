@@ -2,12 +2,11 @@ import { renderHook, act } from '@testing-library/react';
 import { useHomeState } from '../../../src/components/Map/Hooks/useHomeState';
 import { useLocation } from 'react-router-dom';
 import { Amenity } from '@/types/FilterTypes';
-
+process.env.BACKEND_URL = 'http://localhost:8080';
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
     useLocation: jest.fn(),
 }));
-
 describe('useHomeState', () => {
     const mockAmenity: Amenity = {
         id: '1',
@@ -38,7 +37,7 @@ describe('useHomeState', () => {
         const { result } = renderHook(() => useHomeState());
 
         act(() => {
-            result.current.setMarkerAndRadius(38.7, -9.1);
+            result.current.setMarkerAndRadius(38.7, -9.1, 250);
         });
 
         expect(result.current.marker).toEqual({ lat: 38.7, lon: -9.1 });
@@ -51,7 +50,7 @@ describe('useHomeState', () => {
         const { result } = renderHook(() => useHomeState());
 
         act(() => {
-            result.current.setMarkerAndRadius(38.7, -9.1);
+            result.current.setMarkerAndRadius(38.7, -9.1,250);
         });
 
         act(() => {
@@ -84,7 +83,7 @@ describe('useHomeState', () => {
         const { result } = renderHook(() => useHomeState());
 
         act(() => {
-            result.current.setMarkerAndRadius(38.7, -9.1);
+            result.current.setMarkerAndRadius(38.7, -9.1,250);
             result.current.setIsLoading(true);
         });
 

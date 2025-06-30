@@ -4,6 +4,7 @@ import LocationFilters from '../../src/components/FilterSearch/LocationFilters';
 import { ProcessedData, Amenity } from '../../src/types/FilterTypes';
 import '@testing-library/jest-dom';
 
+process.env.BACKEND_URL = 'http://localhost:8080';
 
 const mockSetDistrito = jest.fn();
 const mockSetConcelho = jest.fn();

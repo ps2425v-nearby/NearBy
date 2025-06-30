@@ -3,6 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import MapPreview from '../../src/components/FilterSearch/MapPreview'; // Ajuste o caminho conforme necessário
 import { MapCenter, Amenity } from '@/types/FilterTypes'; // Ajuste o caminho
 import '@testing-library/jest-dom';
+process.env.BACKEND_URL = 'http://localhost:8080';
 
 // Mock do framer-motion
 jest.mock('framer-motion', () => {

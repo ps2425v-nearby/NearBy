@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Data from '../src/components/NavBar/Drawerdata'; // ajusta o caminho conforme tua estrutura
 import '@testing-library/jest-dom';
 
+process.env.BACKEND_URL = 'http://localhost:8080';
 
 describe('Data component', () => {
     beforeEach(() => {

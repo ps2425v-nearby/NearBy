@@ -1,10 +1,27 @@
-// src/components/Map/Hooks/useLeafletMap.ts
 import * as L from "leaflet";
 import React, {useEffect, useRef} from "react";
 import {GeoSearchControl, OpenStreetMapProvider} from "leaflet-geosearch";
 
 export type OnPick = (lat: number, lon: number, radius?: number) => void;
-
+/**
+ * Hook that manages the state of the main page (Home), including:
+ * - Current marker location (lat/lon)
+ * - Search radius (with per-coordinate persistence)
+ * - Loading state and refresh key
+ * - List of active amenities and selected parish
+ *
+ * Radius logic:
+ * - On first load:
+ *     - If `initialRadius` is provided and there's no existing marker,
+ *       that radius is used (e.g., 2000 m coming from filters).
+ * - On subsequent clicks:
+ *     - Uses the previously saved radius for those coordinates, or
+ *       falls back to the default value (250 m).
+ *
+ * Also persists and restores:
+ * - Last marker (`localStorage.lastMarker`)
+ * - Map of radii by coordinates (`localStorage.markerRadii`)
+ */
 export function useLeafletMap(
     containerRef: React.RefObject<HTMLDivElement>,
     onPick: OnPick,
@@ -115,9 +132,9 @@ export function useLeafletMap(
             if (layer instanceof L.Marker) {
                 const { lat, lng } = layer.getLatLng();
                 drawnItems.removeLayer(layer);
-                addInteractiveMarker(lat, lng, radiusRef.current);
-                drawCircle(lat, lng, radiusRef.current);
-                onPick(lat, lng, radiusRef.current);
+                addInteractiveMarker(lat, lng, 250);
+                drawCircle(lat, lng, 250);
+                onPick(lat, lng);
                 panToOffset(lat, lng);
             } else if (layer instanceof L.Circle) {
                 const { lat, lng } = layer.getLatLng();
@@ -202,8 +219,13 @@ export function useLeafletMap(
     function drawCircle(lat: number, lon: number, r: number) {
         if (!mapRef.current) return;
         if (circleRef.current) mapRef.current.removeLayer(circleRef.current);
-        circleRef.current = L.circle([lat, lon], { radius: r }).addTo(mapRef.current);
+
+        const roundedRadius = Math.round(r);
+        circleRef.current = L.circle([lat, lon], { radius: roundedRadius }).addTo(mapRef.current);
     }
+
+    // Place this at the top of your hook, before the return statement
+    const selectedMarkerRef = React.useRef<{ lat: number; lon: number; r: number } | null>(null);
 
     return {
         mapRef,
@@ -217,10 +239,18 @@ export function useLeafletMap(
 
             const marker = L.marker([lat, lon], { icon }).addTo(markersRef.current);
             marker.on("click", () => {
+                const selected = selectedMarkerRef.current;
+                if (selected && selected.lat === lat && selected.lon === lon && selected.r === r) {
+                    // Already selected, do nothing
+                    return;
+                }
+                selectedMarkerRef.current = { lat, lon, r };
                 drawCircle(lat, lon, r);
                 onPick(lat, lon, r);
                 panToOffset(lat, lon);
             });
+            // When adding, always select and draw
+            selectedMarkerRef.current = { lat, lon, r };
             drawCircle(lat, lon, r);
             panToOffset(lat, lon);
         },

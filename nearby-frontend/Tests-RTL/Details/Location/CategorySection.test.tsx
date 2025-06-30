@@ -3,6 +3,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { CategorySection } from "@/components/Details/Location/CategorySection";
 import '@testing-library/jest-dom';
 
+process.env.BACKEND_URL = 'http://localhost:8080';
 
 // Mock PlaceDetails
 jest.mock("../../../src/components/Details/Place/PlaceDetails", () => ({

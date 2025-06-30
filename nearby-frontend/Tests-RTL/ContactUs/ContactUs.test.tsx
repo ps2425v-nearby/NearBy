@@ -1,3 +1,4 @@
+process.env.BACKEND_URL = 'http://localhost:8080';
 import { render, screen, fireEvent } from '@testing-library/react';
 import {  DarkModeProvider } from '@/context/DarkMode/DarkmodeContext';
 import { NotificationProvider, useNotification } from '@/context/Notifications/NotificationsContext';

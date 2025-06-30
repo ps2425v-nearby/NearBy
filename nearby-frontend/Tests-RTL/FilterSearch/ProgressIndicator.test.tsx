@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import ProgressIndicator from '../../src/components/FilterSearch/ProgressIndicator';
 import '@testing-library/jest-dom';
+process.env.BACKEND_URL = 'http://localhost:8080';
 
 describe('ProgressIndicator', () => {
     test('renders 4 steps always', () => {

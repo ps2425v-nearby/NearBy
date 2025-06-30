@@ -5,6 +5,7 @@ import FilterActions from '../../src/components/FilterSearch/FilterActions';
 import { MapCenter, Amenity } from '../../src/types/FilterTypes';
 import '@testing-library/jest-dom';
 
+process.env.BACKEND_URL = 'http://localhost:8080';
 
 // Mock do useNavigate
 jest.mock('react-router-dom', () => ({

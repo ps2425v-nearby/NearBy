@@ -4,6 +4,7 @@ import { Drawer } from '../src/components/NavBar/Drawer'; // ajusta o caminho co
 import { BrowserRouter as Router } from 'react-router-dom';
 import '@testing-library/jest-dom';
 
+process.env.BACKEND_URL = 'http://localhost:8080';
 
 describe('Drawer component', () => {
     const setup = (isOpen = true) => {

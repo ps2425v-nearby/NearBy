@@ -3,6 +3,7 @@ import { RightColumn } from '@/components/Map/RightColumn';
 import { LeftColumn } from '@/components/Map/LeftSections/LeftColumn';
 import { filterPlacesWithName } from '@/utils/LeftColumnUtils';
 import '@testing-library/jest-dom';
+process.env.BACKEND_URL = 'http://localhost:8080';
 
 // Mock dependencies
 jest.mock('../../src/components/Map/RightSections/Section', () => ({

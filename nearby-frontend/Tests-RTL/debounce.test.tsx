@@ -1,5 +1,6 @@
 // tests/utils/debounce.test.ts
 import { debounce } from '@/utils/debounce'; // ajuste o caminho conforme necessário
+process.env.BACKEND_URL = 'http://localhost:8080';
 
 describe('debounce', () => {
     beforeEach(() => {

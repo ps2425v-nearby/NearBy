@@ -3,6 +3,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import SearchStatus from '../../src/components/FilterSearch/SearchStatus'; // Ajuste o caminho conforme necessário
 import { Amenity } from '@/types/FilterTypes'; // Ajuste o caminho
 import '@testing-library/jest-dom';
+process.env.BACKEND_URL = 'http://localhost:8080';
 
 // Mock do framer-motion para evitar erros de animação
 jest.mock('framer-motion', () => {

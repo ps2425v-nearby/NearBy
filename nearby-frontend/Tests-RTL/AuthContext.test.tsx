@@ -2,6 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { AuthProvider, useAuth, authReducer } from '../src/AuthContext'; // Ajuste o caminho conforme necessário
 import React from 'react';
+process.env.BACKEND_URL = 'http://localhost:8080';
 
 // Componente auxiliar para testar o contexto Auth com ações externas
 const TestComponent = ({ action }: { action?: (ctx: ReturnType<typeof useAuth>) => void }) => {

@@ -1,3 +1,4 @@
+process.env.BACKEND_URL = 'http://localhost:8080';
 import { renderHook, act } from '@testing-library/react';
 import { usePlaceInfo, PlaceInfoState } from '@/components/Map/Hooks/usePlaceInfo';
 import { fetchPlace } from '@/Fetch/Location/FetchPlace';

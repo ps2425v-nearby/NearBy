@@ -5,6 +5,7 @@ import { NotificationProvider, useNotification } from '../../src/context/Notific
 import { notificationReducer } from '../../src/context/Notifications/NotificationReducer';
 import { NotificationState } from '../../src/context/Notifications/NotificationTypes';
 
+process.env.BACKEND_URL = 'http://localhost:8080';
 
 // Componente de teste interno para usar o contexto
 const TestComponent = () => {

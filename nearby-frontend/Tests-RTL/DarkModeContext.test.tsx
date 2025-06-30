@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { DarkModeProvider, DarkmodeContext } from '..//src/context/DarkMode/DarkmodeContext';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
+process.env.BACKEND_URL = 'http://localhost:8080';
 
 describe('DarkModeContext', () => {
     const TestComponent = () => {

@@ -52,11 +52,14 @@ export function useHomeState() {
 
     const getMarkerKey = (lat: number, lon: number) => `${lat.toFixed(6)}:${lon.toFixed(6)}`;
 
-    const setMarkerAndRadius = (lat: number, lon: number) => {
+    const setMarkerAndRadius = (lat: number, lon: number, radius: number | undefined) => {
+
+        setAmenities([]);
+        setParishName(null);
         const key = getMarkerKey(lat, lon);
         setMarker(() => {
-            const savedRadius = markerRadii.get(key) ?? 250;
-            setRadius(savedRadius);
+            const savedRadius =  radius ?? markerRadii.get(key) ?? 250;
+            setRadius(Math.round(savedRadius));
             return { lat, lon };
         });
         setIsLoading(true);
@@ -65,7 +68,7 @@ export function useHomeState() {
 
     const updateRadius = (newRadius: number) => {
         if (!marker) return;
-        setRadius(newRadius);
+        setRadius(Math.round(newRadius));
         const key = getMarkerKey(marker.lat, marker.lon);
         setMarkerRadii((prev) => {
             const updated = new Map(prev);
@@ -88,11 +91,9 @@ export function useHomeState() {
 
     useEffect(() => {
         if (state?.lat && state?.lon) {
-            setMarkerAndRadius(state.lat, state.lon);
+            setMarkerAndRadius(state.lat, state.lon, state.searchRadius);
         }
-        if (state?.searchRadius) {
-            setRadius(state.searchRadius);
-        }
+
         if (state?.amenities) {
             setAmenities(state.amenities);
         }

@@ -3,6 +3,7 @@ import React from "react";
 import '@testing-library/jest-dom';
 import { DarkmodeContext } from "../../src/context/DarkMode/DarkmodeContext";
 import {Authors} from "../../src/components/AboutUs/Authors";
+process.env.BACKEND_URL = 'http://localhost:8080';
 
 // Mock do componente Navbar
 jest.mock("../../src/components/NavBar/Navbar", () => () => <div data-testid="navbar">Navbar</div>);

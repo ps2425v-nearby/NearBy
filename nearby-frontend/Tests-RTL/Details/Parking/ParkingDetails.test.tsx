@@ -3,6 +3,7 @@ import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { ParkingDetails } from '@/components/Details/Parking/ParkingDetails';
 import { PlaceType } from '@/types/PlaceType';
+process.env.BACKEND_URL = 'http://localhost:8080';
 
 describe('ParkingDetails Component', () => {
     const mockParkWithTags: PlaceType = {

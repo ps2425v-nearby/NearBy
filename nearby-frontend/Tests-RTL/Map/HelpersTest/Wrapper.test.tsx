@@ -2,6 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import { Wrapper } from "../../..//src/components/Map/Helpers/Wrapper";
 import '@testing-library/jest-dom';
+process.env.BACKEND_URL = 'http://localhost:8080';
 
 describe("<Wrapper />", () => {
     it("renderiza os filhos corretamente", () => {

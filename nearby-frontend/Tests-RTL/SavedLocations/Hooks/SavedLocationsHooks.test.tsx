@@ -1,10 +1,11 @@
+process.env.BACKEND_URL = 'http://localhost:8080';
 import { renderHook, act } from "@testing-library/react";
 import { CookiesProvider } from "react-cookie";
-import { useLocationCompare } from "../../../src/components/SavedLocations/Hooks/useLocationCompare";
-import { useSavedLocations } from "../../../src/components/SavedLocations/Hooks/useSavedLocations";
+import { useLocationCompare } from "@/components/SavedLocations/Hooks/useLocationCompare";
+import { useSavedLocations } from "@/components/SavedLocations/Hooks/useSavedLocations";
 import { fetchSavedLocationById } from "@/Fetch/Location/Saved/fetchSavedLocationById";
-import { fetchReducedInformation } from "@/Fetch/Location/Saved/fetchReducedInformation";
 
+import { fetchReducedInformation } from "@/Fetch/Location/Saved/fetchReducedInformation";
 jest.mock("@/Fetch/Location/Saved/fetchSavedLocationById");
 jest.mock("@/Fetch/Location/Saved/fetchReducedInformation");
 

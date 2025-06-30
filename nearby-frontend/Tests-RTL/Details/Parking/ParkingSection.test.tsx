@@ -2,6 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { ParkingSection } from '../../../src/components/Details/Parking/ParkingSection';
 import '@testing-library/jest-dom';
 
+process.env.BACKEND_URL = 'http://localhost:8080';
 
 const mockPlaces = [
     {

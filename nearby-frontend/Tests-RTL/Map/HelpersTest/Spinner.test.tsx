@@ -3,6 +3,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { Spinner } from '../../../src/components/Map/Helpers/Spinner';
 import '@testing-library/jest-dom'; // garante que os matchers como toHaveClass funcionem
+process.env.BACKEND_URL = 'http://localhost:8080';
 
 describe('Spinner', () => {
     it('renders correctly in dark mode', () => {

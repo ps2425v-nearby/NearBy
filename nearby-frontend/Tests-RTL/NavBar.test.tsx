@@ -6,6 +6,7 @@ import { DarkmodeContext } from '../src/context/DarkMode/DarkmodeContext';
 
 import Navbar from '../src/components/NavBar/Navbar';
 import '@testing-library/jest-dom';
+process.env.BACKEND_URL = 'http://localhost:8080';
 
 // Mock dependencies
 jest.mock('../src/AuthContext', () => ({

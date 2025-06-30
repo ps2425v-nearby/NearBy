@@ -1,8 +1,9 @@
+process.env.BACKEND_URL = 'http://localhost:8080';
 // useInformationLogic.test.tsx
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
-import { CookiesProvider } from 'react-cookie';
 
+import { CookiesProvider } from 'react-cookie';
 import { useInformationLogic } from '../../..//src/components/Map/information/useInformationLogic';
 import { AuthContext } from '../../..//src/AuthContext';
 import { DarkmodeContext } from '../../..//src/context/DarkMode/DarkmodeContext';

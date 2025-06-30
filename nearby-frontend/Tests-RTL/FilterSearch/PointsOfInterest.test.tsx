@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import PointsOfInterest from '../../src/components/FilterSearch/PointsOfInterest';
 import '@testing-library/jest-dom';
+process.env.BACKEND_URL = 'http://localhost:8080';
 
 // Mock do mapa usado no componente
 jest.mock('../../src/utils/constants', () => ({

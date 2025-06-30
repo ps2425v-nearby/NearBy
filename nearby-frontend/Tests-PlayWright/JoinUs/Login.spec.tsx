@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
 
 const validUser = {
-    username: 'pai',
-    password: 'pai'
+    username: 'manu',
+    password: 'manu'
 };
 
 test('login com credenciais válidas', async ({ page }) => {
