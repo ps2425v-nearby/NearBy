@@ -128,8 +128,11 @@ class UserService(
         transactionManager.executeTransaction {
             try {
                 val res = it.userRepository.removeToken(token)
-                if (res <= 0) failure(Error.TokenNotFound)
-                else success(true)
+                if (res <= 0)
+                    return@executeTransaction failure(Error.TokenNotFound)
+                else {
+                    return@executeTransaction success(true)
+                }
             } catch (_: Exception) {
                 return@executeTransaction failure(Error.InternalServerError)
             }

@@ -81,6 +81,7 @@ module.exports = {
         }),
         new webpack.DefinePlugin({
             'process.env.BACKEND_URL': JSON.stringify(process.env.BACKEND_URL),
+            'process.env.FRONTEND_URL': JSON.stringify(process.env.FRONTEND_URL)
         }),
     ]
 };

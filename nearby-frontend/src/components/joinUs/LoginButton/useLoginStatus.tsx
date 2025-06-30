@@ -24,13 +24,23 @@ export const useLoginStatus = () => {
     const auth = useAuth();
     const isLoggedIn = auth.loggedIn
     const username = auth.username
-    const [,removeCookie] = useCookies(['token']);
+    const [cookies,removeCookie] = useCookies(['token']);
     const navigate = useNavigate();
 
     const handleLogout = async () => {
         try {
-            await fetch(`${requestUrl}/api/logout`, { method: "POST", credentials: "include" });
-            removeCookie('token', { path: '/' });  // <- remover cookie aqui
+            await fetch(`${requestUrl}/api/logout`, {
+                method: "POST",
+                credentials: "include" ,
+                headers:{
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${cookies.token}`
+                },
+                body: JSON.stringify({
+                    "token": cookies.token
+                })
+            });
+            removeCookie('token', { path: '/' });
             auth.setUsername(null);
             auth.setUserID(null);
             auth.setLoggedIn(false);
