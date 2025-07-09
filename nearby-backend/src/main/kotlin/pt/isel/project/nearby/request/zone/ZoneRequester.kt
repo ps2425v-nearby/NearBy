@@ -66,7 +66,7 @@ class ZoneRequester(
             "https://nominatim.openstreetmap.org/reverse?lat=$lat&lon=$long&format=json&addressdetails=1"
         return Request.Builder()
             .url(link)
-            .header("User-Agent", "PostmanRuntime/7.43.4")
+            .header("User-Agent", "NearbyProject/1.0 melsalinho2@gmail.com")
             .build()
     }
 

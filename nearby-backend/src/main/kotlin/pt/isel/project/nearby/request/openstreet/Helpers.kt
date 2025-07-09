@@ -37,7 +37,7 @@ fun getBoundingBoxCenter(bbox: BoundingBox): MapCenter =
  * @return The modified Request.Builder with default headers added.
  */
 fun Request.Builder.withDefaultHeaders(): Request.Builder =
-    this.header("User-Agent", "FilterSearchApp/1.0")
+    this.header("User-Agent", "NearbyProject/1.0 melsalinho2@gmail.com")
         .header("Accept-Language", "pt-PT")
 
 /**
@@ -91,10 +91,12 @@ fun buildAmenitiesQuery(bbox: BoundingBox, translatedTypes: List<String>): Strin
     return """
         [out:json][timeout:25];
         (
-            ${translatedTypes.joinToString("\n") { fullTag ->
-        val (key, value) = fullTag.split("=")
-        """node["$key"="$value"](${bbox.minLat},${bbox.minLon},${bbox.maxLat},${bbox.maxLon});"""
-    }}
+            ${
+        translatedTypes.joinToString("\n") { fullTag ->
+            val (key, value) = fullTag.split("=")
+            """node["$key"="$value"](${bbox.minLat},${bbox.minLon},${bbox.maxLat},${bbox.maxLon});"""
+        }
+    }
         );
         out center;
     """.trimIndent()
@@ -159,8 +161,8 @@ fun buildOverpassRequest(query: String): Request {
     val requestBody = query.toRequestBody("text/plain".toMediaTypeOrNull())
     return Request.Builder()
         .url(OVERPASS_API_URL)
+        .header("User-Agent", "NearbyProject/1.0 melsalinho2@gmail.com")
         .post(requestBody)
-        .withDefaultHeaders()
         .build()
 }
 
